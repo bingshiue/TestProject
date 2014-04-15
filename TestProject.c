@@ -9,10 +9,12 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+#define COUNT 10
+
 int main(int argc,char** argv){
 	int idx;
 
-	for(idx=0; idx<10; idx++)
+	for(idx=0; idx<COUNT; idx++)
 		fprintf(stdout,"New Train Project : %d \n",idx);
 
 	return 0;
