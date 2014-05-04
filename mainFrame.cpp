@@ -1,17 +1,21 @@
-/*
- * simple.cpp
+/**
+ * @file maiFrame.cpp
  *
- *  Created on: 2014/04/27
- *      Author: bingshiue
  */
 
-#include "simple.h"
+#include "mainFrame.h"
 #include "icons/sample.xpm"
 
-Simple::Simple(const wxString& title)
+MainFrame::MainFrame(const wxString& title)
        : wxFrame((wxFrame *)NULL,wxID_ANY,title,wxDefaultPosition,wxSize(500,200))
 {
-
+	// Initialize Mersenne Twister Algorithm
+	srand(time(NULL));
+	int seed = rand()%10000;
+	//m_mtRandom.resetMT(19650218UL);
+	m_mtRandom.resetMT(seed);
+	LOGD("Mersenne Twister Initialized","seed=%d \n",seed);
+	//
 	wxImage::AddHandler( new wxPNGHandler );
 
 	m_parent = new wxPanel(this,wxID_ANY);
@@ -52,7 +56,7 @@ Simple::Simple(const wxString& title)
 
     //SetSizer(vbox);
 
-    Connect(wxID_EXIT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(Simple::OnQuit));
+    Connect(wxID_EXIT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainFrame::OnQuit));
 
 
     menubar = new wxMenuBar();
@@ -77,7 +81,7 @@ Simple::Simple(const wxString& title)
     menubar->Append(file,wxT("&File"));
     SetMenuBar(menubar);
 
-    Connect(wxID_EXIT,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(Simple::OnQuit));
+    Connect(wxID_EXIT,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(MainFrame::OnQuit));
 
 
     //button->SetFocus();
@@ -85,11 +89,11 @@ Simple::Simple(const wxString& title)
 	Centre();
 }
 
-Simple::~Simple(){
+MainFrame::~MainFrame(){
 
 }
 
-void Simple::OnQuit(wxCommandEvent& WXUNUSED(event)){
+void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event)){
 	 Close(true);
 }
 

@@ -7,7 +7,7 @@
 
 #include <wx/stattext.h>
 #include "panels.h"
-#include "simple.h"
+#include "mainFrame.h"
 
 LeftPanel::LeftPanel(wxPanel* parent)
           :wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN)
@@ -29,7 +29,7 @@ void LeftPanel::OnPlus(wxCommandEvent & WXUNUSED(event))
 {
   count++;
 
-  Simple *comm = (Simple *) m_parent->GetParent();
+  MainFrame *comm = (MainFrame *) m_parent->GetParent();
   comm->m_rp->m_text->SetLabel(wxString::Format(wxT("%d"), count));
 }
 
@@ -37,7 +37,7 @@ void LeftPanel::OnMinus(wxCommandEvent & WXUNUSED(event))
 {
   count--;
 
-  Simple *comm = (Simple *) m_parent->GetParent();
+  MainFrame *comm = (MainFrame *) m_parent->GetParent();
   comm->m_rp->m_text->SetLabel(wxString::Format(wxT("%d"), count));
 }
 
