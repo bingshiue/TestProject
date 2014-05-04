@@ -6,87 +6,87 @@
 #include "mainFrame.h"
 #include "icons/sample.xpm"
 
-MainFrame::MainFrame(const wxString& title)
-       : wxFrame((wxFrame *)NULL,wxID_ANY,title,wxDefaultPosition,wxSize(500,200))
+MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,title,wxDefaultPosition,wxSize(1280,720))
 {
-	// Initialize Mersenne Twister Algorithm
+	/* Initialize Mersenne Twister Algorithm */
 	srand(time(NULL));
 	int seed = rand()%10000;
-	//m_mtRandom.resetMT(19650218UL);
-	m_mtRandom.resetMT(seed);
-	LOGD("Mersenne Twister Initialized","seed=%d \n",seed);
-	//
-	wxImage::AddHandler( new wxPNGHandler );
+	m_mtRandom.resetMT(seed); // use 19650218UL as seed for verify Mersenne Twister Algorithm
+	LOGD("Mersenne Twister","Initialized Seed=%d \n",seed);
 
-	m_parent = new wxPanel(this,wxID_ANY);
+	/* Create wxNotebook Instance */
+	this->m_noteBook = new wxNotebook(this,wxID_ANY);
 
-	wxBoxSizer* hbox = new wxBoxSizer(wxHORIZONTAL);
+	/* Create Panel Instance */
+	this->m_parent = new wxPanel(this->m_noteBook,wxID_ANY);
 
-    //wxButton* button = new wxButton(m_parent,wxID_EXIT,wxT("Exit"),wxPoint(20,20));
-	//Connect(wxID_EXIT,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(Simple::OnQuit));
+    /* Add Panels to Notebook */
+	this->m_noteBook->AddPage(this->m_parent,L"CrownTrain",true);
 
-    m_lp = new LeftPanel(m_parent);
-    m_rp = new RightPanel(m_parent);
+	/* Create Main Top Box Sizer */
+	this->m_mainTopSizer = new wxBoxSizer(wxVERTICAL);
 
-    hbox->Add(m_lp, 1, wxEXPAND | wxALL, 5);
-    hbox->Add(m_rp, 1, wxEXPAND | wxALL, 5);
+	/* Create Horizontal Box Sizer 1 */
+	this->m_hbox_1 = new wxBoxSizer(wxHORIZONTAL);
 
-    m_parent->SetSizer(hbox,true);
+	/* Create Left Slot Item Panel Instance */
+	this->m_slotItemPanel_left = new SlotItemPanel(this->m_parent,L"Left Slot");
+	/* Create Middle Slot Item Panel Instance */
+	this->m_slotItemPanel_middle = new SlotItemPanel(this->m_parent,L"Middle Slot");
+	/* Create Right Slot Item Panel Instance */
+	this->m_slotItemPanel_right = new SlotItemPanel(this->m_parent,L"Right Slot");
 
-    wxBitmap exit(wxT("icons/exit.png"), wxBITMAP_TYPE_PNG);
-    wxBitmap newb(wxT("icons/new.png"),  wxBITMAP_TYPE_PNG);
-    wxBitmap open(wxT("icons/open.png"), wxBITMAP_TYPE_PNG);
-    wxBitmap save(wxT("icons/save.png"), wxBITMAP_TYPE_PNG);
+	/* Add 3 Slot Item Panel into Horizontal Box Sizer */
+	this->m_hbox_1->Add(this->m_slotItemPanel_left,1);
+	this->m_hbox_1->Add(this->m_slotItemPanel_middle,1);
+	this->m_hbox_1->Add(this->m_slotItemPanel_right,1);
 
-    //wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+	/* Append Horizontal Box 1 To Main Top Box Sizer */
+	this->m_mainTopSizer->Add(this->m_hbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
-    toolbar1 = CreateToolBar();//new wxToolBar(this, wxID_ANY);
-    toolbar1->AddTool(wxID_ANY,  newb, wxT("New File"));
-    toolbar1->AddTool(wxID_ANY,  open, wxT("Open File"));
-    toolbar1->AddTool(wxID_ANY,  save, wxT("Save File"));
-    toolbar1->AddTool(wxID_EXIT, exit, wxT("Exit application"));
-    toolbar1->Realize();
+	/* Setup Main Top Box Sizer To Parent Panel */
+	this->m_parent->SetSizer(this->m_mainTopSizer,true);
 
-    //toolbar2 = CreateToolBar();//new wxToolBar(this, wxID_ANY);
-    //toolbar2->AddTool(wxID_EXIT, exit, wxT("Exit application"));
-    //toolbar2->Realize();
+	//wxImage::AddHandler( new wxPNGHandler );
 
-    //vbox->Add(toolbar1, 0, wxEXPAND);
-    //vbox->Add(toolbar2, 0, wxEXPAND);
+    /* Create Menu Bar Instance */
+    m_menubar = new wxMenuBar();
+    /* Create File Menu */
+    m_file = new wxMenu();
+    /* Setup File Menu */
+	m_file->Append(CID_SAVE_MENU, L"Save");
+	m_file->Append(CID_LOAD_MENU, L"Load");
+	m_file->AppendSeparator();
 
-    //SetSizer(vbox);
+	/* Create Quit Menu Item */
+	m_quit = new wxMenuItem(m_file, wxID_EXIT);
+	m_file->Append(m_quit);
 
-    Connect(wxID_EXIT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(MainFrame::OnQuit));
+	/* Append File Menu To Menu Bar */
+	m_menubar->Append(m_file,L"File");
 
+	/* Create About Menu */
+	m_about = new wxMenu();
+	m_about->Append(CID_ABOUT_MENU,L"About");
 
-    menubar = new wxMenuBar();
-    file    = new wxMenu();
+	/* Append About Menu To Menu Bar */
+	m_menubar->Append(m_about,L"Other");
 
-    file->Append(wxID_ANY, wxT("&New"));
-    file->Append(wxID_ANY, wxT("&Open"));
-    file->Append(wxID_ANY, wxT("&Save"));
-    file->AppendSeparator();
+	/* Set Menu Bar */
+    SetMenuBar(m_menubar);
 
-    imp = new wxMenu();
-    imp->Append(wxID_ANY, wxT("Import newsfeed list..."));
-    imp->Append(wxID_ANY, wxT("Import bookmarks..."));
-    imp->Append(wxID_ANY, wxT("Import mail..."));
-
-    file->AppendSubMenu(imp, wxT("&Import"));
-
-    quit = new wxMenuItem(file, wxID_EXIT, wxT("&Quit\tCtrl+W"));
-    file->Append(quit);
-
-
-    menubar->Append(file,wxT("&File"));
-    SetMenuBar(menubar);
-
+    /* Connect OnQuit To wxID_EXIT */
     Connect(wxID_EXIT,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(MainFrame::OnQuit));
+    /* Connect OnAbout To CID_ABOUT_MENU */
+	Connect(CID_ABOUT_MENU,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(MainFrame::OnAbout));
 
-
-    //button->SetFocus();
+    /* Setup Icon */
 	SetIcon(sample_xpm);
+
+	/* Centre Window */
 	Centre();
+
+	LOGD("wxWidgets","Initialized");
 }
 
 MainFrame::~MainFrame(){
@@ -94,7 +94,17 @@ MainFrame::~MainFrame(){
 }
 
 void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event)){
-	 Close(true);
+	Close(true);
+}
+
+void MainFrame::OnAbout(wxCommandEvent& event){
+	wxString buildDate = L"Build Date : ";
+	buildDate += __DATE__;
+	buildDate += L" ";
+	buildDate += __TIME__;
+
+	wxMessageBox( buildDate,
+        L"列車機率計算", wxOK | wxICON_INFORMATION, this);
 }
 
 
