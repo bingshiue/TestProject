@@ -27,8 +27,14 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Main Top Box Sizer */
 	this->m_mainTopSizer = new wxBoxSizer(wxVERTICAL);
 
+	/* Create Vertical Box Sizer 1 */
+	this->m_vbox_1 = new wxBoxSizer(wxVERTICAL);
+
 	/* Create Horizontal Box Sizer 1 */
 	this->m_hbox_1 = new wxBoxSizer(wxHORIZONTAL);
+
+	/* Create Horizontal Box Sizer 2 */
+	this->m_hbox_2 = new wxBoxSizer(wxHORIZONTAL);
 
 	/* Create Left Slot Item Panel Instance */
 	this->m_slotItemPanel_left = new SlotItemPanel(this->m_parent,L"Left Slot");
@@ -37,13 +43,25 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Right Slot Item Panel Instance */
 	this->m_slotItemPanel_right = new SlotItemPanel(this->m_parent,L"Right Slot");
 
-	/* Add 3 Slot Item Panel into Horizontal Box Sizer */
+	/* Create Match Item Panel Instance */
+	this->m_matchItemPanel = new MatchItemPanel(this->m_parent,L"Match Award Item");
+
+	/* Add 3 Slot Item Panel into Horizontal Box Sizer 1 */
 	this->m_hbox_1->Add(this->m_slotItemPanel_left,1);
 	this->m_hbox_1->Add(this->m_slotItemPanel_middle,1);
 	this->m_hbox_1->Add(this->m_slotItemPanel_right,1);
 
-	/* Append Horizontal Box 1 To Main Top Box Sizer */
-	this->m_mainTopSizer->Add(this->m_hbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
+	/* Add Match Item Panel into Horizontal Box Sizer 2 */
+	this->m_hbox_2->Add(this->m_matchItemPanel,1);
+
+	/* Append Horizontal Box 1 To Vertical Box Sizer 1 */
+	this->m_vbox_1->Add(this->m_hbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
+
+	/* Append Horizontal Box 2 To Vertical Box Sizer 2 */
+	this->m_vbox_1->Add(this->m_hbox_2,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
+
+	/* Append Vertical Box 1 To Main Top Box Sizer */
+	this->m_mainTopSizer->Add(this->m_vbox_1,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
 	/* Setup Main Top Box Sizer To Parent Panel */
 	this->m_parent->SetSizer(this->m_mainTopSizer,true);
@@ -85,10 +103,14 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	SetIcon(sample_xpm);
 
 	/* Set Slot Item Panel Default Value */
-	this->setSlotItemPanelLeftDefautValue();
-	this->setSlotItemPanelMiddleDefautValue();
-	this->setSlotItemPanelRightDefautValue();
+	this->setSlotItemPanelLeftDefaultValue();
+	this->setSlotItemPanelMiddleDefaultValue();
+	this->setSlotItemPanelRightDefaultValue();
 	LOGI("Probability","Set Slot Item Panel Default Value \n");
+
+	/* Set Match Item Panel Default Value */
+	this->setMatchItemPanelDefaultValue();
+	LOGI("Probability","Set Match Item Panel Default Value \n");
 
 	/* Centre Window */
 	Centre();
@@ -114,7 +136,7 @@ void MainFrame::OnAbout(wxCommandEvent& event){
         L"CrownTrain Probability Compute Tool", wxOK | wxICON_INFORMATION, this);
 }
 
-void MainFrame::setSlotItemPanelLeftDefautValue(void){
+void MainFrame::setSlotItemPanelLeftDefaultValue(void){
 	wxString item1Value; item1Value << DEFAULT_SLOT_1_CHERRY;
 	this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(item1Value);
 
@@ -143,7 +165,7 @@ void MainFrame::setSlotItemPanelLeftDefautValue(void){
 	this->m_slotItemPanel_left->mItem_roulette_tc->SetValue(item9Value);
 }
 
-void MainFrame::setSlotItemPanelMiddleDefautValue(void){
+void MainFrame::setSlotItemPanelMiddleDefaultValue(void){
 	wxString item1Value; item1Value << DEFAULT_SLOT_2_CHERRY;
 	this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(item1Value);
 
@@ -172,7 +194,7 @@ void MainFrame::setSlotItemPanelMiddleDefautValue(void){
 	this->m_slotItemPanel_middle->mItem_roulette_tc->SetValue(item9Value);
 }
 
-void MainFrame::setSlotItemPanelRightDefautValue(void){
+void MainFrame::setSlotItemPanelRightDefaultValue(void){
 	wxString item1Value; item1Value << DEFAULT_SLOT_3_CHERRY;
 	this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(item1Value);
 
@@ -199,6 +221,35 @@ void MainFrame::setSlotItemPanelRightDefautValue(void){
 
 	wxString item9Value; item9Value << DEFAULT_SLOT_3_ROULETTE;
 	this->m_slotItemPanel_right->mItem_roulette_tc->SetValue(item9Value);
+}
+
+void MainFrame::setMatchItemPanelDefaultValue(void){
+	wxString item1Value; item1Value << DEFAULT_MATCH_CHERRY;
+	this->m_matchItemPanel->mItem_cherry_tc->SetValue(item1Value);
+
+	wxString item2Value; item2Value << DEFAULT_MATCH_ORANGE;
+	this->m_matchItemPanel->mItem_orange_tc->SetValue(item2Value);
+
+	wxString item3Value; item3Value << DEFAULT_MATCH_APPLE;
+	this->m_matchItemPanel->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item4Value; item4Value << DEFAULT_MATCH_COIN;
+	this->m_matchItemPanel->mItem_coin_tc->SetValue(item4Value);
+
+	wxString item5Value; item5Value << DEFAULT_MATCH_BAR;
+	this->m_matchItemPanel->mItem_bar_tc->SetValue(item5Value);
+
+	wxString item6Value; item6Value << DEFAULT_MATCH_DIAMOND;
+	this->m_matchItemPanel->mItem_diamond_tc->SetValue(item6Value);
+
+	wxString item7Value; item7Value << DEFAULT_MATCH_CROWN;
+	this->m_matchItemPanel->mItem_crown_tc->SetValue(item7Value);
+
+	wxString item8Value; item8Value << DEFAULT_MATCH_MULTIPLE;
+	this->m_matchItemPanel->mItem_multiple_tc->SetValue(item8Value);
+
+	wxString item9Value; item9Value << DEFAULT_MATCH_TRAIN;
+	this->m_matchItemPanel->mItem_train_tc->SetValue(item9Value);
 }
 
 

@@ -20,6 +20,7 @@
 #include "include/log.h"
 #include "include/mersenne_twister/MTRandom.h"
 #include "slotItemPanel.h"
+#include "matchItemPanel.h"
 
 using namespace std;
 
@@ -43,7 +44,9 @@ public:
 	wxNotebook *m_noteBook;/**< Note Book */
 
 	wxSizer    *m_mainTopSizer;/**< Main Top Level Sizer */
+	wxSizer    *m_vbox_1;/**< Vertical Sizer 1 */
 	wxSizer    *m_hbox_1;/**< Horizontal Sizer 1 */
+	wxSizer    *m_hbox_2;/**< Horizontal Sizer 2 */
 
 	wxMenuBar  *m_menubar;/**< Menu Bar */
 	wxMenu     *m_file;/**< File Menu */
@@ -53,6 +56,8 @@ public:
 	SlotItemPanel *m_slotItemPanel_left;/**< Left Slot Item Panel */
 	SlotItemPanel *m_slotItemPanel_middle;/**< Middle Slot Item Panel */
 	SlotItemPanel *m_slotItemPanel_right;/**< Right Slot Item Panel */
+
+	MatchItemPanel *m_matchItemPanel;/**< Match Item Panel */
 
 	/**
 	 * @brief Quit Handler.
@@ -66,17 +71,23 @@ public:
 	virtual ~MainFrame();
 
 	/**
-	 * @brief .
+	 * @brief Set Slot Item Panel Left Default Value.
 	 */
-	void setSlotItemPanelLeftDefautValue(void);
+	void setSlotItemPanelLeftDefaultValue(void);
     /**
-     * @brief .
+     * @brief Set Slot Item Panel Middle Default Value.
      */
-	void setSlotItemPanelMiddleDefautValue(void);
+	void setSlotItemPanelMiddleDefaultValue(void);
 	/**
-	 * @brief .
+	 * @brief Set Slot Item Panel Right Default Value.
 	 */
-	void setSlotItemPanelRightDefautValue(void);
+	void setSlotItemPanelRightDefaultValue(void);
+
+	/**
+	 * @brief Set Match Item Panel Default Value.
+	 */
+	void setMatchItemPanelDefaultValue(void);
+
 };
 
 
