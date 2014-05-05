@@ -68,15 +68,15 @@ public:
 	/**
 	 * @brief .
 	 */
-	void setSlotItemPanel1DefautValue(void);
+	void setSlotItemPanelLeftDefautValue(void);
     /**
      * @brief .
      */
-	void setSlotItemPanel2DefautValue(void);
+	void setSlotItemPanelMiddleDefautValue(void);
 	/**
 	 * @brief .
 	 */
-	void setSlotItemPanel3DefautValue(void);
+	void setSlotItemPanelRightDefautValue(void);
 };
 
 

@@ -5,6 +5,7 @@
 
 #include "mainFrame.h"
 #include "icons/sample.xpm"
+#include "include/probability/ProDefine.h"
 
 MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,title,wxDefaultPosition,wxSize(1280,720))
 {
@@ -83,10 +84,16 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
     /* Setup Icon */
 	SetIcon(sample_xpm);
 
+	/* Set Slot Item Panel Default Value */
+	this->setSlotItemPanelLeftDefautValue();
+	this->setSlotItemPanelMiddleDefautValue();
+	this->setSlotItemPanelRightDefautValue();
+	LOGI("Probability","Set Slot Item Panel Default Value \n");
+
 	/* Centre Window */
 	Centre();
 
-	LOGD("wxWidgets","Initialized");
+	LOGD("wxWidgets","Initialized \n");
 }
 
 MainFrame::~MainFrame(){
@@ -107,16 +114,91 @@ void MainFrame::OnAbout(wxCommandEvent& event){
         L"CrownTrain Probability Compute Tool", wxOK | wxICON_INFORMATION, this);
 }
 
-void setSlotItemPanel1DefautValue(void){
+void MainFrame::setSlotItemPanelLeftDefautValue(void){
+	wxString item1Value; item1Value << DEFAULT_SLOT_1_CHERRY;
+	this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(item1Value);
 
+	wxString item2Value; item2Value << DEFAULT_SLOT_1_ORANGE;
+	this->m_slotItemPanel_left->mItem_orange_tc->SetValue(item2Value);
+
+	wxString item3Value; item3Value << DEFAULT_SLOT_1_APPLE;
+	this->m_slotItemPanel_left->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item4Value; item4Value << DEFAULT_SLOT_1_COIN;
+	this->m_slotItemPanel_left->mItem_coin_tc->SetValue(item4Value);
+
+	wxString item5Value; item5Value << DEFAULT_SLOT_1_BAR;
+	this->m_slotItemPanel_left->mItem_bar_tc->SetValue(item5Value);
+
+	wxString item6Value; item6Value << DEFAULT_SLOT_1_DIAMOND;
+	this->m_slotItemPanel_left->mItem_diamond_tc->SetValue(item6Value);
+
+	wxString item7Value; item7Value << DEFAULT_SLOT_1_CROWN;
+	this->m_slotItemPanel_left->mItem_crown_tc->SetValue(item7Value);
+
+	wxString item8Value; item8Value << DEFAULT_SLOT_1_FREECOIN;
+	this->m_slotItemPanel_left->mItem_freecoin_tc->SetValue(item8Value);
+
+	wxString item9Value; item9Value << DEFAULT_SLOT_1_ROULETTE;
+	this->m_slotItemPanel_left->mItem_roulette_tc->SetValue(item9Value);
 }
 
-void setSlotItemPanel2DefautValue(void){
+void MainFrame::setSlotItemPanelMiddleDefautValue(void){
+	wxString item1Value; item1Value << DEFAULT_SLOT_2_CHERRY;
+	this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(item1Value);
 
+	wxString item2Value; item2Value << DEFAULT_SLOT_2_ORANGE;
+	this->m_slotItemPanel_middle->mItem_orange_tc->SetValue(item2Value);
+
+	wxString item3Value; item3Value << DEFAULT_SLOT_2_APPLE;
+	this->m_slotItemPanel_middle->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item4Value; item4Value << DEFAULT_SLOT_2_COIN;
+	this->m_slotItemPanel_middle->mItem_coin_tc->SetValue(item4Value);
+
+	wxString item5Value; item5Value << DEFAULT_SLOT_2_BAR;
+	this->m_slotItemPanel_middle->mItem_bar_tc->SetValue(item5Value);
+
+	wxString item6Value; item6Value << DEFAULT_SLOT_2_DIAMOND;
+	this->m_slotItemPanel_middle->mItem_diamond_tc->SetValue(item6Value);
+
+	wxString item7Value; item7Value << DEFAULT_SLOT_2_CROWN;
+	this->m_slotItemPanel_middle->mItem_crown_tc->SetValue(item7Value);
+
+	wxString item8Value; item8Value << DEFAULT_SLOT_2_FREECOIN;
+	this->m_slotItemPanel_middle->mItem_freecoin_tc->SetValue(item8Value);
+
+	wxString item9Value; item9Value << DEFAULT_SLOT_2_ROULETTE;
+	this->m_slotItemPanel_middle->mItem_roulette_tc->SetValue(item9Value);
 }
 
-void setSlotItemPanel3DefautValue(void){
+void MainFrame::setSlotItemPanelRightDefautValue(void){
+	wxString item1Value; item1Value << DEFAULT_SLOT_3_CHERRY;
+	this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(item1Value);
 
+	wxString item2Value; item2Value << DEFAULT_SLOT_3_ORANGE;
+	this->m_slotItemPanel_right->mItem_orange_tc->SetValue(item2Value);
+
+	wxString item3Value; item3Value << DEFAULT_SLOT_3_APPLE;
+	this->m_slotItemPanel_right->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item4Value; item4Value << DEFAULT_SLOT_3_COIN;
+	this->m_slotItemPanel_right->mItem_coin_tc->SetValue(item4Value);
+
+	wxString item5Value; item5Value << DEFAULT_SLOT_3_BAR;
+	this->m_slotItemPanel_right->mItem_bar_tc->SetValue(item5Value);
+
+	wxString item6Value; item6Value << DEFAULT_SLOT_3_DIAMOND;
+	this->m_slotItemPanel_right->mItem_diamond_tc->SetValue(item6Value);
+
+	wxString item7Value; item7Value << DEFAULT_SLOT_3_CROWN;
+	this->m_slotItemPanel_right->mItem_crown_tc->SetValue(item7Value);
+
+	wxString item8Value; item8Value << DEFAULT_SLOT_3_FREECOIN;
+	this->m_slotItemPanel_right->mItem_freecoin_tc->SetValue(item8Value);
+
+	wxString item9Value; item9Value << DEFAULT_SLOT_3_ROULETTE;
+	this->m_slotItemPanel_right->mItem_roulette_tc->SetValue(item9Value);
 }
 
 
