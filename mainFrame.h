@@ -64,6 +64,19 @@ public:
 	void OnAbout(wxCommandEvent& event);
 
 	virtual ~MainFrame();
+
+	/**
+	 * @brief .
+	 */
+	void setSlotItemPanel1DefautValue(void);
+    /**
+     * @brief .
+     */
+	void setSlotItemPanel2DefautValue(void);
+	/**
+	 * @brief .
+	 */
+	void setSlotItemPanel3DefautValue(void);
 };
 
 

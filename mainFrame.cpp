@@ -104,7 +104,19 @@ void MainFrame::OnAbout(wxCommandEvent& event){
 	buildDate += __TIME__;
 
 	wxMessageBox( buildDate,
-        L"列車機率計算", wxOK | wxICON_INFORMATION, this);
+        L"CrownTrain Probability Compute Tool", wxOK | wxICON_INFORMATION, this);
+}
+
+void setSlotItemPanel1DefautValue(void){
+
+}
+
+void setSlotItemPanel2DefautValue(void){
+
+}
+
+void setSlotItemPanel3DefautValue(void){
+
 }
 
 
