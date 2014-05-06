@@ -36,6 +36,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Horizontal Box Sizer 2 */
 	this->m_hbox_2 = new wxBoxSizer(wxHORIZONTAL);
 
+	/* Create Horizontal Box Sizer 3 */
+	this->m_hbox_3 = new wxBoxSizer(wxHORIZONTAL);
+
 	/* Create Left Slot Item Panel Instance */
 	this->m_slotItemPanel_left = new SlotItemPanel(this->m_parent,L"Left Slot");
 	/* Create Middle Slot Item Panel Instance */
@@ -46,6 +49,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Match Item Panel Instance */
 	this->m_matchItemPanel = new MatchItemPanel(this->m_parent,L"Match Award Item");
 
+	/* Create Key In/Out Panel */
+	this->m_keyInOutPanel = new KeyInOutPanel(this->m_parent,L"Key In/Out");
+
 	/* Add 3 Slot Item Panel into Horizontal Box Sizer 1 */
 	this->m_hbox_1->Add(this->m_slotItemPanel_left,1);
 	this->m_hbox_1->Add(this->m_slotItemPanel_middle,1);
@@ -54,14 +60,20 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Add Match Item Panel into Horizontal Box Sizer 2 */
 	this->m_hbox_2->Add(this->m_matchItemPanel,1);
 
-	/* Append Horizontal Box 1 To Vertical Box Sizer 1 */
-	this->m_vbox_1->Add(this->m_hbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
+	/* Add Key In/Out Panel into Horizontal Box Sizer 3 */
+	this->m_hbox_3->Add(this->m_keyInOutPanel,1);
 
-	/* Append Horizontal Box 2 To Vertical Box Sizer 2 */
-	this->m_vbox_1->Add(this->m_hbox_2,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
+	/* Append Horizontal Box 1 To Vertical Box Sizer 1 */
+	this->m_vbox_1->Add(this->m_hbox_1,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
+
+	/* Append Horizontal Box 2 To Vertical Box Sizer 1 */
+	this->m_vbox_1->Add(this->m_hbox_2,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
+
+	/* Append Horizontal Box 3 To Vertical Box Sizer 1 */
+	this->m_vbox_1->Add(this->m_hbox_3,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
 	/* Append Vertical Box 1 To Main Top Box Sizer */
-	this->m_mainTopSizer->Add(this->m_vbox_1,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
+	this->m_mainTopSizer->Add(this->m_vbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
 	/* Setup Main Top Box Sizer To Parent Panel */
 	this->m_parent->SetSizer(this->m_mainTopSizer,true);
@@ -111,6 +123,10 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Set Match Item Panel Default Value */
 	this->setMatchItemPanelDefaultValue();
 	LOGI("Probability","Set Match Item Panel Default Value \n");
+
+	/* Set Key In/Out Panel Default Value */
+	this->setKeyInOutDefault();
+	LOGI("Probability","Set Key In/Out Panel Default Value \n");
 
 	/* Centre Window */
 	Centre();
@@ -250,6 +266,88 @@ void MainFrame::setMatchItemPanelDefaultValue(void){
 
 	wxString item9Value; item9Value << DEFAULT_MATCH_TRAIN;
 	this->m_matchItemPanel->mItem_train_tc->SetValue(item9Value);
+}
+
+void MainFrame::setKeyInOutDefault(void){
+	//Step 1
+	wxString set_1_start; set_1_start << DefaultKeyInOut[0][0];
+	this->m_keyInOutPanel->m_keyIn_tc_1->SetValue(set_1_start);
+	wxString set_1_end; set_1_end << DefaultKeyInOut[0][1];
+	this->m_keyInOutPanel->m_keyOut_tc_1->SetValue(set_1_end);
+	wxString set_1_percent; set_1_percent << DefaultKeyInOut[0][2];
+	this->m_keyInOutPanel->m_percent_tc_1->SetValue(set_1_percent);
+
+	//Step 2
+	wxString set_2_start; set_2_start << DefaultKeyInOut[1][0];
+	this->m_keyInOutPanel->m_keyIn_tc_2->SetValue(set_2_start);
+	wxString set_2_end; set_2_end << DefaultKeyInOut[1][1];
+	this->m_keyInOutPanel->m_keyOut_tc_2->SetValue(set_2_end);
+	wxString set_2_percent; set_2_percent << DefaultKeyInOut[1][2];
+	this->m_keyInOutPanel->m_percent_tc_2->SetValue(set_2_percent);
+
+	//Step 3
+	wxString set_3_start; set_3_start << DefaultKeyInOut[2][0];
+	this->m_keyInOutPanel->m_keyIn_tc_3->SetValue(set_3_start);
+	wxString set_3_end; set_3_end << DefaultKeyInOut[2][1];
+	this->m_keyInOutPanel->m_keyOut_tc_3->SetValue(set_3_end);
+	wxString set_3_percent; set_3_percent << DefaultKeyInOut[2][2];
+	this->m_keyInOutPanel->m_percent_tc_3->SetValue(set_3_percent);
+
+	//Step 4
+	wxString set_4_start; set_4_start << DefaultKeyInOut[3][0];
+	this->m_keyInOutPanel->m_keyIn_tc_4->SetValue(set_4_start);
+	wxString set_4_end; set_4_end << DefaultKeyInOut[3][1];
+	this->m_keyInOutPanel->m_keyOut_tc_4->SetValue(set_4_end);
+	wxString set_4_percent; set_4_percent << DefaultKeyInOut[3][2];
+	this->m_keyInOutPanel->m_percent_tc_4->SetValue(set_4_percent);
+
+	//Step 5
+	wxString set_5_start; set_5_start << DefaultKeyInOut[4][0];
+	this->m_keyInOutPanel->m_keyIn_tc_5->SetValue(set_5_start);
+	wxString set_5_end; set_5_end << DefaultKeyInOut[4][1];
+	this->m_keyInOutPanel->m_keyOut_tc_5->SetValue(set_5_end);
+	wxString set_5_percent; set_5_percent << DefaultKeyInOut[4][2];
+	this->m_keyInOutPanel->m_percent_tc_5->SetValue(set_5_percent);
+
+	//Step 6
+	wxString set_6_start; set_6_start << DefaultKeyInOut[5][0];
+	this->m_keyInOutPanel->m_keyIn_tc_6->SetValue(set_6_start);
+	wxString set_6_end; set_6_end << DefaultKeyInOut[5][1];
+	this->m_keyInOutPanel->m_keyOut_tc_6->SetValue(set_6_end);
+	wxString set_6_percent; set_6_percent << DefaultKeyInOut[5][2];
+	this->m_keyInOutPanel->m_percent_tc_6->SetValue(set_6_percent);
+
+	//Step 7
+	wxString set_7_start; set_7_start << DefaultKeyInOut[6][0];
+	this->m_keyInOutPanel->m_keyIn_tc_7->SetValue(set_7_start);
+	wxString set_7_end; set_7_end << DefaultKeyInOut[6][1];
+	this->m_keyInOutPanel->m_keyOut_tc_7->SetValue(set_7_end);
+	wxString set_7_percent; set_7_percent << DefaultKeyInOut[6][2];
+	this->m_keyInOutPanel->m_percent_tc_7->SetValue(set_7_percent);
+
+	//Step 8
+	wxString set_8_start; set_8_start << DefaultKeyInOut[7][0];
+	this->m_keyInOutPanel->m_keyIn_tc_8->SetValue(set_8_start);
+	wxString set_8_end; set_8_end << DefaultKeyInOut[7][1];
+	this->m_keyInOutPanel->m_keyOut_tc_8->SetValue(set_8_end);
+	wxString set_8_percent; set_8_percent << DefaultKeyInOut[7][2];
+	this->m_keyInOutPanel->m_percent_tc_8->SetValue(set_8_percent);
+
+	//Step 9
+	wxString set_9_start; set_9_start << DefaultKeyInOut[8][0];
+	this->m_keyInOutPanel->m_keyIn_tc_9->SetValue(set_9_start);
+	wxString set_9_end; set_9_end << DefaultKeyInOut[8][1];
+	this->m_keyInOutPanel->m_keyOut_tc_9->SetValue(set_9_end);
+	wxString set_9_percent; set_9_percent << DefaultKeyInOut[8][2];
+	this->m_keyInOutPanel->m_percent_tc_9->SetValue(set_9_percent);
+
+	//Step 10
+	wxString set_10_start; set_10_start << DefaultKeyInOut[9][0];
+	this->m_keyInOutPanel->m_keyIn_tc_10->SetValue(set_10_start);
+	wxString set_10_end; set_10_end << DefaultKeyInOut[9][1];
+	this->m_keyInOutPanel->m_keyOut_tc_10->SetValue(set_10_end);
+	wxString set_10_percent; set_10_percent << DefaultKeyInOut[9][2];
+	this->m_keyInOutPanel->m_percent_tc_10->SetValue(set_10_percent);
 }
 
 

@@ -21,6 +21,7 @@
 #include "include/mersenne_twister/MTRandom.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
+#include "keyInOutPanel.h"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ public:
 	wxSizer    *m_vbox_1;/**< Vertical Sizer 1 */
 	wxSizer    *m_hbox_1;/**< Horizontal Sizer 1 */
 	wxSizer    *m_hbox_2;/**< Horizontal Sizer 2 */
+	wxSizer    *m_hbox_3;/**< Horizontal Sizer 3 */
 
 	wxMenuBar  *m_menubar;/**< Menu Bar */
 	wxMenu     *m_file;/**< File Menu */
@@ -58,6 +60,8 @@ public:
 	SlotItemPanel *m_slotItemPanel_right;/**< Right Slot Item Panel */
 
 	MatchItemPanel *m_matchItemPanel;/**< Match Item Panel */
+
+	KeyInOutPanel *m_keyInOutPanel;/**< Key InOut Panel */
 
 	/**
 	 * @brief Quit Handler.
@@ -87,6 +91,11 @@ public:
 	 * @brief Set Match Item Panel Default Value.
 	 */
 	void setMatchItemPanelDefaultValue(void);
+
+	/**
+	 * @brief Set Key In/Out Panel Default Value.
+	 */
+	void setKeyInOutDefault(void);
 
 };
 
