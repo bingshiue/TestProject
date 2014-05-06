@@ -3,7 +3,7 @@
  *
  */
 
-#include "../keyInOutPanel.h"
+#include "../include/components/keyInOutPanel.h"
 
 KeyInOutPanel::KeyInOutPanel(wxPanel* parent,wxString title) : wxPanel(parent,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxBORDER_NONE)
 {

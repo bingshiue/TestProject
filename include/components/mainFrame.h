@@ -17,9 +17,9 @@
 #include <wx/datstrm.h>
 #include <wx/textfile.h>
 #include <wx/tokenzr.h>
-#include "include/log.h"
-#include "include/mersenne_twister/MTRandom.h"
-#include "include/setting/setting.h"
+#include "../log.h"
+#include "../mersenne_twister/MTRandom.h"
+#include "../setting/setting.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"

@@ -3,12 +3,7 @@
  *
  */
 
-/**
- * @brief slotItemPanel.cpp.
- *
- */
-
-#include "../matchItemPanel.h"
+#include "../include/components/matchItemPanel.h"
 
 MatchItemPanel::MatchItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxBORDER_NONE){
 

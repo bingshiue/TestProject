@@ -3,9 +3,10 @@
  *
  */
 
-#include "mainFrame.h"
-#include "icons/sample.xpm"
-#include "include/probability/ProDefine.h"
+#include "../include/components/mainFrame.h"
+#include "../include/probability/ProDefine.h"
+#include "../icons/sample.xpm"
+
 
 MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,title,wxDefaultPosition,wxSize(1280,720))
 {

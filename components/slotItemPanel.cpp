@@ -3,7 +3,7 @@
  *
  */
 
-#include "../slotItemPanel.h"
+#include "../include/components/slotItemPanel.h"
 
 SlotItemPanel::SlotItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,wxID_ANY,wxDefaultPosition,wxDefaultSize,wxBORDER_NONE){
 

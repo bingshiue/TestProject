@@ -4,7 +4,7 @@
  */
 
 #include "main.h"
-#include "mainFrame.h"
+#include "include/components/mainFrame.h"
 
 IMPLEMENT_APP(CrownTrain)
 
