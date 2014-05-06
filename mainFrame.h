@@ -19,6 +19,7 @@
 #include <wx/tokenzr.h>
 #include "include/log.h"
 #include "include/mersenne_twister/MTRandom.h"
+#include "include/setting/setting.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"
