@@ -23,6 +23,7 @@
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"
+#include "optionPanel.h"
 
 using namespace std;
 
@@ -50,6 +51,7 @@ public:
 	wxSizer    *m_hbox_1;/**< Horizontal Sizer 1 */
 	wxSizer    *m_hbox_2;/**< Horizontal Sizer 2 */
 	wxSizer    *m_hbox_3;/**< Horizontal Sizer 3 */
+	wxSizer    *m_hbox_4;/**< Horizontal Sizer 4 */
 
 	wxMenuBar  *m_menubar;/**< Menu Bar */
 	wxMenu     *m_file;/**< File Menu */
@@ -63,6 +65,8 @@ public:
 	MatchItemPanel *m_matchItemPanel;/**< Match Item Panel */
 
 	KeyInOutPanel *m_keyInOutPanel;/**< Key InOut Panel */
+
+	OptionPanel *m_optionPanel;/**< Option Panel */
 
 	/**
 	 * @brief Quit Handler.
@@ -96,7 +100,12 @@ public:
 	/**
 	 * @brief Set Key In/Out Panel Default Value.
 	 */
-	void setKeyInOutDefault(void);
+	void setKeyInOutDefaultValue(void);
+
+	/**
+	 * @brief Set Max Key In Default Value.
+	 */
+	void setMaxKeyInDefaultValue(void);
 
 };
 

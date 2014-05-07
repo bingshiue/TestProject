@@ -40,6 +40,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Horizontal Box Sizer 3 */
 	this->m_hbox_3 = new wxBoxSizer(wxHORIZONTAL);
 
+	/* Create Horizontal Box Sizer 4 */
+	this->m_hbox_4 = new wxBoxSizer(wxHORIZONTAL);
+
 	/* Create Left Slot Item Panel Instance */
 	this->m_slotItemPanel_left = new SlotItemPanel(this->m_parent,L"Left Slot");
 	/* Create Middle Slot Item Panel Instance */
@@ -53,6 +56,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Key In/Out Panel */
 	this->m_keyInOutPanel = new KeyInOutPanel(this->m_parent,L"Key In/Out");
 
+	/* Create Option Panel */
+	this->m_optionPanel = new OptionPanel(this->m_parent,L"Options");
+
 	/* Add 3 Slot Item Panel into Horizontal Box Sizer 1 */
 	this->m_hbox_1->Add(this->m_slotItemPanel_left,1);
 	this->m_hbox_1->Add(this->m_slotItemPanel_middle,1);
@@ -64,6 +70,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Add Key In/Out Panel into Horizontal Box Sizer 3 */
 	this->m_hbox_3->Add(this->m_keyInOutPanel,1);
 
+	/* Add Option Panel into Horizontal Box Sizer 4 */
+	this->m_hbox_4->Add(this->m_optionPanel,1);
+
 	/* Append Horizontal Box 1 To Vertical Box Sizer 1 */
 	this->m_vbox_1->Add(this->m_hbox_1,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
@@ -72,6 +81,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 
 	/* Append Horizontal Box 3 To Vertical Box Sizer 1 */
 	this->m_vbox_1->Add(this->m_hbox_3,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
+
+	/* Append Horizontal Box 4 To Vertical Box Sizer 1 */
+	this->m_vbox_1->Add(this->m_hbox_4,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
 	/* Append Vertical Box 1 To Main Top Box Sizer */
 	this->m_mainTopSizer->Add(this->m_vbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
@@ -126,8 +138,11 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	LOGI("Probability","Set Match Item Panel Default Value \n");
 
 	/* Set Key In/Out Panel Default Value */
-	this->setKeyInOutDefault();
+	this->setKeyInOutDefaultValue();
 	LOGI("Probability","Set Key In/Out Panel Default Value \n");
+
+	/* Set Max Key In Default Value */
+	this->setMaxKeyInDefaultValue();
 
 	/* Centre Window */
 	Centre();
@@ -269,7 +284,7 @@ void MainFrame::setMatchItemPanelDefaultValue(void){
 	this->m_matchItemPanel->mItem_train_tc->SetValue(item9Value);
 }
 
-void MainFrame::setKeyInOutDefault(void){
+void MainFrame::setKeyInOutDefaultValue(void){
 	//Step 1
 	wxString set_1_start; set_1_start << DefaultKeyInOut[0][0];
 	this->m_keyInOutPanel->m_keyIn_tc_1->SetValue(set_1_start);
@@ -349,6 +364,11 @@ void MainFrame::setKeyInOutDefault(void){
 	this->m_keyInOutPanel->m_keyOut_tc_10->SetValue(set_10_end);
 	wxString set_10_percent; set_10_percent << DefaultKeyInOut[9][2];
 	this->m_keyInOutPanel->m_percent_tc_10->SetValue(set_10_percent);
+}
+
+void MainFrame::setMaxKeyInDefaultValue(void){
+	wxString keyInMax; keyInMax << defaultMaxKeyIn;
+	this->m_optionPanel->m_maxKeyIn_tc->SetValue(keyInMax);
 }
 
 

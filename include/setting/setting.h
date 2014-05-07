@@ -11,6 +11,9 @@ enum {
 	Enable = 1
 };
 
+/*  */
+const unsigned int defaultMaxKeyIn = 50000;
+
 /* Coin Value */
 const unsigned int coinValueTab[6] = { 1, 5, 10, 20, 50, 100 };
 
