@@ -24,6 +24,7 @@
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"
 #include "optionPanel.h"
+#include "resultPanel.h"
 
 using namespace std;
 
@@ -52,6 +53,7 @@ public:
 	wxSizer    *m_hbox_2;/**< Horizontal Sizer 2 */
 	wxSizer    *m_hbox_3;/**< Horizontal Sizer 3 */
 	wxSizer    *m_hbox_4;/**< Horizontal Sizer 4 */
+	wxSizer    *m_hbox_5;/**< Horizontal Sizer 5 */
 
 	wxMenuBar  *m_menubar;/**< Menu Bar */
 	wxMenu     *m_file;/**< File Menu */
@@ -67,6 +69,8 @@ public:
 	KeyInOutPanel *m_keyInOutPanel;/**< Key InOut Panel */
 
 	OptionPanel *m_optionPanel;/**< Option Panel */
+
+	ResultPanel *m_resultPanel;/**< Result Panel */
 
 	/**
 	 * @brief Quit Handler.

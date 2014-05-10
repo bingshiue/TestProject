@@ -43,6 +43,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Horizontal Box Sizer 4 */
 	this->m_hbox_4 = new wxBoxSizer(wxHORIZONTAL);
 
+	/* Create Horizontal Box Sizer 5 */
+	this->m_hbox_5 = new wxBoxSizer(wxHORIZONTAL);
+
 	/* Create Left Slot Item Panel Instance */
 	this->m_slotItemPanel_left = new SlotItemPanel(this->m_parent,L"Left Slot");
 	/* Create Middle Slot Item Panel Instance */
@@ -59,6 +62,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Option Panel */
 	this->m_optionPanel = new OptionPanel(this->m_parent,L"Options");
 
+	/* Create Result Panel */
+	this->m_resultPanel = new ResultPanel(this->m_parent,L"Result");
+
 	/* Add 3 Slot Item Panel into Horizontal Box Sizer 1 */
 	this->m_hbox_1->Add(this->m_slotItemPanel_left,1);
 	this->m_hbox_1->Add(this->m_slotItemPanel_middle,1);
@@ -73,6 +79,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Add Option Panel into Horizontal Box Sizer 4 */
 	this->m_hbox_4->Add(this->m_optionPanel,1);
 
+	/* Add Result Panel into Horizontal Box Sizer 5 */
+	this->m_hbox_5->Add(this->m_resultPanel,1);
+
 	/* Append Horizontal Box 1 To Vertical Box Sizer 1 */
 	this->m_vbox_1->Add(this->m_hbox_1,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
@@ -84,6 +93,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 
 	/* Append Horizontal Box 4 To Vertical Box Sizer 1 */
 	this->m_vbox_1->Add(this->m_hbox_4,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
+
+	/* Append Horizontal Box 5 To Vertical Box Sizer 1 */
+	this->m_vbox_1->Add(this->m_hbox_5,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
 
 	/* Append Vertical Box 1 To Main Top Box Sizer */
 	this->m_mainTopSizer->Add(this->m_vbox_1,   1, wxEXPAND | (wxALL & ~wxLEFT), 1);
