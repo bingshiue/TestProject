@@ -12,7 +12,7 @@ ResultPanel::ResultPanel(wxPanel* parent,wxString title) : wxPanel(parent,wxID_A
 	this->m_sb = new wxStaticBox(this,wxID_ANY,title,wxDefaultPosition,wxDefaultSize);
 	this->m_sz = new wxStaticBoxSizer(this->m_sb,wxVERTICAL);
 
-	this->m_gridSz = new wxGridSizer(6,6,5,0);
+	this->m_gridSz = new wxGridSizer(6,6,0,0);
 
 	this->m_totalKeyIn = new wxStaticText(this,wxID_ANY,L"T-KeyIn Coin");
 	this->m_totalKeyOut = new wxStaticText(this,wxID_ANY,L"T-KeyOut Coin");

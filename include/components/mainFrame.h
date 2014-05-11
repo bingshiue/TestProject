@@ -29,7 +29,7 @@
 using namespace std;
 
 enum {
-	CID_RUN_BUTTON    = 101,
+	CID_START_BUTTON  = 101,
 	CID_RESET_BUTTON  = 102,
 };
 
@@ -55,6 +55,9 @@ public:
 	wxSizer    *m_hbox_4;/**< Horizontal Sizer 4 */
 	wxSizer    *m_hbox_5;/**< Horizontal Sizer 5 */
 
+	wxStaticBox *m_sb;/**< Static Box */
+	wxStaticBoxSizer *m_sz;/**< Static Box Sizer */
+
 	wxMenuBar  *m_menubar;/**< Menu Bar */
 	wxMenu     *m_file;/**< File Menu */
 	wxMenuItem *m_quit;/**< Quit Menu Item */
@@ -71,6 +74,9 @@ public:
 	OptionPanel *m_optionPanel;/**< Option Panel */
 
 	ResultPanel *m_resultPanel;/**< Result Panel */
+
+	wxButton* m_startButton;/**< Start Button */
+	wxButton* m_resetButton;/**< Reset Button */
 
 	/**
 	 * @brief Quit Handler.
@@ -110,6 +116,16 @@ public:
 	 * @brief Set Max Key In Default Value.
 	 */
 	void setMaxKeyInDefaultValue(void);
+
+	/**
+	 * @brief Start.
+	 */
+	void Start(wxCommandEvent& event);
+
+	/**
+	 * @brief Reset.
+	 */
+	void Reset(wxCommandEvent& event);
 
 };
 

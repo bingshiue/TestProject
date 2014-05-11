@@ -46,6 +46,11 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Horizontal Box Sizer 5 */
 	this->m_hbox_5 = new wxBoxSizer(wxHORIZONTAL);
 
+	/* Create Static Box Instance */
+	this->m_sb = new wxStaticBox(this->m_parent,wxID_ANY,L"Run",wxDefaultPosition,wxDefaultSize);
+	/* Create Static Box Sizer Instance */
+	this->m_sz = new wxStaticBoxSizer(this->m_sb,wxVERTICAL);
+
 	/* Create Left Slot Item Panel Instance */
 	this->m_slotItemPanel_left = new SlotItemPanel(this->m_parent,L"Left Slot");
 	/* Create Middle Slot Item Panel Instance */
@@ -65,6 +70,11 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	/* Create Result Panel */
 	this->m_resultPanel = new ResultPanel(this->m_parent,L"Result");
 
+	/* Create Start Button Instance */
+	this->m_startButton = new wxButton(this->m_parent,CID_START_BUTTON,L"Start");
+	/* Create Reset Button Instance */
+	this->m_resetButton = new wxButton(this->m_parent,CID_RESET_BUTTON,L"Reset");
+
 	/* Add 3 Slot Item Panel into Horizontal Box Sizer 1 */
 	this->m_hbox_1->Add(this->m_slotItemPanel_left,1);
 	this->m_hbox_1->Add(this->m_slotItemPanel_middle,1);
@@ -81,6 +91,14 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 
 	/* Add Result Panel into Horizontal Box Sizer 5 */
 	this->m_hbox_5->Add(this->m_resultPanel,1);
+
+	/* Add Reset Button into Static Box Sizer */
+	this->m_sz->Add(this->m_resetButton,  1, wxEXPAND | wxALL, 1);
+	/* Add Start Button into Static Box Sizer */
+	this->m_sz->Add(this->m_startButton,  9, wxEXPAND | wxALL, 1);
+
+	/* Add Static Box Sizer into Horizontal Box Sizer 5 */
+	this->m_hbox_5->Add(this->m_sz,1);
 
 	/* Append Horizontal Box 1 To Vertical Box Sizer 1 */
 	this->m_vbox_1->Add(this->m_hbox_1,   0, wxEXPAND | (wxALL & ~wxLEFT), 1);
@@ -135,6 +153,10 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
     Connect(wxID_EXIT,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(MainFrame::OnQuit));
     /* Connect OnAbout To CID_ABOUT_MENU */
 	Connect(CID_ABOUT_MENU,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(MainFrame::OnAbout));
+	/* Connect Start To Start Button */
+	Connect(CID_START_BUTTON,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(MainFrame::Start));
+	/* Connect Reset To Reset Button */
+	Connect(CID_RESET_BUTTON,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(MainFrame::Reset));
 
     /* Setup Icon */
 	SetIcon(sample_xpm);
@@ -381,6 +403,14 @@ void MainFrame::setKeyInOutDefaultValue(void){
 void MainFrame::setMaxKeyInDefaultValue(void){
 	wxString keyInMax; keyInMax << defaultMaxKeyIn;
 	this->m_optionPanel->m_maxKeyIn_tc->SetValue(keyInMax);
+}
+
+void MainFrame::Start(wxCommandEvent& event){
+	LOGI("Start Button","In Start Button Handle \n");
+}
+
+void MainFrame::Reset(wxCommandEvent& event){
+	LOGI("Reset Button","In Reset Button Handle \n");
 }
 
 
