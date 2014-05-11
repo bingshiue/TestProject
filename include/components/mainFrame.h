@@ -19,7 +19,7 @@
 #include <wx/tokenzr.h>
 #include "../log.h"
 #include "../mersenne_twister/MTRandom.h"
-#include "../setting/setting.h"
+#include "../setting/settingType.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"
@@ -43,6 +43,8 @@ class MainFrame : public wxFrame{
 public:
 	MainFrame(const wxString& title);
 	MTRANDOM m_mtRandom;/**< Mersenne Twister Algorithm */
+
+	SETTINGDATA m_settingData;/**< Setting Data */
 
 	wxPanel    *m_parent;/**< Parent Panel */
 	wxNotebook *m_noteBook;/**< Note Book */
@@ -112,10 +114,6 @@ public:
 	 */
 	void setKeyInOutDefaultValue(void);
 
-	/**
-	 * @brief Set Max Key In Default Value.
-	 */
-	void setMaxKeyInDefaultValue(void);
 
 	/**
 	 * @brief Start.

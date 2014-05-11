@@ -175,9 +175,6 @@ MainFrame::MainFrame(const wxString& title) : wxFrame((wxFrame*)NULL,wxID_ANY,ti
 	this->setKeyInOutDefaultValue();
 	LOGI("Probability","Set Key In/Out Panel Default Value \n");
 
-	/* Set Max Key In Default Value */
-	this->setMaxKeyInDefaultValue();
-
 	/* Centre Window */
 	Centre();
 
@@ -398,11 +395,6 @@ void MainFrame::setKeyInOutDefaultValue(void){
 	this->m_keyInOutPanel->m_keyOut_tc_10->SetValue(set_10_end);
 	wxString set_10_percent; set_10_percent << DefaultKeyInOut[9][2];
 	this->m_keyInOutPanel->m_percent_tc_10->SetValue(set_10_percent);
-}
-
-void MainFrame::setMaxKeyInDefaultValue(void){
-	wxString keyInMax; keyInMax << defaultMaxKeyIn;
-	this->m_optionPanel->m_maxKeyIn_tc->SetValue(keyInMax);
 }
 
 void MainFrame::Start(wxCommandEvent& event){

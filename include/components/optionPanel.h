@@ -6,9 +6,12 @@
 #ifndef OPTIONPANEL_H_
 #define OPTIONPANEL_H_
 
+#include <assert.h>
 #include <wx/wx.h>
 #include <wx/combobox.h>
-#include "../setting/setting.h"
+#include "../log.h"
+#include "../setting/settingDefault.h"
+#include "../setting/settingArray.h"
 
 enum {
 	CID_COMBOBOX_COINSET          = 901,
@@ -26,12 +29,10 @@ public:
 	wxStaticBox* m_sb;
 	wxStaticBoxSizer* m_sbz;
 	wxGridSizer* m_gridSz;
-	wxSizer* m_hsz1;
-	wxSizer* m_hsz2;
 	wxStaticText* m_maxKeyIn;
 	wxTextCtrl* m_maxKeyIn_tc;
-	wxStaticText* m_coinSet;
-	wxComboBox* m_coinSetCB;
+	wxStaticText* m_coinValue;
+	wxComboBox* m_coinValueCB;
 	wxStaticText* m_maxBet;
 	wxComboBox* m_maxBetCB;
 	wxStaticText* m_mainGameMaxWin;
