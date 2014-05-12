@@ -1,8 +1,6 @@
-/*
- * award.h
+/**
+ * @file ProAward.h
  *
- *  Created on: 2014/04/20
- *      Author: bingshiue
  */
 
 #ifndef AWARD_H_
@@ -32,7 +30,6 @@ enum STRAIGHT_AWARD {
 	straight_award_crown,     /**< Straight Award Crown */
 	straight_award_freecoin,  /**< Straight Award Freecoin */
 	straight_award_roulette,  /**< Straight Award Roulette */
-
 
 };/**< Straight Award */
 

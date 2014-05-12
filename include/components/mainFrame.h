@@ -20,6 +20,7 @@
 #include "../log.h"
 #include "../mersenne_twister/MTRandom.h"
 #include "../setting/settingType.h"
+#include "../probability/ProType.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"
@@ -29,41 +30,46 @@
 using namespace std;
 
 enum {
-	CID_START_BUTTON  = 101,
-	CID_RESET_BUTTON  = 102,
+	CID_START_BUTTON = 101,
+	CID_RESET_BUTTON = 102,
 };
 
 enum {
-	CID_SAVE_MENU     = 201,
-	CID_LOAD_MENU     = 202,
-	CID_ABOUT_MENU    = 203,
+	CID_SAVE_MENU = 201,
+	CID_LOAD_MENU = 202,
+	CID_ABOUT_MENU = 203,
 };
 
-class MainFrame : public wxFrame{
+class MainFrame: public wxFrame {
 public:
 	MainFrame(const wxString& title);
 	MTRANDOM m_mtRandom;/**< Mersenne Twister Algorithm */
 
+	SLOTPROSTEP m_slot1Step;/**< Slot 1 Probability Item */
+	SLOTPROSTEP m_slot2Step;/**< Slot 2 Probability Item */
+	SLOTPROSTEP m_slot3Step;/**< Slot 3 Probability Item */
+	MATCHPROSTEP m_matchStep;/**< Match Probability Item */
+
 	SETTINGDATA m_settingData;/**< Setting Data */
 
-	wxPanel    *m_parent;/**< Parent Panel */
+	wxPanel *m_parent;/**< Parent Panel */
 	wxNotebook *m_noteBook;/**< Note Book */
 
-	wxSizer    *m_mainTopSizer;/**< Main Top Level Sizer */
-	wxSizer    *m_vbox_1;/**< Vertical Sizer 1 */
-	wxSizer    *m_hbox_1;/**< Horizontal Sizer 1 */
-	wxSizer    *m_hbox_2;/**< Horizontal Sizer 2 */
-	wxSizer    *m_hbox_3;/**< Horizontal Sizer 3 */
-	wxSizer    *m_hbox_4;/**< Horizontal Sizer 4 */
-	wxSizer    *m_hbox_5;/**< Horizontal Sizer 5 */
+	wxSizer *m_mainTopSizer;/**< Main Top Level Sizer */
+	wxSizer *m_vbox_1;/**< Vertical Sizer 1 */
+	wxSizer *m_hbox_1;/**< Horizontal Sizer 1 */
+	wxSizer *m_hbox_2;/**< Horizontal Sizer 2 */
+	wxSizer *m_hbox_3;/**< Horizontal Sizer 3 */
+	wxSizer *m_hbox_4;/**< Horizontal Sizer 4 */
+	wxSizer *m_hbox_5;/**< Horizontal Sizer 5 */
 
 	wxStaticBox *m_sb;/**< Static Box */
 	wxStaticBoxSizer *m_sz;/**< Static Box Sizer */
 
-	wxMenuBar  *m_menubar;/**< Menu Bar */
-	wxMenu     *m_file;/**< File Menu */
+	wxMenuBar *m_menubar;/**< Menu Bar */
+	wxMenu *m_file;/**< File Menu */
 	wxMenuItem *m_quit;/**< Quit Menu Item */
-	wxMenu     *m_about;/**< About Menu */
+	wxMenu *m_about;/**< About Menu */
 
 	SlotItemPanel *m_slotItemPanel_left;/**< Left Slot Item Panel */
 	SlotItemPanel *m_slotItemPanel_middle;/**< Middle Slot Item Panel */
@@ -95,9 +101,9 @@ public:
 	 * @brief Set Slot Item Panel Left Default Value.
 	 */
 	void setSlotItemPanelLeftDefaultValue(void);
-    /**
-     * @brief Set Slot Item Panel Middle Default Value.
-     */
+	/**
+	 * @brief Set Slot Item Panel Middle Default Value.
+	 */
 	void setSlotItemPanelMiddleDefaultValue(void);
 	/**
 	 * @brief Set Slot Item Panel Right Default Value.
@@ -114,6 +120,25 @@ public:
 	 */
 	void setKeyInOutDefaultValue(void);
 
+	/**
+	 * @brief Set Slot 1 Probability Step.
+	 */
+	void SetSlot1ProStep(void);
+
+	/**
+	 * @brief Set Slot 2 Probability Step.
+	 */
+	void SetSlot2ProStep(void);
+
+	/**
+	 * @brief Set Slot 3 Probability Step.
+	 */
+	void SetSlot3ProStep(void);
+
+	/**
+	 * @brief Set Match Probability Step.
+	 */
+	void SetMatchProStep(void);
 
 	/**
 	 * @brief Start.
@@ -126,6 +151,5 @@ public:
 	void Reset(wxCommandEvent& event);
 
 };
-
 
 #endif /* MAINFRAME_H_ */
