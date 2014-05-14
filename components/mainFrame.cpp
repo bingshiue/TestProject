@@ -5,6 +5,8 @@
 
 #include "../include/components/mainFrame.h"
 #include "../include/probability/ProDefine.h"
+#include "../include/probability/ProDefaultKeyInOut.h"
+#include "../include/probability/ProSubFunc.h"
 #include "../icons/sample.xpm"
 
 MainFrame::MainFrame(const wxString& title) :
@@ -787,6 +789,20 @@ void MainFrame::Start(wxCommandEvent& event) {
 	SetSlot2ProStep();
 	SetSlot3ProStep();
 	SetMatchProStep();
+
+	/* Test Get Stop Item */
+	SLOTSTOPSUBFUNC SlotStopSubFunc[3] = {
+			GetSlotLeftStopItem,
+			GetSlotMiddleStopItem,
+			GetSlotRightStopItem
+	};
+
+	for(int time=0; time<1000; time++){
+		for(int idx=0; idx<3; idx++){
+			SlotStopSubFunc[idx](&this->m_mtRandom,this);
+		}
+		GetMatchStopItem(&this->m_mtRandom,this);
+	}
 }
 
 void MainFrame::Reset(wxCommandEvent& event) {
