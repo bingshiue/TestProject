@@ -21,4 +21,8 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom,MainFrame* mainFrame);
 
 typedef unsigned int (*SLOTSTOPSUBFUNC)(MTRANDOM* mtRandom,MainFrame* mainFrame);
 
+unsigned int GetMatchAward(void);
+
+unsigned int GetSlotStraightAward(void);
+
 #endif /* PROSUBFUNC_H_ */

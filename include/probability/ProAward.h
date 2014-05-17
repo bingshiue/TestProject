@@ -15,8 +15,8 @@ enum MATCH_AWARD {
 	match_award_bar,         /**< Match Award Bar */
 	match_award_diamond,     /**< Match Award Diamond */
 	match_award_crown,       /**< Match Award Crown */
-	match_award_freecoin,    /**< Match Award Freecoin */
-	match_award_roulette,    /**< Match Award Roulette */
+	match_award_multiple,    /**< Match Award Multiple */
+	match_award_train,       /**< Match Award Train */
 
 };/**< Match Award */
 

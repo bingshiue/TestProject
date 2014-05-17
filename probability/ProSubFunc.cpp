@@ -6,6 +6,7 @@
 #include "../include/probability/ProDefine.h"
 #include "../include/probability/ProType.h"
 #include "../include/probability/ProItem.h"
+#include "../include/probability/ProMultiple.h"
 #include "../include/probability/ProSubFunc.h"
 
 unsigned int GetSlotLeftStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
