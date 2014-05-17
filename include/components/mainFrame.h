@@ -21,6 +21,7 @@
 #include "../mersenne_twister/MTRandom.h"
 #include "../setting/settingType.h"
 #include "../probability/ProType.h"
+#include "../game/GameFrame.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "keyInOutPanel.h"
@@ -51,6 +52,8 @@ public:
 	MATCHPROSTEP m_matchStep;/**< Match Probability Item */
 
 	SETTINGDATA m_settingData;/**< Setting Data */
+
+	GAMEFRAME m_gameFrame;/**< Game Frame */
 
 	wxPanel *m_parent;/**< Parent Panel */
 	wxNotebook *m_noteBook;/**< Note Book */
