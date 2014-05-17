@@ -10,11 +10,51 @@
 #include "GameCredit.h"
 #include "GameRecord.h"
 
+typedef struct _Match{
+	unsigned int item;
+
+	/**
+	 * @brief Clean.
+	 */
+	void Clean(void){
+		item = match_item_unknown;
+	}
+
+	/**
+	 * @brief Constructor.
+	 */
+	_Match(void){
+		Clean();
+	}
+
+}MATCH;/**< Match */
+
+typedef struct _Slot{
+	unsigned int item;
+
+	/**
+	 * @brief Clean.
+	 */
+	void Clean(void){
+		item = slot_item_unknown;
+	}
+
+	/**
+	 * @brief Constructor.
+	 */
+	_Slot(void){
+		Clean();
+	}
+
+}SLOT;/**< Slot */
+
 #define TABLE_SIZE  29
 
 typedef struct _GameFrame{
 	GAMECREDIT m_gameCredit;/**< Game Credit */
 	GAMEREC m_gameRecord;/**< Game Record */
+	MATCH m_match;/**< Match */
+	SLOT m_slot[3];/**< Slot */
 	unsigned int m_table[TABLE_SIZE];/**< Table */
 
 	/**

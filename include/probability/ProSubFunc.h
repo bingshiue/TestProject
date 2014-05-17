@@ -25,4 +25,8 @@ unsigned int GetMatchAward(GAMEFRAME* gameFrame);
 
 unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame);
 
+unsigned int GetMatchWin(unsigned int matchAward,unsigned int bet);
+
+unsigned int GetSlotStraightWin(unsigned int slotStraightAward,unsigned int bet);
+
 #endif /* PROSUBFUNC_H_ */

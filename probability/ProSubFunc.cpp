@@ -3,9 +3,11 @@
  *
  */
 
+#include "../include/log.h"
 #include "../include/probability/ProDefine.h"
 #include "../include/probability/ProType.h"
 #include "../include/probability/ProItem.h"
+#include "../include/probability/ProAward.h"
 #include "../include/probability/ProMultiple.h"
 #include "../include/probability/ProSubFunc.h"
 
@@ -143,4 +145,137 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 	LOGD(__func__, "Stop Item = %d \n", ret);
 
 	return ret;
+}
+
+unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
+	unsigned int award = match_award_none;
+	bool bingo = false;
+
+	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+		if(gameFrame->m_match.item == gameFrame->m_slot[idx].item){
+			bingo = true;
+			break;
+		}
+	}
+
+	if(gameFrame->m_match.item == match_item_multiple || gameFrame->m_match.item == match_item_train){
+		bingo = true;
+	}
+
+	if(bingo==true){
+		switch(gameFrame->m_match.item){
+
+		case match_item_cherry:
+			award = match_award_cherry;
+			break;
+		case match_item_orange:
+			award = match_award_orange;
+			break;
+		case match_item_apple:
+			award = match_award_apple;
+			break;
+		case match_item_coin:
+			award = match_award_coin;
+			break;
+		case match_item_bar:
+			award = match_award_bar;
+			break;
+		case match_item_diamond:
+			award = match_award_diamond;
+			break;
+		case match_item_crown:
+			award = match_award_crown;
+			break;
+		case match_item_multiple:
+			award = match_award_multiple;
+			break;
+		case match_item_train:
+			award = match_award_train;
+			break;
+
+		default:
+			award = match_award_none;
+			LOGE("Probability","%s: Match Award Error ! \n",__func__);
+			break;
+		}
+	}
+
+	LOGD("Probability","%s: Match Award=%d \n",__func__,award);
+	return award;
+}
+
+unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
+	unsigned int award = straight_award_none;
+	bool bingo = false;
+	unsigned int cnt[10]={0};
+
+	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+		cnt[gameFrame->m_slot[idx].item]++;
+	}
+
+	for(unsigned int idx=0; idx<sizeof(cnt)/sizeof(cnt[0]); idx++){
+		if(cnt[idx] >= 3){
+			bingo = true;
+			break;
+		}
+	}
+
+	if(bingo==true){
+		switch(gameFrame->m_slot[0].item){
+
+		case slot_item_cherry:
+			award = straight_award_cherry;
+			break;
+		case slot_item_orange:
+			award = straight_award_orange;
+			break;
+		case slot_item_apple:
+			award = straight_award_apple;
+			break;
+		case slot_item_coin:
+			award = straight_award_coin;
+			break;
+		case slot_item_bar:
+			award = straight_award_bar;
+			break;
+		case slot_item_diamond:
+			award = straight_award_diamond;
+			break;
+		case slot_item_crown:
+			award = straight_award_crown;
+			break;
+		case slot_item_freecoin:
+			award = straight_award_freecoin;
+			break;
+		case slot_item_roulette:
+			award = straight_award_roulette;
+			break;
+
+		default:
+			award = straight_award_none;
+			LOGE("Probability","%s: Slot Straight Award Error ! \n",__func__);
+			break;
+		}
+	}
+
+	LOGD("Probability","%s: Slot Straight Award=%d \n",__func__,award);
+	return award;
+}
+
+unsigned int GetMatchWin(unsigned int matchAward,unsigned int bet){
+	unsigned int matchWin = 0;
+
+	matchWin = MatchAwardMulTable[matchAward] * bet;
+	LOGD("Probability","%s: Match Win = %d \n",__func__,matchWin);
+
+	return matchWin;
+}
+
+unsigned int GetSlotStraightWin(unsigned int slotStraightAward,unsigned int bet){
+	unsigned int slotStraightWin = 0;
+
+	slotStraightWin = SlotAwardMulTable[slotStraightAward] * bet;
+	LOGD("Probability","%s: Slot Straight Win = %d \n",__func__,slotStraightWin);
+
+	return slotStraightWin;
 }

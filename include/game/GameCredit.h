@@ -8,7 +8,8 @@
 
 typedef struct _GameCredit{
 	unsigned int m_credit;/**< Credit */
-	unsigned int m_bet;/**< Bet */
+	unsigned int m_matchBet;/**< Match Bet */
+	unsigned int m_slotBet[3];/**< Slot Bet */
 	unsigned int m_win;/**< Win */
 
 	/**
@@ -16,7 +17,10 @@ typedef struct _GameCredit{
 	 */
 	void Clean(void){
 		m_credit=0;
-		m_bet=0;
+		m_matchBet=0;
+		m_slotBet[0]=0;
+		m_slotBet[1]=0;
+		m_slotBet[2]=0;
 		m_win=0;
 	}
 

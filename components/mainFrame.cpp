@@ -798,11 +798,15 @@ void MainFrame::Start(wxCommandEvent& event) {
 	};
 
 	for(int time=0; time<1000; time++){
+		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,this);
 		for(int idx=0; idx<3; idx++){
-			SlotStopSubFunc[idx](&this->m_mtRandom,this);
+			this->m_gameFrame.m_slot[idx].item = SlotStopSubFunc[idx](&this->m_mtRandom,this);
 		}
-		GetMatchStopItem(&this->m_mtRandom,this);
+
+		GetMatchWin(GetMatchAward(&this->m_gameFrame),50);
+		GetSlotStraightWin(GetSlotStraightAward(&this->m_gameFrame),50);
 	}
+
 }
 
 void MainFrame::Reset(wxCommandEvent& event) {
