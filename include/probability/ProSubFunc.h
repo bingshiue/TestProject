@@ -19,8 +19,6 @@ unsigned int GetSlotRightStopItem(MTRANDOM* mtRandom,MainFrame* mainFrame);
 
 unsigned int GetMatchStopItem(MTRANDOM* mtRandom,MainFrame* mainFrame);
 
-typedef unsigned int (*SLOTSTOPSUBFUNC)(MTRANDOM* mtRandom,MainFrame* mainFrame);
-
 unsigned int GetMatchAward(GAMEFRAME* gameFrame);
 
 unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame);
@@ -28,5 +26,7 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame);
 unsigned int GetMatchWin(unsigned int matchAward,unsigned int bet);
 
 unsigned int GetSlotStraightWin(unsigned int slotStraightAward,unsigned int bet);
+
+bool KeyOutCheck(MainFrame* mainFrame);
 
 #endif /* PROSUBFUNC_H_ */

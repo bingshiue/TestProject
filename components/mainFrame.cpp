@@ -18,6 +18,15 @@ MainFrame::MainFrame(const wxString& title) :
 	m_mtRandom.resetMT(seed); // use 19650218UL as seed for verify Mersenne Twister Algorithm
 	LOGD("Mersenne Twister", "Initialized Seed=%d \n", seed);
 
+	/* Set Slot Stop Functions */
+	this->m_slotStopSubFunc[0] = GetSlotLeftStopItem;
+	this->m_slotStopSubFunc[1] = GetSlotMiddleStopItem;
+	this->m_slotStopSubFunc[2] = GetSlotRightStopItem;
+
+	/* Initialize Logic Control Flags */
+	m_needToReset = false;
+	m_runOneTest = false;
+
 	/* Create wxNotebook Instance */
 	this->m_noteBook = new wxNotebook(this, wxID_ANY);
 
@@ -204,7 +213,8 @@ void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void MainFrame::OnAbout(wxCommandEvent& event) {
-	wxString buildDate = L"Build Date : ";
+	wxString buildDate = VERSION;
+	buildDate += L" Build Date : ";
 	buildDate += __DATE__;
 	buildDate += L" ";
 	buildDate += __TIME__;
@@ -781,8 +791,122 @@ void MainFrame::SetMatchProStep(void) {
 			m_matchStep.step7, m_matchStep.step8, m_matchStep.step9);
 }
 
+void MainFrame::ResetResultPanel(void){
+	this->m_resultPanel->m_totalKeyIn_tc->SetValue("0");
+	this->m_resultPanel->m_totalKeyOut_tc->SetValue("0");
+	this->m_resultPanel->m_keyInOutPercent_tc->SetValue("0");
+
+	this->m_resultPanel->m_totalPlayScore_tc->SetValue("0");
+	this->m_resultPanel->m_totalWinScore_tc->SetValue("0");
+	this->m_resultPanel->m_PlayWinScorePercent_tc->SetValue("0");
+
+	this->m_resultPanel->m_totalPlayTimes_tc->SetValue("0");
+	this->m_resultPanel->m_totalWinTimes_tc->SetValue("0");
+	this->m_resultPanel->m_PlayWinTimesPercent_tc->SetValue("0");
+
+	this->m_resultPanel->m_doubleTotalPlayScore_tc->SetValue("0");
+	this->m_resultPanel->m_doubleTotalWinScore_tc->SetValue("0");
+	this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue("0");
+
+	this->m_resultPanel->m_doubleTotalPlayTimes_tc->SetValue("0");
+	this->m_resultPanel->m_doubleTotalWinTimes_tc->SetValue("0");
+	this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue("0");
+
+	this->m_resultPanel->m_mainGameOverMaxWinTimes_tc->SetValue("0");
+	this->m_resultPanel->m_doubleGameOverMaxWinTimes_tc->SetValue("0");
+	this->m_resultPanel->m_doubleGameMaxConsecutivePassTimes_tc->SetValue("0");
+}
+
+void MainFrame::UpdateResultPanel(void){
+	  //Total Key In coins & Key Out coins
+	  wxString total_keyin_coins; total_keyin_coins << this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
+	  this->m_resultPanel->m_totalKeyIn_tc->SetValue(total_keyin_coins);
+
+	  wxString total_keyout_coins; total_keyout_coins << this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin;
+	  this->m_resultPanel->m_totalKeyOut_tc->SetValue(total_keyout_coins);
+
+	  wxString keyinKeyOutPercent; keyinKeyOutPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin/(float)this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
+	  keyinKeyOutPercent += " %";
+	  this->m_resultPanel->m_keyInOutPercent_tc->SetValue(keyinKeyOutPercent);
+
+	  //Total main play scores & Total main win scores
+	  wxString total_play_scores; total_play_scores << this->m_gameFrame.m_gameRecord.m_totalMainPlayScores;
+	  this->m_resultPanel->m_totalPlayScore_tc->SetValue(total_play_scores);
+
+	  wxString total_win_scores; total_win_scores << this->m_gameFrame.m_gameRecord.m_totalMainWinScores;
+	  this->m_resultPanel->m_totalWinScore_tc->SetValue(total_win_scores);
+
+	  wxString playWinScoresPercent; playWinScoresPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalMainPlayScores/(float)this->m_gameFrame.m_gameRecord.m_totalMainWinScores;
+	  playWinScoresPercent += " %";
+	  this->m_resultPanel->m_PlayWinScorePercent_tc->SetValue(playWinScoresPercent);
+
+	  //Total main played times & Total main win times
+	  wxString total_play_times; total_play_times << this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes;
+	  this->m_resultPanel->m_totalPlayTimes_tc->SetValue(total_play_times);
+
+	  wxString total_win_times; total_win_times << this->m_gameFrame.m_gameRecord.m_totalMainWinTimes;
+	  this->m_resultPanel->m_totalWinTimes_tc->SetValue(total_win_times);
+
+	  wxString playedHitPercent; playedHitPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalMainWinTimes/this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes;
+	  playedHitPercent += " %";
+	  this->m_resultPanel->m_PlayWinTimesPercent_tc->SetValue(playedHitPercent);
+
+	  //Double total played scores & total win scores
+	  wxString total_dplay_scores; total_dplay_scores << this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores;
+	  this->m_resultPanel->m_doubleTotalPlayScore_tc->SetValue(total_dplay_scores);
+
+	  wxString total_dwin_scores; total_dwin_scores << this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores;
+	  this->m_resultPanel->m_doubleTotalWinScore_tc->SetValue(total_dwin_scores);
+
+	  if(this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores > 0){
+		  wxString DplayWinScoresPercent; DplayWinScoresPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores/(float)this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores;
+		  playedHitPercent += " %";
+		  this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue(DplayWinScoresPercent);
+	  }else{
+		  this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue("0");
+	  }
+
+	  //Double total played times & total win times
+	  wxString total_dplay_times; total_dplay_times << this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes;
+	  this->m_resultPanel->m_doubleTotalPlayTimes_tc->SetValue(total_dplay_times);
+
+	  wxString total_dwin_times; total_dwin_times << this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes;
+	  this->m_resultPanel->m_doubleTotalWinTimes_tc->SetValue(total_dwin_times);
+
+	  if(this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes > 0){
+		  wxString DplayWinTimesPercent; DplayWinTimesPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes/(float)this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes;
+		  playWinScoresPercent += " %";
+		  this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue(DplayWinTimesPercent);
+	  }else{
+		  this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue("0");
+	  }
+
+	  //Main game over max win times
+	  wxString mainGameOver; mainGameOver << this->m_gameFrame.m_gameRecord.m_totalMainOverMaxWinTimes;
+	  this->m_resultPanel->m_mainGameOverMaxWinTimes_tc->SetValue(mainGameOver);
+
+	  //Double game over max win times
+	  wxString doubleGameOver; doubleGameOver << this->m_gameFrame.m_gameRecord.m_totalDoubleOverMaxWinTimes;
+	  this->m_resultPanel->m_doubleGameOverMaxWinTimes_tc->SetValue(doubleGameOver);
+
+	  //Double game max consecutive pass times
+	  wxString dconsecutive; dconsecutive << this->m_gameFrame.m_gameRecord.m_maxDoubleContinousWinTimes;
+	  this->m_resultPanel->m_doubleGameMaxConsecutivePassTimes_tc->SetValue(dconsecutive);
+}
+
 void MainFrame::Start(wxCommandEvent& event) {
+	bool RunFlag=true;
+	unsigned long PreviousKeyIn=0;
+
 	LOGI("Start Button", "In Start Button Handle \n");
+
+	if( m_needToReset == true){
+		wxMessageDialog *dial = new wxMessageDialog(NULL,L"Please Press Reset Button",L"ERROR", wxOK | wxICON_ERROR);
+		dial->ShowModal();
+		return;
+	}else if( m_needToReset == false){
+		m_needToReset = true;
+	}
 
 	/* Set Probability Steps */
 	SetSlot1ProStep();
@@ -790,26 +914,136 @@ void MainFrame::Start(wxCommandEvent& event) {
 	SetSlot3ProStep();
 	SetMatchProStep();
 
-	/* Test Get Stop Item */
-	SLOTSTOPSUBFUNC SlotStopSubFunc[3] = {
-			GetSlotLeftStopItem,
-			GetSlotMiddleStopItem,
-			GetSlotRightStopItem
-	};
+	/* Set Options */
+	// Set Max Key In
+	this->m_settingData.m_maxKeyIn = wxAtoi(this->m_optionPanel->m_maxKeyIn_tc->GetValue());
+	LOGD("Setting","Max Key In=%d \n",this->m_settingData.m_maxKeyIn);
 
-	for(int time=0; time<1000; time++){
-		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,this);
-		for(int idx=0; idx<3; idx++){
-			this->m_gameFrame.m_slot[idx].item = SlotStopSubFunc[idx](&this->m_mtRandom,this);
+	// Set Coin Value
+	this->m_settingData.m_coinValue = wxAtoi(this->m_optionPanel->m_coinValueCB->GetValue());
+	LOGD("Setting","Coin Value=%d \n",this->m_settingData.m_coinValue);
+
+	// Set Main Over Max Win
+	this->m_settingData.m_mainGameOverMaxWin = wxAtoi(this->m_optionPanel->m_mainGameMaxWinCB->GetValue());
+	LOGD("Setting","Main Over Max Win=%d \n",this->m_settingData.m_mainGameOverMaxWin);
+
+	// Set Double Over Max Win
+	this->m_settingData.m_doubleGameOverMaxWin = wxAtoi(this->m_optionPanel->m_doubleGameMaxWinCB->GetValue());
+	LOGD("Setting","Double Over Max Win=%d \n",this->m_settingData.m_doubleGameOverMaxWin);
+
+	// Set Max Bet
+	this->m_settingData.m_maxBet = wxAtoi(this->m_optionPanel->m_maxBetCB->GetValue());
+	LOGD("Setting","Max Bet=%d \n",this->m_settingData.m_maxBet);
+
+	unsigned int progressMaxValue = 10000;
+	wxProgressDialog* progressDial = new wxProgressDialog(L"Computing",L"Please Wait",progressMaxValue,NULL,wxPD_AUTO_HIDE|wxPD_APP_MODAL|wxPD_ELAPSED_TIME|wxPD_CAN_ABORT);
+	progressDial->Show();
+
+	while(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin < this->m_settingData.m_maxKeyIn && RunFlag==true){
+		// Check Credit/KeyIn
+		if(this->m_gameFrame.m_gameCredit.m_credit <= 20 * this->m_settingData.m_coinValue){
+			//
+			if((this->m_settingData.m_maxKeyIn - this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) >= 100){
+				this->m_gameFrame.m_gameRecord.m_totalKeyInCoin += 100;
+				this->m_gameFrame.m_gameCredit.m_credit += 100 * this->m_settingData.m_coinValue;
+			}else{
+				this->m_gameFrame.m_gameRecord.m_totalKeyInCoin += (this->m_settingData.m_maxKeyIn - this->m_gameFrame.m_gameRecord.m_totalKeyInCoin);
+				this->m_gameFrame.m_gameCredit.m_credit += (this->m_settingData.m_maxKeyIn - this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) * this->m_settingData.m_coinValue;
+			}
 		}
 
-		GetMatchWin(GetMatchAward(&this->m_gameFrame),50);
-		GetSlotStraightWin(GetSlotStraightAward(&this->m_gameFrame),50);
+		// Bet
+		this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet * 4;
+		this->m_gameFrame.m_gameCredit.m_matchBet = this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_slotBet[0] = this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_slotBet[1] = this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_slotBet[2] = this->m_settingData.m_maxBet;
+
+		// Record
+		this->m_gameFrame.m_gameRecord.m_totalMainPlayScores += this->m_settingData.m_maxBet * 4;
+		this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes++;
+
+		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,this);
+		for(int idx=0; idx<3; idx++){
+			this->m_gameFrame.m_slot[idx].item = m_slotStopSubFunc[idx](&this->m_mtRandom,this);
+		}
+
+		// Get Win
+		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(GetMatchAward(&this->m_gameFrame),this->m_gameFrame.m_gameCredit.m_matchBet);
+		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(GetSlotStraightAward(&this->m_gameFrame),this->m_gameFrame.m_gameCredit.m_slotBet[0]);
+
+		if(this->m_gameFrame.m_gameCredit.m_win > 0){
+			this->m_gameFrame.m_gameCredit.m_credit += this->m_gameFrame.m_gameCredit.m_win;
+			if(this->m_gameFrame.m_gameCredit.m_credit/this->m_settingData.m_coinValue > this->m_settingData.m_mainGameOverMaxWin){
+				this->m_gameFrame.m_gameRecord.m_totalMainOverMaxWinTimes++;
+			}
+
+			// Record
+			this->m_gameFrame.m_gameRecord.m_totalMainWinScores += this->m_gameFrame.m_gameCredit.m_win;
+			this->m_gameFrame.m_gameRecord.m_totalMainWinTimes++;
+
+			this->m_gameFrame.m_gameCredit.m_win = 0;
+		}
+
+		// Check Key Out
+		if(KeyOutCheck(this)==true){
+			while(this->m_gameFrame.m_gameCredit.m_credit >= 100 * this->m_settingData.m_coinValue){
+				this->m_gameFrame.m_gameCredit.m_credit -= 100 * this->m_settingData.m_coinValue;
+				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin += 100;
+				LOGD("KeyOut","Credit=%d,Total Key Out=%d \n",this->m_gameFrame.m_gameCredit.m_credit,this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
+			}
+		}
+
+		// Check Reach Max Key In
+		if((unsigned int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue))==progressMaxValue){
+			m_runOneTest = true;
+		}
+
+		if(PreviousKeyIn != this->m_gameFrame.m_gameRecord.m_totalKeyInCoin){
+			PreviousKeyIn = this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
+			// Update Result Panel
+			this->UpdateResultPanel();
+			// Update Progress Dialog
+			LOGD("Update","Update Value=%d,Total KeyIn=%d \n",
+					(int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue)),
+					this->m_gameFrame.m_gameRecord.m_totalKeyInCoin);
+			if(progressDial->Update((int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue)))==false){
+				progressDial->Destroy();
+				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin += this->m_gameFrame.m_gameCredit.m_credit/this->m_settingData.m_coinValue;
+				this->m_gameFrame.m_gameCredit.m_credit=0;
+				this->UpdateResultPanel();
+				RunFlag = false;
+			}
+
+		}
+
 	}
+
 
 }
 
 void MainFrame::Reset(wxCommandEvent& event) {
 	LOGI("Reset Button", "In Reset Button Handle \n");
+
+	this->ResetResultPanel();
+
+	this->m_gameFrame.Clean();
+	this->m_gameFrame.m_gameCredit.Clean();
+	this->m_gameFrame.m_gameRecord.Clean();
+	this->m_gameFrame.m_match.Clean();
+	this->m_gameFrame.m_slot[0].Clean();
+	this->m_gameFrame.m_slot[1].Clean();
+	this->m_gameFrame.m_slot[2].Clean();
+
+	wxMessageDialog *dial = new wxMessageDialog(NULL,L"Reset All Parameters",L"Information", wxOK | wxICON_INFORMATION);
+	dial->ShowModal();
+
+	if(m_needToReset == true){
+		m_needToReset = false;
+	}
+
+	if(m_runOneTest == true){
+		m_runOneTest = false;
+	}
 }
 

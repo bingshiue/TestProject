@@ -98,6 +98,4 @@ typedef struct MatchProStep{
 
 }MATCHPROSTEP;
 
-
-
 #endif /* PROTYPE_H_ */

@@ -11,6 +11,8 @@
 #include "../include/probability/ProMultiple.h"
 #include "../include/probability/ProSubFunc.h"
 
+extern unsigned int DefaultKeyInOut[10][3];
+
 unsigned int GetSlotLeftStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 	int random = 0;
 	random = mtRandom->getRandomLong(RANDOM_BASE);
@@ -278,4 +280,76 @@ unsigned int GetSlotStraightWin(unsigned int slotStraightAward,unsigned int bet)
 	LOGD("Probability","%s: Slot Straight Win = %d \n",__func__,slotStraightWin);
 
 	return slotStraightWin;
+}
+
+bool KeyOutCheck(MainFrame* mainFrame){
+	bool result;
+	unsigned long w1;
+	unsigned long auto_money;
+	float coin;
+
+	auto_money = mainFrame->m_gameFrame.m_gameCredit.m_credit;
+
+	result = false;
+	coin   = (float)auto_money /(float)(mainFrame->m_settingData.m_coinValue);
+	w1 = mainFrame->m_mtRandom.getRandomLong(1000);
+
+	if (coin > DefaultKeyInOut[0][0] && coin < DefaultKeyInOut[0][1]) {
+		if (w1 < DefaultKeyInOut[0][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[1][0] && coin < DefaultKeyInOut[1][1]) {
+		if (w1 < DefaultKeyInOut[1][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[2][0] && coin < DefaultKeyInOut[2][1]) {
+		if (w1 < DefaultKeyInOut[2][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[3][0] && coin < DefaultKeyInOut[3][1]) {
+		if (w1 < DefaultKeyInOut[3][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[4][0] && coin < DefaultKeyInOut[4][1]) {
+		if (w1 < DefaultKeyInOut[4][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[5][0] && coin < DefaultKeyInOut[5][1]) {
+		if (w1 < DefaultKeyInOut[5][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[6][0] && coin < DefaultKeyInOut[6][1]) {
+		if (w1 < DefaultKeyInOut[6][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[7][0] && coin < DefaultKeyInOut[7][1]) {
+		if (w1 < DefaultKeyInOut[7][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[8][0] && coin < DefaultKeyInOut[8][1]) {
+		if (w1 < DefaultKeyInOut[8][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[9][0] && coin < DefaultKeyInOut[9][1]) {
+		if (w1 < DefaultKeyInOut[9][2])
+		{
+			result = true;
+		}
+	} else if (coin >= DefaultKeyInOut[9][2]) {
+		if (w1 <= 999)//100%
+		{
+			result = true;
+		}
+	}
+
+	return result;
 }

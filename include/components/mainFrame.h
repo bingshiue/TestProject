@@ -17,6 +17,7 @@
 #include <wx/datstrm.h>
 #include <wx/textfile.h>
 #include <wx/tokenzr.h>
+#include "../version.h"
 #include "../log.h"
 #include "../mersenne_twister/MTRandom.h"
 #include "../setting/settingType.h"
@@ -54,6 +55,12 @@ public:
 	SETTINGDATA m_settingData;/**< Setting Data */
 
 	GAMEFRAME m_gameFrame;/**< Game Frame */
+
+	typedef unsigned int (*SLOTSTOPSUBFUNC)(MTRANDOM* mtRandom,MainFrame* mainFrame);
+	SLOTSTOPSUBFUNC m_slotStopSubFunc[3];/**< Slot Stop Functions */
+
+	bool m_needToReset;/**< Need To Reset */
+	bool m_runOneTest;/**< Run One Test */
 
 	wxPanel *m_parent;/**< Parent Panel */
 	wxNotebook *m_noteBook;/**< Note Book */
@@ -142,6 +149,16 @@ public:
 	 * @brief Set Match Probability Step.
 	 */
 	void SetMatchProStep(void);
+
+	/**
+	 * @brief Reset Result Panel.
+	 */
+	void ResetResultPanel(void);
+
+	/**
+	 * @brief Update Result Panel.
+	 */
+	void UpdateResultPanel(void);
 
 	/**
 	 * @brief Start.
