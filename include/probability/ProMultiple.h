@@ -9,10 +9,10 @@
 unsigned int MatchAwardMulTable[10]={
 		0,  /**< Match None */
 		2,  /**< Match Cherry */
-		3,  /**< Match Orange */
-		5,  /**< Match Apple */
-		10, /**< Match Coin */
-		20, /**< Match Bar */
+		5,  /**< Match Orange */
+		7,  /**< Match Apple */
+		12, /**< Match Coin */
+		25, /**< Match Bar */
 		50, /**< Match Diamond */
 		100,/**< Match Crown */
 		0,  /**< Match Multiple */
