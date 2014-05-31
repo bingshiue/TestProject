@@ -19,11 +19,11 @@ MatchItemPanel::MatchItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,
 	this->mItem_cherry_label = new wxStaticText(this,wxID_ANY,L"CHERRY",wxDefaultPosition,wxDefaultSize);
 	    this->mItem_cherry_tc = new wxTextCtrl(this,CID_MATCH_ITEM_CHERRY,L"",wxDefaultPosition,wxSize(50,22),0,validator);
 
-	this->mItem_orange_label = new wxStaticText(this,wxID_ANY,L"ORANGE",wxDefaultPosition,wxDefaultSize);
-		this->mItem_orange_tc = new wxTextCtrl(this,CID_MATCH_ITEM_ORANGE,L"",wxDefaultPosition,wxSize(50,22),0,validator);
-
 	this->mItem_apple_label = new wxStaticText(this,wxID_ANY,L"APPLE",wxDefaultPosition,wxDefaultSize);
 		this->mItem_apple_tc = new wxTextCtrl(this,CID_MATCH_ITEM_APPLE,L"",wxDefaultPosition,wxSize(50,22),0,validator);
+
+	this->mItem_orange_label = new wxStaticText(this,wxID_ANY,L"ORANGE",wxDefaultPosition,wxDefaultSize);
+		this->mItem_orange_tc = new wxTextCtrl(this,CID_MATCH_ITEM_ORANGE,L"",wxDefaultPosition,wxSize(50,22),0,validator);
 
 	this->mItem_coin_label = new wxStaticText(this,wxID_ANY,L"COIN",wxDefaultPosition,wxDefaultSize);
 		this->mItem_coin_tc = new wxTextCtrl(this,CID_MATCH_ITEM_COIN,L"",wxDefaultPosition,wxSize(50,22),0,validator);
@@ -51,11 +51,11 @@ MatchItemPanel::MatchItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,
 	this->m_gridSz->Add(this->mItem_cherry_label,0);
 	this->m_gridSz->Add(this->mItem_cherry_tc,0);
 
-	this->m_gridSz->Add(this->mItem_orange_label,0);
-	this->m_gridSz->Add(this->mItem_orange_tc,0);
-
 	this->m_gridSz->Add(this->mItem_apple_label,0);
 	this->m_gridSz->Add(this->mItem_apple_tc,0);
+
+	this->m_gridSz->Add(this->mItem_orange_label,0);
+	this->m_gridSz->Add(this->mItem_orange_tc,0);
 
 	this->m_gridSz->Add(this->mItem_coin_label,0);
 	this->m_gridSz->Add(this->mItem_coin_tc,0);
@@ -83,8 +83,8 @@ MatchItemPanel::MatchItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,
 	this->SetSizer(this->m_sz,true);
 
 	this->mItem_cherry_tc->SetMaxLength(4);
-	this->mItem_orange_tc->SetMaxLength(4);
 	this->mItem_apple_tc->SetMaxLength(4);
+	this->mItem_orange_tc->SetMaxLength(4);
 	this->mItem_coin_tc->SetMaxLength(4);
 	this->mItem_bar_tc->SetMaxLength(4);
 	this->mItem_diamond_tc->SetMaxLength(4);
@@ -93,8 +93,8 @@ MatchItemPanel::MatchItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,
 	this->mItem_train_tc->SetMaxLength(4);
 
 	Connect(CID_MATCH_ITEM_CHERRY,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
-	Connect(CID_MATCH_ITEM_ORANGE,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
 	Connect(CID_MATCH_ITEM_APPLE,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
+	Connect(CID_MATCH_ITEM_ORANGE,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
 	Connect(CID_MATCH_ITEM_COIN,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
 	Connect(CID_MATCH_ITEM_BAR,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
 	Connect(CID_MATCH_ITEM_DIAMOND,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(MatchItemPanel::AfterEdit));
