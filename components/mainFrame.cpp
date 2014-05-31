@@ -836,7 +836,7 @@ void MainFrame::UpdateResultPanel(void){
 	  wxString total_win_scores; total_win_scores << this->m_gameFrame.m_gameRecord.m_totalMainWinScores;
 	  this->m_resultPanel->m_totalWinScore_tc->SetValue(total_win_scores);
 
-	  wxString playWinScoresPercent; playWinScoresPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalMainPlayScores/(float)this->m_gameFrame.m_gameRecord.m_totalMainWinScores;
+	  wxString playWinScoresPercent; playWinScoresPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalMainWinScores/(float)this->m_gameFrame.m_gameRecord.m_totalMainPlayScores;
 	  playWinScoresPercent += " %";
 	  this->m_resultPanel->m_PlayWinScorePercent_tc->SetValue(playWinScoresPercent);
 
