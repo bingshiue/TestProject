@@ -228,13 +228,13 @@ void MainFrame::setSlotItemPanelLeftDefaultValue(void) {
 	item1Value << DEFAULT_SLOT_1_CHERRY;
 	this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(item1Value);
 
-	wxString item2Value;
-	item2Value << DEFAULT_SLOT_1_ORANGE;
-	this->m_slotItemPanel_left->mItem_orange_tc->SetValue(item2Value);
-
 	wxString item3Value;
 	item3Value << DEFAULT_SLOT_1_APPLE;
 	this->m_slotItemPanel_left->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item2Value;
+	item2Value << DEFAULT_SLOT_1_ORANGE;
+	this->m_slotItemPanel_left->mItem_orange_tc->SetValue(item2Value);
 
 	wxString item4Value;
 	item4Value << DEFAULT_SLOT_1_COIN;
@@ -266,13 +266,13 @@ void MainFrame::setSlotItemPanelMiddleDefaultValue(void) {
 	item1Value << DEFAULT_SLOT_2_CHERRY;
 	this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(item1Value);
 
-	wxString item2Value;
-	item2Value << DEFAULT_SLOT_2_ORANGE;
-	this->m_slotItemPanel_middle->mItem_orange_tc->SetValue(item2Value);
-
 	wxString item3Value;
 	item3Value << DEFAULT_SLOT_2_APPLE;
 	this->m_slotItemPanel_middle->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item2Value;
+	item2Value << DEFAULT_SLOT_2_ORANGE;
+	this->m_slotItemPanel_middle->mItem_orange_tc->SetValue(item2Value);
 
 	wxString item4Value;
 	item4Value << DEFAULT_SLOT_2_COIN;
@@ -304,13 +304,13 @@ void MainFrame::setSlotItemPanelRightDefaultValue(void) {
 	item1Value << DEFAULT_SLOT_3_CHERRY;
 	this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(item1Value);
 
-	wxString item2Value;
-	item2Value << DEFAULT_SLOT_3_ORANGE;
-	this->m_slotItemPanel_right->mItem_orange_tc->SetValue(item2Value);
-
 	wxString item3Value;
 	item3Value << DEFAULT_SLOT_3_APPLE;
 	this->m_slotItemPanel_right->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item2Value;
+	item2Value << DEFAULT_SLOT_3_ORANGE;
+	this->m_slotItemPanel_right->mItem_orange_tc->SetValue(item2Value);
 
 	wxString item4Value;
 	item4Value << DEFAULT_SLOT_3_COIN;
@@ -342,13 +342,13 @@ void MainFrame::setMatchItemPanelDefaultValue(void) {
 	item1Value << DEFAULT_MATCH_CHERRY;
 	this->m_matchItemPanel->mItem_cherry_tc->SetValue(item1Value);
 
-	wxString item2Value;
-	item2Value << DEFAULT_MATCH_ORANGE;
-	this->m_matchItemPanel->mItem_orange_tc->SetValue(item2Value);
-
 	wxString item3Value;
 	item3Value << DEFAULT_MATCH_APPLE;
 	this->m_matchItemPanel->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item2Value;
+	item2Value << DEFAULT_MATCH_ORANGE;
+	this->m_matchItemPanel->mItem_orange_tc->SetValue(item2Value);
 
 	wxString item4Value;
 	item4Value << DEFAULT_MATCH_COIN;
@@ -494,38 +494,38 @@ void MainFrame::SetSlot1ProStep(void) {
 	//step 2
 	m_slot1Step.step2 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue());
 	//step 3
 	m_slot1Step.step3 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue());
 	//step 4
 	m_slot1Step.step4 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_coin_tc->GetValue());
 	//step 5
 	m_slot1Step.step5 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_bar_tc->GetValue());
 	//step 6
 	m_slot1Step.step6 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_diamond_tc->GetValue());
 	//step 7
 	m_slot1Step.step7 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_diamond_tc->GetValue())
@@ -533,8 +533,8 @@ void MainFrame::SetSlot1ProStep(void) {
 	//step 8
 	m_slot1Step.step8 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_diamond_tc->GetValue())
@@ -543,8 +543,8 @@ void MainFrame::SetSlot1ProStep(void) {
 	//step 9
 	m_slot1Step.step9 = wxAtoi(
 			this->m_slotItemPanel_left->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_left->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_diamond_tc->GetValue())
@@ -566,39 +566,39 @@ void MainFrame::SetSlot2ProStep(void) {
 	//step 2
 	m_slot2Step.step2 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue());
 	//step 3
 	m_slot2Step.step3 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue());
+
 	//step 4
 	m_slot2Step.step4 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_coin_tc->GetValue());
 	//step 5
 	m_slot2Step.step5 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_bar_tc->GetValue());
 	//step 6
 	m_slot2Step.step6 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_bar_tc->GetValue())
-			+ wxAtoi(
-					this->m_slotItemPanel_middle->mItem_diamond_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_diamond_tc->GetValue());
 	//step 7
 	m_slot2Step.step7 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_diamond_tc->GetValue())
@@ -607,9 +607,9 @@ void MainFrame::SetSlot2ProStep(void) {
 	m_slot2Step.step8 =
 			wxAtoi(this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
 					+ wxAtoi(
-							this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
-					+ wxAtoi(
 							this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+					+ wxAtoi(
+							this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 					+ wxAtoi(
 							this->m_slotItemPanel_middle->mItem_coin_tc->GetValue())
 					+ wxAtoi(
@@ -624,9 +624,9 @@ void MainFrame::SetSlot2ProStep(void) {
 	m_slot2Step.step9 =
 			wxAtoi(this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
 					+ wxAtoi(
-							this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
-					+ wxAtoi(
 							this->m_slotItemPanel_middle->mItem_apple_tc->GetValue())
+					+ wxAtoi(
+							this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 					+ wxAtoi(
 							this->m_slotItemPanel_middle->mItem_coin_tc->GetValue())
 					+ wxAtoi(
@@ -654,38 +654,38 @@ void MainFrame::SetSlot3ProStep(void) {
 	//step 2
 	m_slot3Step.step2 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue());
 	//step 3
 	m_slot3Step.step3 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue());
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue());
 	//step 4
 	m_slot3Step.step4 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_coin_tc->GetValue());
 	//step 5
 	m_slot3Step.step5 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_bar_tc->GetValue());
 	//step 6
 	m_slot3Step.step6 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_diamond_tc->GetValue());
 	//step 7
 	m_slot3Step.step7 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_diamond_tc->GetValue())
@@ -693,8 +693,8 @@ void MainFrame::SetSlot3ProStep(void) {
 	//step 8
 	m_slot3Step.step8 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_diamond_tc->GetValue())
@@ -703,8 +703,8 @@ void MainFrame::SetSlot3ProStep(void) {
 	//step 9
 	m_slot3Step.step9 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_slotItemPanel_right->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_diamond_tc->GetValue())
@@ -726,38 +726,38 @@ void MainFrame::SetMatchProStep(void) {
 	//step 2
 	m_matchStep.step2 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue());
+			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue());
 	//step 3
 	m_matchStep.step3 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue());
+			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue());
 	//step 4
 	m_matchStep.step4 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_coin_tc->GetValue());
 	//step 5
 	m_matchStep.step5 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_bar_tc->GetValue());
 	//step 6
 	m_matchStep.step6 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_diamond_tc->GetValue());
 	//step 7
 	m_matchStep.step7 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_diamond_tc->GetValue())
@@ -765,8 +765,8 @@ void MainFrame::SetMatchProStep(void) {
 	//step 8
 	m_matchStep.step8 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_diamond_tc->GetValue())
@@ -775,8 +775,8 @@ void MainFrame::SetMatchProStep(void) {
 	//step 9
 	m_matchStep.step9 = wxAtoi(
 			this->m_matchItemPanel->mItem_cherry_tc->GetValue())
-			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchItemPanel->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_diamond_tc->GetValue())

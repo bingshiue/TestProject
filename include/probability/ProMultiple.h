@@ -9,8 +9,8 @@
 unsigned int MatchAwardMulTable[10]={
 		0,  /**< Match None */
 		2,  /**< Match Cherry */
-		5,  /**< Match Orange */
-		7,  /**< Match Apple */
+		5,  /**< Match Apple */
+		7,  /**< Match Orange */
 		12, /**< Match Coin */
 		25, /**< Match Bar */
 		50, /**< Match Diamond */
@@ -22,8 +22,8 @@ unsigned int MatchAwardMulTable[10]={
 unsigned int SlotAwardMulTable[10]={
 		0,  /**< None */
 		10, /**< Cherry Straight */
-		15, /**< Orange Straight */
-		20, /**< Apple Straight */
+		15, /**< Apple Straight */
+		20, /**< Orange Straight */
 		30, /**< Coin Straight */
 		50, /**< Bar Straight */
 		150,/**< Diamond  Straight */

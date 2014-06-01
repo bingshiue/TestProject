@@ -10,8 +10,8 @@
 enum MATCH_AWARD {
 	match_award_none = 0,    /**< Match Award None */
 	match_award_cherry,      /**< Match Award Cherry */
-	match_award_orange,      /**< Match Award Orange */
 	match_award_apple,       /**< Match Award Apple */
+	match_award_orange,      /**< Match Award Orange */
 	match_award_coin,        /**< Match Award Coin */
 	match_award_bar,         /**< Match Award Bar */
 	match_award_diamond,     /**< Match Award Diamond */
@@ -24,8 +24,8 @@ enum MATCH_AWARD {
 enum STRAIGHT_AWARD {
 	straight_award_none = 0, /**< Straight Award None */
 	straight_award_cherry,   /**< Straight Award Cherry */
-	straight_award_orange,   /**< Straight Award Orange */
 	straight_award_apple,    /**< Straight Award Apple */
+	straight_award_orange,   /**< Straight Award Orange */
 	straight_award_coin,     /**< Straight Award Coin */
 	straight_award_bar,      /**< Straight Award Bar */
 	straight_award_diamond,  /**< Straight Award Diamond */

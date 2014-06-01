@@ -24,9 +24,9 @@ unsigned int GetSlotLeftStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 	if (random < leftSlotStep->step1)
 		ret = slot_item_cherry;
 	else if (random >= leftSlotStep->step1 && random < leftSlotStep->step2)
-		ret = slot_item_orange;
-	else if (random >= leftSlotStep->step2 && random < leftSlotStep->step3)
 		ret = slot_item_apple;
+	else if (random >= leftSlotStep->step2 && random < leftSlotStep->step3)
+		ret = slot_item_orange;
 	else if (random >= leftSlotStep->step3 && random < leftSlotStep->step4)
 		ret = slot_item_coin;
 	else if (random >= leftSlotStep->step4 && random < leftSlotStep->step5)
@@ -42,7 +42,7 @@ unsigned int GetSlotLeftStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Stop Item = %d \n", ret);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
 
 	return ret;
 }
@@ -58,9 +58,9 @@ unsigned int GetSlotMiddleStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 	if (random < middleSlotStep->step1)
 		ret = slot_item_cherry;
 	else if (random >= middleSlotStep->step1 && random < middleSlotStep->step2)
-		ret = slot_item_orange;
-	else if (random >= middleSlotStep->step2 && random < middleSlotStep->step3)
 		ret = slot_item_apple;
+	else if (random >= middleSlotStep->step2 && random < middleSlotStep->step3)
+		ret = slot_item_orange;
 	else if (random >= middleSlotStep->step3 && random < middleSlotStep->step4)
 		ret = slot_item_coin;
 	else if (random >= middleSlotStep->step4 && random < middleSlotStep->step5)
@@ -76,7 +76,7 @@ unsigned int GetSlotMiddleStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Stop Item = %d \n", ret);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
 
 	return ret;
 }
@@ -92,9 +92,9 @@ unsigned int GetSlotRightStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 	if (random < rightSlotStep->step1)
 		ret = slot_item_cherry;
 	else if (random >= rightSlotStep->step1 && random < rightSlotStep->step2)
-		ret = slot_item_orange;
-	else if (random >= rightSlotStep->step2 && random < rightSlotStep->step3)
 		ret = slot_item_apple;
+	else if (random >= rightSlotStep->step2 && random < rightSlotStep->step3)
+		ret = slot_item_orange;
 	else if (random >= rightSlotStep->step3 && random < rightSlotStep->step4)
 		ret = slot_item_coin;
 	else if (random >= rightSlotStep->step4 && random < rightSlotStep->step5)
@@ -110,7 +110,7 @@ unsigned int GetSlotRightStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Stop Item = %d \n", ret);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
 
 	return ret;
 }
@@ -126,9 +126,9 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 	if (random < matchStep->step1)
 		ret = match_item_cherry;
 	else if (random >= matchStep->step1 && random < matchStep->step2)
-		ret = match_item_orange;
-	else if (random >= matchStep->step2 && random < matchStep->step3)
 		ret = match_item_apple;
+	else if (random >= matchStep->step2 && random < matchStep->step3)
+		ret = match_item_orange;
 	else if (random >= matchStep->step3 && random < matchStep->step4)
 		ret = match_item_coin;
 	else if (random >= matchStep->step4 && random < matchStep->step5)
@@ -144,7 +144,7 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Stop Item = %d \n", ret);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
 
 	return ret;
 }
@@ -170,11 +170,11 @@ unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
 		case match_item_cherry:
 			award = match_award_cherry;
 			break;
-		case match_item_orange:
-			award = match_award_orange;
-			break;
 		case match_item_apple:
 			award = match_award_apple;
+			break;
+		case match_item_orange:
+			award = match_award_orange;
 			break;
 		case match_item_coin:
 			award = match_award_coin;
@@ -228,11 +228,11 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
 		case slot_item_cherry:
 			award = straight_award_cherry;
 			break;
-		case slot_item_orange:
-			award = straight_award_orange;
-			break;
 		case slot_item_apple:
 			award = straight_award_apple;
+			break;
+		case slot_item_orange:
+			award = straight_award_orange;
 			break;
 		case slot_item_coin:
 			award = straight_award_coin;
