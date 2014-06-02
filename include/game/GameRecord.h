@@ -6,6 +6,8 @@
 #ifndef GAMERECORD_H_
 #define GAMERECORD_H_
 
+#include "../probability/ProAward.h"
+
 typedef struct _GameRecord{
 	unsigned long m_totalKeyInCoin;/**< Total Key In Coins */
 	unsigned long m_totalKeyOutCoin;/**< Total Key Out Coins */
@@ -20,6 +22,9 @@ typedef struct _GameRecord{
 	unsigned long m_totalMainOverMaxWinTimes;/**< Total Main Over Max Win Times */
 	unsigned long m_totalDoubleOverMaxWinTimes;/**< Total Double Over Max Win Times */
 	unsigned long m_maxDoubleContinousWinTimes;/**< Max Double Continous Win Times */
+
+	unsigned long m_matchAwardRec[NUM_MTACH_AWARDS];/**< Match Award Size */
+	unsigned long m_slotAwardRec[NUM_STRAIGHT_AWARDS];/**< Straight Award Size */
 
 	/**
 	 * @brief Clean All Member
@@ -38,6 +43,8 @@ typedef struct _GameRecord{
 		m_totalMainOverMaxWinTimes=0;
 		m_totalDoubleOverMaxWinTimes=0;
 		m_maxDoubleContinousWinTimes=0;
+		for(unsigned int idx=0;idx<sizeof(m_matchAwardRec)/sizeof(m_matchAwardRec[0]);idx++) m_matchAwardRec[idx]=0;
+		for(unsigned int idx=0;idx<sizeof(m_slotAwardRec)/sizeof(m_slotAwardRec[0]);idx++) m_slotAwardRec[idx]=0;
 	}
 
 	/**

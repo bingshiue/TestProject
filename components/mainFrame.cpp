@@ -894,6 +894,47 @@ void MainFrame::UpdateResultPanel(void){
 	  this->m_resultPanel->m_doubleGameMaxConsecutivePassTimes_tc->SetValue(dconsecutive);
 }
 
+void MainFrame::PrintAwardDetail(void){
+	const char *matchAwardStr[NUM_MTACH_AWARDS] = {
+		"Match Award None",
+		"Match Award Cherry",
+		"Match Award Apple",
+		"Match Award Orange",
+		"Match Award Coin",
+		"Match Award Bar",
+		"Match Award Diamond",
+		"Match Award Crown",
+		"Match Award Multiple",
+		"Match Award Train",
+	};
+
+	const char *slotAwardStr[NUM_STRAIGHT_AWARDS] = {
+		"Slot Award None",
+		"Slot Award Cherry",
+		"Slot Award Apple",
+		"Slot Award Orange",
+		"Slot Award Coin",
+		"Slot Award Bar",
+		"Slot Award Diamond",
+		"Slot Award Crown",
+		"Slot Award Freecoin",
+		"Slot Award Roulette",
+	};
+
+
+	LOGI("Probability","----- Match Award Detail -----\n");
+	for(unsigned int idx=0; idx<NUM_MTACH_AWARDS; idx++){
+		LOGI("Probability","%s : %d \n",matchAwardStr[idx],this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx]);
+	}
+	LOGI("Probability","------------------------------\n");
+
+	LOGI("Probability","----- Slot Award Detail -----\n");
+	for(unsigned int idx=0; idx<NUM_STRAIGHT_AWARDS; idx++){
+		LOGI("Probability","%s : %d \n",slotAwardStr[idx],this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]);
+	}
+	LOGI("Probability","------------------------------\n");
+}
+
 void MainFrame::Start(wxCommandEvent& event) {
 	bool RunFlag=true;
 	unsigned long PreviousKeyIn=0;
@@ -963,14 +1004,19 @@ void MainFrame::Start(wxCommandEvent& event) {
 		this->m_gameFrame.m_gameRecord.m_totalMainPlayScores += this->m_settingData.m_maxBet * 4;
 		this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes++;
 
+		// Get Match Stop Item
 		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,this);
+		// Get Slot Stop Item
 		for(int idx=0; idx<3; idx++){
 			this->m_gameFrame.m_slot[idx].item = m_slotStopSubFunc[idx](&this->m_mtRandom,this);
 		}
 
 		// Get Win
-		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(GetMatchAward(&this->m_gameFrame),this->m_gameFrame.m_gameCredit.m_matchBet);
-		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(GetSlotStraightAward(&this->m_gameFrame),this->m_gameFrame.m_gameCredit.m_slotBet[0]);
+		this->m_gameFrame.m_matchAwardType = GetMatchAward(&this->m_gameFrame);
+		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(this->m_gameFrame.m_matchAwardType,this->m_gameFrame.m_gameCredit.m_matchBet);
+
+		this->m_gameFrame.m_slotAwardType = GetSlotStraightAward(&this->m_gameFrame);
+		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(this->m_gameFrame.m_slotAwardType,this->m_gameFrame.m_gameCredit.m_slotBet[0]);
 
 		if(this->m_gameFrame.m_gameCredit.m_win > 0){
 			this->m_gameFrame.m_gameCredit.m_credit += this->m_gameFrame.m_gameCredit.m_win;
@@ -979,6 +1025,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 			}
 
 			// Record
+			this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
+			this->m_gameFrame.m_gameRecord.m_slotAwardRec[this->m_gameFrame.m_slotAwardType]++;
+
 			this->m_gameFrame.m_gameRecord.m_totalMainWinScores += this->m_gameFrame.m_gameCredit.m_win;
 			this->m_gameFrame.m_gameRecord.m_totalMainWinTimes++;
 
@@ -1007,6 +1056,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 			LOGD("Update","Update Value=%d,Total KeyIn=%d \n",
 					(int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue)),
 					this->m_gameFrame.m_gameRecord.m_totalKeyInCoin);
+			this->PrintAwardDetail();
 			if(progressDial->Update((int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue)))==false){
 				progressDial->Destroy();
 				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin += this->m_gameFrame.m_gameCredit.m_credit/this->m_settingData.m_coinValue;

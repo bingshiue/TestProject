@@ -18,6 +18,7 @@ enum MATCH_AWARD {
 	match_award_crown,       /**< Match Award Crown */
 	match_award_multiple,    /**< Match Award Multiple */
 	match_award_train,       /**< Match Award Train */
+	NUM_MTACH_AWARDS         /**< Match Award Size */
 
 };/**< Match Award */
 
@@ -32,8 +33,8 @@ enum STRAIGHT_AWARD {
 	straight_award_crown,    /**< Straight Award Crown */
 	straight_award_freecoin, /**< Straight Award Freecoin */
 	straight_award_roulette, /**< Straight Award Roulette */
+	NUM_STRAIGHT_AWARDS      /**< Straight Award Size */
 
 };/**< Straight Award */
-
 
 #endif /* AWARD_H_ */

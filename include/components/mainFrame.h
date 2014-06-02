@@ -22,6 +22,7 @@
 #include "../mersenne_twister/MTRandom.h"
 #include "../setting/settingType.h"
 #include "../probability/ProType.h"
+#include "../probability/ProAward.h"
 #include "../game/GameFrame.h"
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
@@ -160,6 +161,10 @@ public:
 	 */
 	void UpdateResultPanel(void);
 
+	/**
+	 * @brief Print Award Detail.
+	 */
+	void PrintAwardDetail(void);
 	/**
 	 * @brief Start.
 	 */

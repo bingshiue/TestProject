@@ -6,7 +6,9 @@
 #ifndef PROMULTIPLE_H_
 #define PROMULTIPLE_H_
 
-unsigned int MatchAwardMulTable[10]={
+#include "ProAward.h"
+
+unsigned int MatchAwardMulTable[NUM_MTACH_AWARDS]={
 		0,  /**< Match None */
 		2,  /**< Match Cherry */
 		5,  /**< Match Apple */
@@ -19,7 +21,7 @@ unsigned int MatchAwardMulTable[10]={
 		0   /**< Match Train */
 };/**< Match Award Multiple Table */
 
-unsigned int SlotAwardMulTable[10]={
+unsigned int SlotAwardMulTable[NUM_STRAIGHT_AWARDS]={
 		0,  /**< None */
 		10, /**< Cherry Straight */
 		15, /**< Apple Straight */

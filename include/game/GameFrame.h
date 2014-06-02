@@ -7,6 +7,7 @@
 #define GAMEFRAME_H_
 
 #include "../probability/ProItem.h"
+#include "../probability/ProAward.h"
 #include "GameCredit.h"
 #include "GameRecord.h"
 
@@ -56,11 +57,16 @@ typedef struct _GameFrame{
 	MATCH m_match;/**< Match */
 	SLOT m_slot[3];/**< Slot */
 	unsigned int m_table[TABLE_SIZE];/**< Table */
+	unsigned int m_matchAwardType;/**< Match Award Type */
+	unsigned int m_slotAwardType;/**< Slot Award Type */
 
 	/**
 	 * @brief Clean.
 	 */
 	void Clean(void){
+		// Reset Match/Slot Award Type
+		m_matchAwardType = match_award_none;
+		m_slotAwardType = straight_award_none;
 		// Setup Table
 		m_table[0]=match_item_orange;  //  0
 		m_table[1]=match_item_cherry;  //  1

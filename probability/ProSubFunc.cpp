@@ -42,7 +42,7 @@ unsigned int GetSlotLeftStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
 
 	return ret;
 }
@@ -76,7 +76,7 @@ unsigned int GetSlotMiddleStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
 
 	return ret;
 }
@@ -110,7 +110,7 @@ unsigned int GetSlotRightStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
 
 	return ret;
 }
@@ -144,7 +144,7 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
-	LOGD(__func__, "Random=%d,Stop Item=%d \n", ret,random);
+	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
 
 	return ret;
 }
