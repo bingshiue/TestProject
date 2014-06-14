@@ -164,16 +164,35 @@ public:
 	/**
 	 * @brief Print Award Detail.
 	 */
-	void PrintAwardDetail(void);
+	void PrintAwardDetail();
+	/**
+	 * @brief Print Award Detail(To wxTextOutputStream).
+	 */
+	void PrintAwardDetail(wxTextOutputStream& store);
 	/**
 	 * @brief Start.
 	 */
 	void Start(wxCommandEvent& event);
-
 	/**
 	 * @brief Reset.
 	 */
 	void Reset(wxCommandEvent& event);
+	/**
+	 * @brief Save File.
+	 */
+	void SaveFile(wxCommandEvent& event);
+	/**
+	 * @brief Save data content to file.
+	 */
+	void SaveFileContent(wxTextOutputStream& store);
+	/**
+	 * @brief Load file.
+	 */
+	void LoadFile(wxCommandEvent& event);
+	/**
+	 * @brief Load data from file.
+	 */
+	void LoadFileContent(wxString filePath);
 
 };
 

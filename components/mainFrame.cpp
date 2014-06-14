@@ -168,6 +168,12 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Set Menu Bar */
 	SetMenuBar(m_menubar);
 
+	/* Connect SaveFile To CID_SAVE_MENU */
+	Connect(CID_SAVE_MENU, wxEVT_COMMAND_MENU_SELECTED,
+			wxCommandEventHandler(MainFrame::SaveFile));
+	/* Connect LoadFile To CID_LOAD_MENU */
+	Connect(CID_LOAD_MENU, wxEVT_COMMAND_MENU_SELECTED,
+			wxCommandEventHandler(MainFrame::LoadFile));
 	/* Connect OnQuit To wxID_EXIT */
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
 			wxCommandEventHandler(MainFrame::OnQuit));
@@ -220,7 +226,7 @@ void MainFrame::OnAbout(wxCommandEvent& event) {
 	buildDate += __TIME__;
 
 	wxMessageBox(buildDate, L"CrownTrain Probability Compute Tool",
-			wxOK | wxICON_INFORMATION, this);
+	wxOK | wxICON_INFORMATION, this);
 }
 
 void MainFrame::setSlotItemPanelLeftDefaultValue(void) {
@@ -593,7 +599,8 @@ void MainFrame::SetSlot2ProStep(void) {
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_orange_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_coin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_middle->mItem_bar_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_middle->mItem_diamond_tc->GetValue());
+			+ wxAtoi(
+					this->m_slotItemPanel_middle->mItem_diamond_tc->GetValue());
 	//step 7
 	m_slot2Step.step7 = wxAtoi(
 			this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue())
@@ -699,7 +706,8 @@ void MainFrame::SetSlot3ProStep(void) {
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_bar_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_diamond_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_crown_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_freecoin_tc->GetValue());
+			+ wxAtoi(
+					this->m_slotItemPanel_right->mItem_freecoin_tc->GetValue());
 	//step 9
 	m_slot3Step.step9 = wxAtoi(
 			this->m_slotItemPanel_right->mItem_cherry_tc->GetValue())
@@ -710,7 +718,8 @@ void MainFrame::SetSlot3ProStep(void) {
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_diamond_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_crown_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_right->mItem_freecoin_tc->GetValue())
-			+ wxAtoi(this->m_slotItemPanel_right->mItem_roulette_tc->GetValue());
+			+ wxAtoi(
+					this->m_slotItemPanel_right->mItem_roulette_tc->GetValue());
 
 	LOGD("Probability",
 			"Set Slot 3 Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
@@ -791,7 +800,7 @@ void MainFrame::SetMatchProStep(void) {
 			m_matchStep.step7, m_matchStep.step8, m_matchStep.step9);
 }
 
-void MainFrame::ResetResultPanel(void){
+void MainFrame::ResetResultPanel(void) {
 	this->m_resultPanel->m_totalKeyIn_tc->SetValue("0");
 	this->m_resultPanel->m_totalKeyOut_tc->SetValue("0");
 	this->m_resultPanel->m_keyInOutPercent_tc->SetValue("0");
@@ -817,135 +826,188 @@ void MainFrame::ResetResultPanel(void){
 	this->m_resultPanel->m_doubleGameMaxConsecutivePassTimes_tc->SetValue("0");
 }
 
-void MainFrame::UpdateResultPanel(void){
-	  //Total Key In coins & Key Out coins
-	  wxString total_keyin_coins; total_keyin_coins << this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
-	  this->m_resultPanel->m_totalKeyIn_tc->SetValue(total_keyin_coins);
+void MainFrame::UpdateResultPanel(void) {
+	//Total Key In coins & Key Out coins
+	wxString total_keyin_coins;
+	total_keyin_coins << this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
+	this->m_resultPanel->m_totalKeyIn_tc->SetValue(total_keyin_coins);
 
-	  wxString total_keyout_coins; total_keyout_coins << this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin;
-	  this->m_resultPanel->m_totalKeyOut_tc->SetValue(total_keyout_coins);
+	wxString total_keyout_coins;
+	total_keyout_coins << this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin;
+	this->m_resultPanel->m_totalKeyOut_tc->SetValue(total_keyout_coins);
 
-	  wxString keyinKeyOutPercent; keyinKeyOutPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin/(float)this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
-	  keyinKeyOutPercent += " %";
-	  this->m_resultPanel->m_keyInOutPercent_tc->SetValue(keyinKeyOutPercent);
+	wxString keyinKeyOutPercent;
+	keyinKeyOutPercent
+			<< 100 * (float) this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin
+					/ (float) this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
+	keyinKeyOutPercent += " %";
+	this->m_resultPanel->m_keyInOutPercent_tc->SetValue(keyinKeyOutPercent);
 
-	  //Total main play scores & Total main win scores
-	  wxString total_play_scores; total_play_scores << this->m_gameFrame.m_gameRecord.m_totalMainPlayScores;
-	  this->m_resultPanel->m_totalPlayScore_tc->SetValue(total_play_scores);
+	//Total main play scores & Total main win scores
+	wxString total_play_scores;
+	total_play_scores << this->m_gameFrame.m_gameRecord.m_totalMainPlayScores;
+	this->m_resultPanel->m_totalPlayScore_tc->SetValue(total_play_scores);
 
-	  wxString total_win_scores; total_win_scores << this->m_gameFrame.m_gameRecord.m_totalMainWinScores;
-	  this->m_resultPanel->m_totalWinScore_tc->SetValue(total_win_scores);
+	wxString total_win_scores;
+	total_win_scores << this->m_gameFrame.m_gameRecord.m_totalMainWinScores;
+	this->m_resultPanel->m_totalWinScore_tc->SetValue(total_win_scores);
 
-	  wxString playWinScoresPercent; playWinScoresPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalMainWinScores/(float)this->m_gameFrame.m_gameRecord.m_totalMainPlayScores;
-	  playWinScoresPercent += " %";
-	  this->m_resultPanel->m_PlayWinScorePercent_tc->SetValue(playWinScoresPercent);
+	wxString playWinScoresPercent;
+	playWinScoresPercent
+			<< 100 * (float) this->m_gameFrame.m_gameRecord.m_totalMainWinScores
+					/ (float) this->m_gameFrame.m_gameRecord.m_totalMainPlayScores;
+	playWinScoresPercent += " %";
+	this->m_resultPanel->m_PlayWinScorePercent_tc->SetValue(
+			playWinScoresPercent);
 
-	  //Total main played times & Total main win times
-	  wxString total_play_times; total_play_times << this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes;
-	  this->m_resultPanel->m_totalPlayTimes_tc->SetValue(total_play_times);
+	//Total main played times & Total main win times
+	wxString total_play_times;
+	total_play_times << this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes;
+	this->m_resultPanel->m_totalPlayTimes_tc->SetValue(total_play_times);
 
-	  wxString total_win_times; total_win_times << this->m_gameFrame.m_gameRecord.m_totalMainWinTimes;
-	  this->m_resultPanel->m_totalWinTimes_tc->SetValue(total_win_times);
+	wxString total_win_times;
+	total_win_times << this->m_gameFrame.m_gameRecord.m_totalMainWinTimes;
+	this->m_resultPanel->m_totalWinTimes_tc->SetValue(total_win_times);
 
-	  wxString playedHitPercent; playedHitPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalMainWinTimes/this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes;
-	  playedHitPercent += " %";
-	  this->m_resultPanel->m_PlayWinTimesPercent_tc->SetValue(playedHitPercent);
+	wxString playedHitPercent;
+	playedHitPercent
+			<< 100 * (float) this->m_gameFrame.m_gameRecord.m_totalMainWinTimes
+					/ this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes;
+	playedHitPercent += " %";
+	this->m_resultPanel->m_PlayWinTimesPercent_tc->SetValue(playedHitPercent);
 
-	  //Double total played scores & total win scores
-	  wxString total_dplay_scores; total_dplay_scores << this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores;
-	  this->m_resultPanel->m_doubleTotalPlayScore_tc->SetValue(total_dplay_scores);
+	//Double total played scores & total win scores
+	wxString total_dplay_scores;
+	total_dplay_scores
+			<< this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores;
+	this->m_resultPanel->m_doubleTotalPlayScore_tc->SetValue(
+			total_dplay_scores);
 
-	  wxString total_dwin_scores; total_dwin_scores << this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores;
-	  this->m_resultPanel->m_doubleTotalWinScore_tc->SetValue(total_dwin_scores);
+	wxString total_dwin_scores;
+	total_dwin_scores << this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores;
+	this->m_resultPanel->m_doubleTotalWinScore_tc->SetValue(total_dwin_scores);
 
-	  if(this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores > 0){
-		  wxString DplayWinScoresPercent; DplayWinScoresPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores/(float)this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores;
-		  playedHitPercent += " %";
-		  this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue(DplayWinScoresPercent);
-	  }else{
-		  this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue("0");
-	  }
+	if (this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores > 0) {
+		wxString DplayWinScoresPercent;
+		DplayWinScoresPercent
+				<< 100
+						* (float) this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores
+						/ (float) this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores;
+		playedHitPercent += " %";
+		this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue(
+				DplayWinScoresPercent);
+	} else {
+		this->m_resultPanel->m_doublePlayWinScorePercent_tc->SetValue("0");
+	}
 
-	  //Double total played times & total win times
-	  wxString total_dplay_times; total_dplay_times << this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes;
-	  this->m_resultPanel->m_doubleTotalPlayTimes_tc->SetValue(total_dplay_times);
+	//Double total played times & total win times
+	wxString total_dplay_times;
+	total_dplay_times << this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes;
+	this->m_resultPanel->m_doubleTotalPlayTimes_tc->SetValue(total_dplay_times);
 
-	  wxString total_dwin_times; total_dwin_times << this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes;
-	  this->m_resultPanel->m_doubleTotalWinTimes_tc->SetValue(total_dwin_times);
+	wxString total_dwin_times;
+	total_dwin_times << this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes;
+	this->m_resultPanel->m_doubleTotalWinTimes_tc->SetValue(total_dwin_times);
 
-	  if(this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes > 0){
-		  wxString DplayWinTimesPercent; DplayWinTimesPercent << 100 * (float)this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes/(float)this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes;
-		  playWinScoresPercent += " %";
-		  this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue(DplayWinTimesPercent);
-	  }else{
-		  this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue("0");
-	  }
+	if (this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes > 0) {
+		wxString DplayWinTimesPercent;
+		DplayWinTimesPercent
+				<< 100
+						* (float) this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes
+						/ (float) this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes;
+		playWinScoresPercent += " %";
+		this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue(
+				DplayWinTimesPercent);
+	} else {
+		this->m_resultPanel->m_doublePlayWinTimesPercent_tc->SetValue("0");
+	}
 
-	  //Main game over max win times
-	  wxString mainGameOver; mainGameOver << this->m_gameFrame.m_gameRecord.m_totalMainOverMaxWinTimes;
-	  this->m_resultPanel->m_mainGameOverMaxWinTimes_tc->SetValue(mainGameOver);
+	//Main game over max win times
+	wxString mainGameOver;
+	mainGameOver << this->m_gameFrame.m_gameRecord.m_totalMainOverMaxWinTimes;
+	this->m_resultPanel->m_mainGameOverMaxWinTimes_tc->SetValue(mainGameOver);
 
-	  //Double game over max win times
-	  wxString doubleGameOver; doubleGameOver << this->m_gameFrame.m_gameRecord.m_totalDoubleOverMaxWinTimes;
-	  this->m_resultPanel->m_doubleGameOverMaxWinTimes_tc->SetValue(doubleGameOver);
+	//Double game over max win times
+	wxString doubleGameOver;
+	doubleGameOver
+			<< this->m_gameFrame.m_gameRecord.m_totalDoubleOverMaxWinTimes;
+	this->m_resultPanel->m_doubleGameOverMaxWinTimes_tc->SetValue(
+			doubleGameOver);
 
-	  //Double game max consecutive pass times
-	  wxString dconsecutive; dconsecutive << this->m_gameFrame.m_gameRecord.m_maxDoubleContinousWinTimes;
-	  this->m_resultPanel->m_doubleGameMaxConsecutivePassTimes_tc->SetValue(dconsecutive);
+	//Double game max consecutive pass times
+	wxString dconsecutive;
+	dconsecutive << this->m_gameFrame.m_gameRecord.m_maxDoubleContinousWinTimes;
+	this->m_resultPanel->m_doubleGameMaxConsecutivePassTimes_tc->SetValue(
+			dconsecutive);
 }
 
-void MainFrame::PrintAwardDetail(void){
-	const char *matchAwardStr[NUM_MTACH_AWARDS] = {
-		"Match Award None",
-		"Match Award Cherry",
-		"Match Award Apple",
-		"Match Award Orange",
-		"Match Award Coin",
-		"Match Award Bar",
-		"Match Award Diamond",
-		"Match Award Crown",
-		"Match Award Multiple",
-		"Match Award Train",
-	};
+void MainFrame::PrintAwardDetail() {
+	const char *matchAwardStr[NUM_MTACH_AWARDS] = { "Match Award None",
+			"Match Award Cherry", "Match Award Apple", "Match Award Orange",
+			"Match Award Coin", "Match Award Bar", "Match Award Diamond",
+			"Match Award Crown", "Match Award Multiple", "Match Award Train", };
 
-	const char *slotAwardStr[NUM_STRAIGHT_AWARDS] = {
-		"Slot Award None",
-		"Slot Award Cherry",
-		"Slot Award Apple",
-		"Slot Award Orange",
-		"Slot Award Coin",
-		"Slot Award Bar",
-		"Slot Award Diamond",
-		"Slot Award Crown",
-		"Slot Award Freecoin",
-		"Slot Award Roulette",
-	};
+	const char *slotAwardStr[NUM_STRAIGHT_AWARDS] = { "Slot Award None",
+			"Slot Award Cherry", "Slot Award Apple", "Slot Award Orange",
+			"Slot Award Coin", "Slot Award Bar", "Slot Award Diamond",
+			"Slot Award Crown", "Slot Award Freecoin", "Slot Award Roulette", };
 
-
-	LOGI("Probability","----- Match Award Detail -----\n");
-	for(unsigned int idx=0; idx<NUM_MTACH_AWARDS; idx++){
-		LOGI("Probability","%s : %d \n",matchAwardStr[idx],this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx]);
+	LOGI("Probability", "----- Match Award Detail -----\n");
+	for (unsigned int idx = 0; idx < NUM_MTACH_AWARDS; idx++) {
+		LOGI("Probability", "%s : %d \n", matchAwardStr[idx],
+				this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx]);
 	}
-	LOGI("Probability","------------------------------\n");
+	LOGI("Probability", "------------------------------\n");
 
-	LOGI("Probability","----- Slot Award Detail -----\n");
-	for(unsigned int idx=0; idx<NUM_STRAIGHT_AWARDS; idx++){
-		LOGI("Probability","%s : %d \n",slotAwardStr[idx],this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]);
+	LOGI("Probability", "----- Slot Award Detail -----\n");
+	for (unsigned int idx = 0; idx < NUM_STRAIGHT_AWARDS; idx++) {
+		LOGI("Probability", "%s : %d \n", slotAwardStr[idx],
+				this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]);
 	}
-	LOGI("Probability","------------------------------\n");
+	LOGI("Probability", "------------------------------\n");
+}
+
+void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
+	const char *matchAwardStr[NUM_MTACH_AWARDS] = { "Match Award None",
+			"Match Award Cherry", "Match Award Apple", "Match Award Orange",
+			"Match Award Coin", "Match Award Bar", "Match Award Diamond",
+			"Match Award Crown", "Match Award Multiple", "Match Award Train", };
+
+	const char *slotAwardStr[NUM_STRAIGHT_AWARDS] = { "Slot Award None",
+			"Slot Award Cherry", "Slot Award Apple", "Slot Award Orange",
+			"Slot Award Coin", "Slot Award Bar", "Slot Award Diamond",
+			"Slot Award Crown", "Slot Award Freecoin", "Slot Award Roulette", };
+
+	store << "----- Match Award Detail -----" << endl;
+	for (unsigned int idx = 0; idx < NUM_MTACH_AWARDS; idx++) {
+		store << matchAwardStr[idx] << ":"
+				<< (unsigned int) this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx]
+				<< endl;
+	}
+	store << "------------------------------" << endl;
+
+	store << "----- Slot Award Detail -----" << endl;
+	for (unsigned int idx = 0; idx < NUM_STRAIGHT_AWARDS; idx++) {
+		store << slotAwardStr[idx] << ":"
+				<< (unsigned int) this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]
+				<< endl;
+	}
+	store << "------------------------------" << endl;
+
 }
 
 void MainFrame::Start(wxCommandEvent& event) {
-	bool RunFlag=true;
-	unsigned long PreviousKeyIn=0;
+	bool RunFlag = true;
+	unsigned long PreviousKeyIn = 0;
 
 	LOGI("Start Button", "In Start Button Handle \n");
 
-	if( m_needToReset == true){
-		wxMessageDialog *dial = new wxMessageDialog(NULL,L"Please Press Reset Button",L"ERROR", wxOK | wxICON_ERROR);
+	if (m_needToReset == true) {
+		wxMessageDialog *dial = new wxMessageDialog(NULL,
+				L"Please Press Reset Button", L"ERROR", wxOK | wxICON_ERROR);
 		dial->ShowModal();
 		return;
-	}else if( m_needToReset == false){
+	} else if (m_needToReset == false) {
 		m_needToReset = true;
 	}
 
@@ -957,70 +1019,115 @@ void MainFrame::Start(wxCommandEvent& event) {
 
 	/* Set Options */
 	// Set Max Key In
-	this->m_settingData.m_maxKeyIn = wxAtoi(this->m_optionPanel->m_maxKeyIn_tc->GetValue());
-	LOGD("Setting","Max Key In=%d \n",this->m_settingData.m_maxKeyIn);
+	this->m_settingData.m_maxKeyIn = wxAtoi(
+			this->m_optionPanel->m_maxKeyIn_tc->GetValue());
+	LOGD("Setting", "Max Key In=%d \n", this->m_settingData.m_maxKeyIn);
 
 	// Set Coin Value
-	this->m_settingData.m_coinValue = wxAtoi(this->m_optionPanel->m_coinValueCB->GetValue());
-	LOGD("Setting","Coin Value=%d \n",this->m_settingData.m_coinValue);
+	this->m_settingData.m_coinValue = wxAtoi(
+			this->m_optionPanel->m_coinValueCB->GetValue());
+	LOGD("Setting", "Coin Value=%d \n", this->m_settingData.m_coinValue);
 
 	// Set Main Over Max Win
-	this->m_settingData.m_mainGameOverMaxWin = wxAtoi(this->m_optionPanel->m_mainGameMaxWinCB->GetValue());
-	LOGD("Setting","Main Over Max Win=%d \n",this->m_settingData.m_mainGameOverMaxWin);
+	this->m_settingData.m_mainGameOverMaxWin = wxAtoi(
+			this->m_optionPanel->m_mainGameMaxWinCB->GetValue());
+	LOGD("Setting", "Main Over Max Win=%d \n",
+			this->m_settingData.m_mainGameOverMaxWin);
 
 	// Set Double Over Max Win
-	this->m_settingData.m_doubleGameOverMaxWin = wxAtoi(this->m_optionPanel->m_doubleGameMaxWinCB->GetValue());
-	LOGD("Setting","Double Over Max Win=%d \n",this->m_settingData.m_doubleGameOverMaxWin);
+	this->m_settingData.m_doubleGameOverMaxWin = wxAtoi(
+			this->m_optionPanel->m_doubleGameMaxWinCB->GetValue());
+	LOGD("Setting", "Double Over Max Win=%d \n",
+			this->m_settingData.m_doubleGameOverMaxWin);
 
 	// Set Max Bet
-	this->m_settingData.m_maxBet = wxAtoi(this->m_optionPanel->m_maxBetCB->GetValue());
-	LOGD("Setting","Max Bet=%d \n",this->m_settingData.m_maxBet);
+	this->m_settingData.m_maxBet = wxAtoi(
+			this->m_optionPanel->m_maxBetCB->GetValue());
+	LOGD("Setting", "Max Bet=%d \n", this->m_settingData.m_maxBet);
 
-	unsigned int progressMaxValue = 10000;
-	wxProgressDialog* progressDial = new wxProgressDialog(L"Computing",L"Please Wait",progressMaxValue,NULL,wxPD_AUTO_HIDE|wxPD_APP_MODAL|wxPD_ELAPSED_TIME|wxPD_CAN_ABORT);
+	// Set Run Double Game
+	this->m_settingData.m_runDoubleGame =
+			this->m_optionPanel->m_runDoubleGameChkBox->GetValue() == true ?
+					1 : 0;
+
+	// Set Run To Dead
+	this->m_settingData.m_runToDead =
+			this->m_optionPanel->m_runToDeadChkBox->GetValue() == true ? 1 : 0;
+
+	unsigned int progressMaxValue = 100;
+	wxProgressDialog* progressDial =
+			new wxProgressDialog(L"Computing", L"Please Wait", progressMaxValue,
+					NULL,
+					wxPD_AUTO_HIDE | wxPD_APP_MODAL | wxPD_ELAPSED_TIME
+							| wxPD_CAN_ABORT);
 	progressDial->Show();
 
-	while(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin < this->m_settingData.m_maxKeyIn && RunFlag==true){
+	while (this->m_gameFrame.m_gameRecord.m_totalKeyInCoin
+			< this->m_settingData.m_maxKeyIn && RunFlag == true) {
 		// Check Credit/KeyIn
-		if(this->m_gameFrame.m_gameCredit.m_credit <= 20 * this->m_settingData.m_coinValue){
+		if (this->m_gameFrame.m_gameCredit.m_credit
+				<= 20 * this->m_settingData.m_coinValue) {
 			//
-			if((this->m_settingData.m_maxKeyIn - this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) >= 100){
+			if ((this->m_settingData.m_maxKeyIn
+					- this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) >= 100) {
 				this->m_gameFrame.m_gameRecord.m_totalKeyInCoin += 100;
-				this->m_gameFrame.m_gameCredit.m_credit += 100 * this->m_settingData.m_coinValue;
-			}else{
-				this->m_gameFrame.m_gameRecord.m_totalKeyInCoin += (this->m_settingData.m_maxKeyIn - this->m_gameFrame.m_gameRecord.m_totalKeyInCoin);
-				this->m_gameFrame.m_gameCredit.m_credit += (this->m_settingData.m_maxKeyIn - this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) * this->m_settingData.m_coinValue;
+				this->m_gameFrame.m_gameCredit.m_credit += 100
+						* this->m_settingData.m_coinValue;
+			} else {
+				this->m_gameFrame.m_gameRecord.m_totalKeyInCoin +=
+						(this->m_settingData.m_maxKeyIn
+								- this->m_gameFrame.m_gameRecord.m_totalKeyInCoin);
+				this->m_gameFrame.m_gameCredit.m_credit +=
+						(this->m_settingData.m_maxKeyIn
+								- this->m_gameFrame.m_gameRecord.m_totalKeyInCoin)
+								* this->m_settingData.m_coinValue;
 			}
 		}
 
 		// Bet
-		this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet * 4;
-		this->m_gameFrame.m_gameCredit.m_matchBet = this->m_settingData.m_maxBet;
-		this->m_gameFrame.m_gameCredit.m_slotBet[0] = this->m_settingData.m_maxBet;
-		this->m_gameFrame.m_gameCredit.m_slotBet[1] = this->m_settingData.m_maxBet;
-		this->m_gameFrame.m_gameCredit.m_slotBet[2] = this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet
+				* 4;
+		this->m_gameFrame.m_gameCredit.m_matchBet =
+				this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_slotBet[0] =
+				this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_slotBet[1] =
+				this->m_settingData.m_maxBet;
+		this->m_gameFrame.m_gameCredit.m_slotBet[2] =
+				this->m_settingData.m_maxBet;
 
 		// Record
-		this->m_gameFrame.m_gameRecord.m_totalMainPlayScores += this->m_settingData.m_maxBet * 4;
+		this->m_gameFrame.m_gameRecord.m_totalMainPlayScores +=
+				this->m_settingData.m_maxBet * 4;
 		this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes++;
 
 		// Get Match Stop Item
-		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,this);
+		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,
+				this);
 		// Get Slot Stop Item
-		for(int idx=0; idx<3; idx++){
-			this->m_gameFrame.m_slot[idx].item = m_slotStopSubFunc[idx](&this->m_mtRandom,this);
+		for (int idx = 0; idx < 3; idx++) {
+			this->m_gameFrame.m_slot[idx].item = m_slotStopSubFunc[idx](
+					&this->m_mtRandom, this);
 		}
 
 		// Get Win
 		this->m_gameFrame.m_matchAwardType = GetMatchAward(&this->m_gameFrame);
-		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(this->m_gameFrame.m_matchAwardType,this->m_gameFrame.m_gameCredit.m_matchBet);
+		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(
+				this->m_gameFrame.m_matchAwardType,
+				this->m_gameFrame.m_gameCredit.m_matchBet);
 
-		this->m_gameFrame.m_slotAwardType = GetSlotStraightAward(&this->m_gameFrame);
-		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(this->m_gameFrame.m_slotAwardType,this->m_gameFrame.m_gameCredit.m_slotBet[0]);
+		this->m_gameFrame.m_slotAwardType = GetSlotStraightAward(
+				&this->m_gameFrame);
+		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(
+				this->m_gameFrame.m_slotAwardType,
+				this->m_gameFrame.m_gameCredit.m_slotBet[0]);
 
-		if(this->m_gameFrame.m_gameCredit.m_win > 0){
-			this->m_gameFrame.m_gameCredit.m_credit += this->m_gameFrame.m_gameCredit.m_win;
-			if(this->m_gameFrame.m_gameCredit.m_credit/this->m_settingData.m_coinValue > this->m_settingData.m_mainGameOverMaxWin){
+		if (this->m_gameFrame.m_gameCredit.m_win > 0) {
+			this->m_gameFrame.m_gameCredit.m_credit +=
+					this->m_gameFrame.m_gameCredit.m_win;
+			if (this->m_gameFrame.m_gameCredit.m_credit
+					/ this->m_settingData.m_coinValue
+					> this->m_settingData.m_mainGameOverMaxWin) {
 				this->m_gameFrame.m_gameRecord.m_totalMainOverMaxWinTimes++;
 			}
 
@@ -1028,39 +1135,52 @@ void MainFrame::Start(wxCommandEvent& event) {
 			this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
 			this->m_gameFrame.m_gameRecord.m_slotAwardRec[this->m_gameFrame.m_slotAwardType]++;
 
-			this->m_gameFrame.m_gameRecord.m_totalMainWinScores += this->m_gameFrame.m_gameCredit.m_win;
+			this->m_gameFrame.m_gameRecord.m_totalMainWinScores +=
+					this->m_gameFrame.m_gameCredit.m_win;
 			this->m_gameFrame.m_gameRecord.m_totalMainWinTimes++;
 
 			this->m_gameFrame.m_gameCredit.m_win = 0;
 		}
 
 		// Check Key Out
-		if(KeyOutCheck(this)==true){
-			while(this->m_gameFrame.m_gameCredit.m_credit >= 100 * this->m_settingData.m_coinValue){
-				this->m_gameFrame.m_gameCredit.m_credit -= 100 * this->m_settingData.m_coinValue;
+		if (KeyOutCheck(this) == true) {
+			while (this->m_gameFrame.m_gameCredit.m_credit
+					>= 100 * this->m_settingData.m_coinValue) {
+				this->m_gameFrame.m_gameCredit.m_credit -= 100
+						* this->m_settingData.m_coinValue;
 				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin += 100;
-				LOGD("KeyOut","Credit=%d,Total Key Out=%d \n",this->m_gameFrame.m_gameCredit.m_credit,this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
+				LOGD("KeyOut", "Credit=%d,Total Key Out=%d \n",
+						this->m_gameFrame.m_gameCredit.m_credit,
+						this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
 			}
 		}
 
 		// Check Reach Max Key In
-		if((unsigned int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue))==progressMaxValue){
+		if ((unsigned int) (this->m_gameFrame.m_gameRecord.m_totalKeyInCoin
+				/ (this->m_settingData.m_maxKeyIn / progressMaxValue))
+				== progressMaxValue) {
 			m_runOneTest = true;
 		}
 
-		if(PreviousKeyIn != this->m_gameFrame.m_gameRecord.m_totalKeyInCoin){
+		if (PreviousKeyIn != this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) {
 			PreviousKeyIn = this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
 			// Update Result Panel
 			this->UpdateResultPanel();
 			// Update Progress Dialog
-			LOGD("Update","Update Value=%d,Total KeyIn=%d \n",
-					(int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue)),
-					this->m_gameFrame.m_gameRecord.m_totalKeyInCoin);
 			this->PrintAwardDetail();
-			if(progressDial->Update((int)(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin/(this->m_settingData.m_maxKeyIn/progressMaxValue)))==false){
+			LOGD("progressBar","progress=%d ,%d, %d, %d \n"
+					,(int) ((((float)this->m_gameFrame.m_gameRecord.m_totalKeyInCoin)/ (float)(this->m_settingData.m_maxKeyIn)) * 100)
+					,this->m_gameFrame.m_gameRecord.m_totalKeyInCoin
+					,this->m_settingData.m_maxKeyIn
+					,progressMaxValue);
+			if (progressDial->Update(
+					(int) ((((float)this->m_gameFrame.m_gameRecord.m_totalKeyInCoin)/ (float)(this->m_settingData.m_maxKeyIn)) * 100))
+					== false) {
 				progressDial->Destroy();
-				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin += this->m_gameFrame.m_gameCredit.m_credit/this->m_settingData.m_coinValue;
-				this->m_gameFrame.m_gameCredit.m_credit=0;
+				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin +=
+						this->m_gameFrame.m_gameCredit.m_credit
+								/ this->m_settingData.m_coinValue;
+				this->m_gameFrame.m_gameCredit.m_credit = 0;
 				this->UpdateResultPanel();
 				RunFlag = false;
 			}
@@ -1068,7 +1188,6 @@ void MainFrame::Start(wxCommandEvent& event) {
 		}
 
 	}
-
 
 }
 
@@ -1085,15 +1204,687 @@ void MainFrame::Reset(wxCommandEvent& event) {
 	this->m_gameFrame.m_slot[1].Clean();
 	this->m_gameFrame.m_slot[2].Clean();
 
-	wxMessageDialog *dial = new wxMessageDialog(NULL,L"Reset All Parameters",L"Information", wxOK | wxICON_INFORMATION);
+	wxMessageDialog *dial = new wxMessageDialog(NULL, L"Reset All Parameters",
+			L"Information", wxOK | wxICON_INFORMATION);
 	dial->ShowModal();
 
-	if(m_needToReset == true){
+	if (m_needToReset == true) {
 		m_needToReset = false;
 	}
 
-	if(m_runOneTest == true){
+	if (m_runOneTest == true) {
 		m_runOneTest = false;
+	}
+}
+
+void MainFrame::SaveFile(wxCommandEvent& event) {
+	LOGD("SaveFile", "In SaveFile Function \n");
+	if (m_runOneTest == false) {
+		wxMessageDialog *dial = new wxMessageDialog(NULL, L"Pleae Run Once",
+				L"Error", wxOK | wxICON_ERROR);
+		dial->ShowModal();
+		return;
+	}
+	wxFileDialog saveFileDialog(this, L"Save TXT file", "", "result",
+			"TXT files (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+	if (saveFileDialog.ShowModal() == wxID_CANCEL)
+		return;     // the user changed idea...
+
+	wxFFileOutputStream output_stream(saveFileDialog.GetPath());
+	if (!output_stream.IsOk()) {
+		wxLogError
+		("Cannot save current contents in file '%s'.",
+				saveFileDialog.GetPath());
+		return;
+	}
+	wxTextOutputStream store(output_stream);
+	this->SaveFileContent(store);
+	store.Flush();
+}
+
+void MainFrame::SaveFileContent(wxTextOutputStream& store) {
+	//File Header
+	store << "CrownTrain Probability Compute Save File" << endl;
+	store << endl;
+
+	//Left Slot
+	store << wxString(L"Left Slot Setting Value") << endl;
+	store << " # ";
+	store << this->m_slotItemPanel_left->mItem_cherry_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_apple_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_orange_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_coin_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_bar_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_diamond_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_crown_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_freecoin_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_left->mItem_roulette_tc->GetValue() << endl;
+	store << endl;
+
+	//Middle Slot
+	store << wxString(L"Middle Slot Setting Value") << endl;
+	store << " # ";
+	store << this->m_slotItemPanel_middle->mItem_cherry_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_apple_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_orange_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_coin_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_bar_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_diamond_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_crown_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_middle->mItem_freecoin_tc->GetValue()
+			<< "  ";
+	store << this->m_slotItemPanel_middle->mItem_roulette_tc->GetValue()
+			<< endl;
+	store << endl;
+
+	//Right Slot
+	store << wxString(L"Right Slot Setting Value") << endl;
+	store << " # ";
+	store << this->m_slotItemPanel_right->mItem_cherry_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_apple_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_orange_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_coin_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_bar_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_diamond_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_crown_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_freecoin_tc->GetValue() << "  ";
+	store << this->m_slotItemPanel_right->mItem_roulette_tc->GetValue() << endl;
+	store << endl;
+
+	//Match Item
+	store << wxString(L"Match Item Setting Value") << endl;
+	store << " # ";
+	store << this->m_matchItemPanel->mItem_cherry_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_apple_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_orange_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_coin_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_bar_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_diamond_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_crown_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_multiple_tc->GetValue() << "  ";
+	store << this->m_matchItemPanel->mItem_train_tc->GetValue() << endl;
+	store << endl;
+
+	store << endl;
+
+	store << L"Max KeyIn Coin :" << endl;
+	store << " $ " << this->m_settingData.m_maxKeyIn << endl;
+
+	store << L"Coin Value :" << endl;
+	store << " $ " << this->m_settingData.m_coinValue << endl;
+
+	store << L"Max Bet :" << endl;
+	store << " $ " << this->m_settingData.m_maxBet << endl;
+
+	store << L"Main Over Max Win Coin :" << endl;
+	store << " $ " << this->m_settingData.m_mainGameOverMaxWin << endl;
+
+	store << L"Double Over Max Win Coin :" << endl;
+	store << " $ " << this->m_settingData.m_doubleGameOverMaxWin << endl;
+
+	store << L"Run Double Game :" << endl;
+	store << " $ " << this->m_settingData.m_runDoubleGame << endl;
+
+	store << L"Double Game Run To Dead :" << endl;
+	store << " $ " << this->m_settingData.m_runToDead << endl;
+
+	store << endl;
+	store << endl;
+
+	//Total KeyIn & KeyOut
+	store << L"T-Key In Coins  : "
+			<< this->m_resultPanel->m_totalKeyIn_tc->GetValue() << endl;
+
+	store << L"T-Key Out Coins  : "
+			<< this->m_resultPanel->m_totalKeyOut_tc->GetValue() << endl;
+
+	store << L"T-KeyIn/Out %  : "
+			<< 100 * (float) this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin
+					/ (float) this->m_gameFrame.m_gameRecord.m_totalKeyInCoin
+			<< " % " << endl;
+
+	//Total Main Play & Win scores
+	store << L"T-Play Scores  : "
+			<< this->m_resultPanel->m_totalPlayScore_tc->GetValue() << endl;
+
+	store << L"T-Win Scores  : "
+			<< this->m_resultPanel->m_totalWinScore_tc->GetValue() << endl;
+
+	store << L"T-Play/Win Scores %  : "
+			<< 100 * (float) this->m_gameFrame.m_gameRecord.m_totalMainWinScores
+					/ (float) this->m_gameFrame.m_gameRecord.m_totalMainPlayScores
+			<< " % " << endl;
+
+	//Total Main Play & Win times
+	store << L"T-Play Times  : "
+			<< this->m_resultPanel->m_totalPlayTimes_tc->GetValue() << endl;
+
+	store << L"T-Win Times  : "
+			<< this->m_resultPanel->m_totalWinTimes_tc->GetValue() << endl;
+
+	store << L"T-Play/Win Times %  : "
+			<< 100 * (float) this->m_gameFrame.m_gameRecord.m_totalMainWinTimes
+					/ (float) this->m_gameFrame.m_gameRecord.m_totalMainPlayTimes
+			<< " % " << endl;
+
+	//Double up game total Play & Win Scores
+	store << L"D-Play Scores : "
+			<< this->m_resultPanel->m_doubleTotalPlayScore_tc->GetValue()
+			<< endl;
+
+	store << L"D-Win Scores : "
+			<< this->m_resultPanel->m_doubleTotalWinScore_tc->GetValue()
+			<< endl;
+	if (this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores != 0) {
+		store << L"D-Play/Win Scores % : "
+				<< 100
+						* (float) this->m_gameFrame.m_gameRecord.m_totalDoubleWinScores
+						/ (float) this->m_gameFrame.m_gameRecord.m_totalDoublePlayScores
+				<< " % " << endl;
+	} else {
+		store << L"D-Play/Win Scores % : " << "0" << endl;
+	}
+
+	//Double up game total Play & Win Times
+	store << L"D-Play Times : "
+			<< this->m_resultPanel->m_doubleTotalPlayTimes_tc->GetValue()
+			<< endl;
+
+	store << L"D-Win Times : "
+			<< this->m_resultPanel->m_doubleTotalWinTimes_tc->GetValue()
+			<< endl;
+	if (this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes != 0) {
+		store << L"D-Play/Win Times % : "
+				<< 100
+						* (float) this->m_gameFrame.m_gameRecord.m_totalDoubleWinTimes
+						/ (float) this->m_gameFrame.m_gameRecord.m_totalDoublePlayTimes
+				<< " % " << endl;
+	} else {
+		store << L"D-Play/Win Times % : " << "0" << endl;
+	}
+
+	//Main game over max win times
+	store << L"Main Over Max Win Times : "
+			<< (unsigned int) this->m_gameFrame.m_gameRecord.m_totalMainOverMaxWinTimes
+			<< endl;
+	//Double up game over max win times
+	store << L"Double Over Max Win Times : "
+			<< (unsigned int) this->m_gameFrame.m_gameRecord.m_totalDoubleOverMaxWinTimes
+			<< endl;
+	//Double up game max consecutive pass times
+	store << L"Double Max Consecutive Pass Times : "
+			<< (unsigned int) this->m_gameFrame.m_gameRecord.m_maxDoubleContinousWinTimes
+			<< endl;
+
+	store << endl;
+	store << endl;
+
+	this->PrintAwardDetail(store);
+}
+
+void MainFrame::LoadFile(wxCommandEvent& event) {
+	LOGD("LoadFile", "In LoadFile Function \n");
+	if (m_runOneTest == true) {
+		wxMessageDialog *dial = new wxMessageDialog(NULL,
+				L"Please Reset At First", L"Error", wxOK | wxICON_ERROR);
+		dial->ShowModal();
+		return;
+	}
+
+	wxFileDialog loadFileDialog(this, L"Save TXT file", "", "",
+			"TXT files (*.txt)|*.txt", wxFD_OPEN);
+
+	if (loadFileDialog.ShowModal() == wxID_CANCEL)
+		return;     // the user changed idea...
+
+	this->LoadFileContent(loadFileDialog.GetPath());
+}
+
+void MainFrame::LoadFileContent(wxString filePath) {
+	wxTextFile tfile;
+	tfile.Open(filePath);
+	wxString content;
+	int times = 0;
+	int settingTimes = 0;
+	int index = 0;
+	int slotItem_percent[3][9];
+	int matchItem_percent[9];
+
+	//Reset Array
+	for (unsigned int i = 0;
+			i < sizeof(slotItem_percent) / sizeof(slotItem_percent[0]); i++) {
+		for (unsigned int j = 0;
+				j < sizeof(slotItem_percent[0]) / sizeof(slotItem_percent[0][0]);
+				j++) {
+			slotItem_percent[i][j] = 0;
+		}
+	}
+	for (unsigned int i = 0;
+			i < sizeof(matchItem_percent) / sizeof(matchItem_percent[0]); i++) {
+		matchItem_percent[i] = 0;
+	}
+
+	// Get First Line
+	content = tfile.GetFirstLine();
+	// Check The File Is Our Save File or Not
+	if (!content.Contains(
+			wxString("CrownTrain Probability Compute Save File"))) {
+		wxMessageDialog *dial = new wxMessageDialog(NULL,
+				L"Please Select CrownTrain Save File", L"Error",
+				wxOK | wxICON_ERROR);
+		dial->ShowModal();
+		return;
+	} else {
+		LOGD("Load File", "Loaded File is Correct CrownTrain Save File \n");
+	}
+
+	// Start Load
+	content = tfile.GetNextLine();
+	while (!tfile.Eof()) {
+		if (content.Contains(wxString("#"))) { //Parse Slot/Match Item Setting Value
+			LOGD("Parse Save File", "%s \n", (const char* )content.mb_str());
+			++times;
+			wxStringTokenizer tokenizer(content, " ");
+			index = 0;
+
+			switch (times) {
+
+			case 1:     // Left Slot
+				while (tokenizer.HasMoreTokens() == true) {
+					wxString token = tokenizer.GetNextToken();
+					if (token.IsNumber() == true) {
+						//printf("Left SLOT Token: %s\n",(const char*)token.mb_str());
+						slotItem_percent[0][index] = wxAtoi(token);
+						//printf("%d : %d \n",index,item_percent[0][index]);
+						index++;
+					}
+				}
+				break;
+
+			case 2:     // Middle Slot
+				while (tokenizer.HasMoreTokens() == true) {
+					wxString token = tokenizer.GetNextToken();
+					if (token.IsNumber() == true) {
+						//printf("Middle SLOT Token: %s\n",(const char*)token.mb_str());
+						slotItem_percent[1][index] = wxAtoi(token);
+						//printf("%d : %d \n",index,slotItem_percent[1][index]);
+						index++;
+					}
+				}
+				break;
+
+			case 3:     // Right Slot
+				while (tokenizer.HasMoreTokens() == true) {
+					wxString token = tokenizer.GetNextToken();
+					if (token.IsNumber() == true) {
+						//printf("Right SLOT Token: %s\n",(const char*)token.mb_str());
+						slotItem_percent[2][index] = wxAtoi(token);
+						//printf("%d : %d \n",index,slotItem_percent[2][index]);
+						index++;
+					}
+				}
+				break;
+
+			case 4:     // Match Item
+				while (tokenizer.HasMoreTokens() == true) {
+					wxString token = tokenizer.GetNextToken();
+					if (token.IsNumber() == true) {
+						//printf("Match Item Token: %s\n",(const char*)token.mb_str());
+						matchItem_percent[index] = wxAtoi(token);
+						//printf("%d : %d \n",index,matchItem_percent[index]);
+						index++;
+					}
+				}
+				break;
+
+			default:
+				LOGE("Parse Save File", "Something Error! \n");
+				break;
+			}
+		} else if (content.Contains(wxString("$"))) {
+			++settingTimes;
+			wxStringTokenizer setting_tokenizer(content, wxString(" "));
+
+			switch (settingTimes) {
+
+			case 1:     // Max Key In Coins Limit
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Max Key In Coins Limit
+						unsigned int saveMaxKeyInCoinsLimit = wxAtoi(
+								setting_tmp);
+						LOGD("Parse Save File",
+								"Saved MaxKeyInCoinsLimit=%d \n",
+								saveMaxKeyInCoinsLimit);
+
+						wxString strMaxKeyInCoinsLimit("");
+						strMaxKeyInCoinsLimit << saveMaxKeyInCoinsLimit;
+						this->m_optionPanel->m_maxKeyIn_tc->SetValue(
+								strMaxKeyInCoinsLimit);
+						this->m_settingData.m_maxKeyIn = saveMaxKeyInCoinsLimit;
+
+					}
+				}
+				break;
+
+			case 2:     // Coin Value
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Save Coin Value
+						unsigned int saveCoinValue = wxAtoi(setting_tmp);
+						for (unsigned int idx = 0;
+								idx
+										< sizeof(coinValueTab)
+												/ sizeof(coinValueTab[0]);
+								idx++) {
+							if (coinValueTab[idx] == saveCoinValue) {
+								LOGD("Parse Save File", "Saved CoinValue=%d \n",
+										saveCoinValue);
+								this->m_optionPanel->m_coinValueCB->SetSelection(
+										idx);
+								this->m_settingData.m_coinValue =
+										coinValueTab[idx];
+								break;
+							}
+						}
+					}
+				}
+				break;
+
+			case 3:     // Max Bet
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Save Max Bet
+						unsigned int saveMaxBet = wxAtoi(setting_tmp);
+						for (unsigned int idx = 0;
+								idx < sizeof(maxBetTab) / sizeof(maxBetTab[0]);
+								idx++) {
+							if (maxBetTab[idx] == saveMaxBet) {
+								LOGD("Parse Save File", "Saved MaxBet=%d \n",
+										saveMaxBet);
+								this->m_optionPanel->m_maxBetCB->SetSelection(
+										idx);
+								this->m_settingData.m_maxBet = maxBetTab[idx];
+								break;
+							}
+						}
+					}
+				}
+				break;
+
+			case 4:     // Main Over Max Win Coin
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Main Over Max Win Coin
+						unsigned int saveMainOverMaxWin = wxAtoi(setting_tmp);
+						for (unsigned int idx = 0;
+								idx
+										< sizeof(mainOverMaxWinTab)
+												/ sizeof(mainOverMaxWinTab[0]);
+								idx++) {
+							if (mainOverMaxWinTab[idx] == saveMainOverMaxWin) {
+								LOGD("Parse Save File",
+										"Saved MainOverMaxWin=%d \n",
+										saveMainOverMaxWin);
+								this->m_optionPanel->m_mainGameMaxWinCB->SetSelection(
+										idx);
+								this->m_settingData.m_mainGameOverMaxWin =
+										mainOverMaxWinTab[idx];
+								break;
+							}
+						}
+					}
+				}
+				break;
+
+			case 5:     // Double Over Max Win Coin
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Main Over Max Win Coin
+						unsigned int saveDoubleOverMaxWin = wxAtoi(setting_tmp);
+						for (unsigned int idx = 0;
+								idx
+										< sizeof(doubleOverMaxWinTab)
+												/ sizeof(doubleOverMaxWinTab[0]);
+								idx++) {
+							if (doubleOverMaxWinTab[idx]
+									== saveDoubleOverMaxWin) {
+								LOGD("Parse Save File",
+										"Saved DoubleOverMaxWin=%d \n",
+										saveDoubleOverMaxWin);
+								this->m_optionPanel->m_doubleGameMaxWinCB->SetSelection(
+										idx);
+								this->m_settingData.m_doubleGameOverMaxWin =
+										doubleOverMaxWinTab[idx];
+								break;
+							}
+						}
+					}
+				}
+				break;
+
+			case 6:     // Run Double Game
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Run Double Game
+						unsigned int saveRunDoubleGame = wxAtoi(setting_tmp);
+						LOGD("Parse Save File", "Saved RunDoubleGame=%d \n",
+								saveRunDoubleGame);
+						switch (saveRunDoubleGame) {
+						case 1:
+							this->m_optionPanel->m_runDoubleGameChkBox->SetValue(
+									true);
+							this->m_settingData.m_runDoubleGame =
+									saveRunDoubleGame;
+							break;
+
+						case 0:
+							this->m_optionPanel->m_runDoubleGameChkBox->SetValue(
+									false);
+							this->m_settingData.m_runDoubleGame =
+									saveRunDoubleGame;
+							break;
+
+						default:
+							LOGE("Parse Save File",
+									"Load Saved Run Double Game Error! \n");
+							break;
+						}
+					}
+				}
+				break;
+
+			case 7:     // Double Game Run To Dead
+				while (setting_tokenizer.HasMoreTokens()) {
+					wxString setting_tmp = setting_tokenizer.GetNextToken();
+					if (setting_tmp.IsNumber() == true) {
+						//Load Run To Dead
+						unsigned int saveRunToDead = wxAtoi(setting_tmp);
+						LOGD("Parse Save File", "Saved RunToDead=%d \n",
+								saveRunToDead);
+						switch (saveRunToDead) {
+						case 1:
+							this->m_optionPanel->m_runToDeadChkBox->SetValue(
+									true);
+							this->m_settingData.m_runToDead = saveRunToDead;
+							break;
+
+						case 0:
+							this->m_optionPanel->m_runToDeadChkBox->SetValue(
+									false);
+							this->m_settingData.m_runToDead = saveRunToDead;
+							break;
+
+						default:
+							LOGE("Parse Save File",
+									"Load Saved Run To Dead Error! \n");
+							break;
+						}
+					}
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		// Get Next Line
+		content = tfile.GetNextLine();
+
+		// Done ?
+		if (times == 4 && settingTimes == 7)
+			break;
+
+		//  Write Saved Slot/Match Item Setting Value To
+		if (times == 4) {
+			wxString _item;
+
+			// Left Slot
+			_item.Clear();
+			_item << slotItem_percent[0][0];
+			this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][1];
+			this->m_slotItemPanel_left->mItem_apple_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][2];
+			this->m_slotItemPanel_left->mItem_orange_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][3];
+			this->m_slotItemPanel_left->mItem_coin_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][4];
+			this->m_slotItemPanel_left->mItem_bar_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][5];
+			this->m_slotItemPanel_left->mItem_diamond_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][6];
+			this->m_slotItemPanel_left->mItem_crown_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][7];
+			this->m_slotItemPanel_left->mItem_freecoin_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+			_item << slotItem_percent[0][8];
+			this->m_slotItemPanel_left->mItem_roulette_tc->SetValue(_item);
+			LOGD("Parse Save File", "_item=%s \n",
+					(const char* )_item.mb_str());
+			_item.Clear();
+
+			// Middle Slot
+			_item.Clear();
+			_item << slotItem_percent[1][0];
+			this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][1];
+			this->m_slotItemPanel_middle->mItem_apple_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][2];
+			this->m_slotItemPanel_middle->mItem_orange_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][3];
+			this->m_slotItemPanel_middle->mItem_coin_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][4];
+			this->m_slotItemPanel_middle->mItem_bar_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][5];
+			this->m_slotItemPanel_middle->mItem_diamond_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][6];
+			this->m_slotItemPanel_middle->mItem_crown_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][7];
+			this->m_slotItemPanel_middle->mItem_freecoin_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[1][8];
+			this->m_slotItemPanel_middle->mItem_roulette_tc->SetValue(_item);
+			_item.Clear();
+
+			// Right Slot
+			_item.Clear();
+			_item << slotItem_percent[2][0];
+			this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][1];
+			this->m_slotItemPanel_right->mItem_apple_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][2];
+			this->m_slotItemPanel_right->mItem_orange_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][3];
+			this->m_slotItemPanel_right->mItem_coin_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][4];
+			this->m_slotItemPanel_right->mItem_bar_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][5];
+			this->m_slotItemPanel_right->mItem_diamond_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][6];
+			this->m_slotItemPanel_right->mItem_crown_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][7];
+			this->m_slotItemPanel_right->mItem_freecoin_tc->SetValue(_item);
+			_item.Clear();
+			_item << slotItem_percent[2][8];
+			this->m_slotItemPanel_right->mItem_roulette_tc->SetValue(_item);
+			_item.Clear();
+
+			// Match Item
+			_item.Clear();
+			_item << matchItem_percent[0];
+			this->m_matchItemPanel->mItem_cherry_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[1];
+			this->m_matchItemPanel->mItem_apple_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[2];
+			this->m_matchItemPanel->mItem_orange_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[3];
+			this->m_matchItemPanel->mItem_coin_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[4];
+			this->m_matchItemPanel->mItem_bar_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[5];
+			this->m_matchItemPanel->mItem_diamond_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[6];
+			this->m_matchItemPanel->mItem_crown_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[7];
+			this->m_matchItemPanel->mItem_multiple_tc->SetValue(_item);
+			_item.Clear();
+			_item << matchItem_percent[8];
+			this->m_matchItemPanel->mItem_train_tc->SetValue(_item);
+			_item.Clear();
+		}
 	}
 }
 
