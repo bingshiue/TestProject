@@ -11,6 +11,10 @@
 #include <stdarg.h>
 #include <string.h>
 #include <time.h>
+#include <sys/stat.h>
+
+void OpenLogFile(void);
+void CloseLogFile(void);
 
 enum LogLevel {
 	LOG_ERROR =0,/**< Error */

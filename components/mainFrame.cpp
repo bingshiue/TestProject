@@ -12,6 +12,9 @@
 MainFrame::MainFrame(const wxString& title) :
 		wxFrame((wxFrame*) NULL, wxID_ANY, title, wxDefaultPosition,
 				wxSize(1280, 720)) {
+	/* Open Log File */
+	OpenLogFile();
+
 	/* Initialize Mersenne Twister Algorithm */
 	srand(time(NULL));
 	int seed = rand() % 10000;
@@ -211,7 +214,8 @@ MainFrame::MainFrame(const wxString& title) :
 }
 
 MainFrame::~MainFrame() {
-
+	/* Close Log File */
+	CloseLogFile();
 }
 
 void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event)) {
