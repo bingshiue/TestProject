@@ -104,7 +104,30 @@ MatchItemPanel::MatchItemPanel(wxPanel* parent,wxString title) : wxPanel(parent,
 }
 
 void MatchItemPanel::AfterEdit(wxCommandEvent& event){
+	unsigned int tmp;
+	tmp = wxAtoi(this->mItem_cherry_tc->GetValue()) +
+		  wxAtoi(this->mItem_apple_tc->GetValue()) +
+		  wxAtoi(this->mItem_orange_tc->GetValue()) +
+		  wxAtoi(this->mItem_coin_tc->GetValue()) +
+		  wxAtoi(this->mItem_bar_tc->GetValue()) +
+		  wxAtoi(this->mItem_diamond_tc->GetValue()) +
+		  wxAtoi(this->mItem_crown_tc->GetValue()) +
+		  wxAtoi(this->mItem_multiple_tc->GetValue()) +
+		  wxAtoi(this->mItem_train_tc->GetValue());
 
+	wxString result(L"");
+	result << tmp;
+	this->mTotalValue_tc->SetValue(result);
+
+	if(tmp > 10000){
+      this->mTotalValue_tc->SetForegroundColour(wxColour(255,0,0));
+	  wxMessageDialog *dial = new wxMessageDialog(NULL,L"Sum Over 10000",L"Error", wxOK | wxICON_ERROR);
+	  dial->ShowModal();
+	}else if(tmp < 10000){
+	  this->mTotalValue_tc->SetForegroundColour(wxColour(255,0,0));
+	}else{
+	  this->mTotalValue_tc->SetForegroundColour(wxColour(0,0,255));
+	}
 }
 
 
