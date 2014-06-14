@@ -1008,6 +1008,21 @@ void MainFrame::Start(wxCommandEvent& event) {
 		dial->ShowModal();
 		return;
 	} else if (m_needToReset == false) {
+
+		// Check Sum of Draw
+		bool check_draw_cnt_ok = true;
+		if(wxAtoi(this->m_slotItemPanel_left->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
+		if(wxAtoi(this->m_slotItemPanel_middle->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
+		if(wxAtoi(this->m_slotItemPanel_right->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
+		if(wxAtoi(this->m_matchItemPanel->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
+
+		if(check_draw_cnt_ok==false){
+			wxMessageDialog *dial = new wxMessageDialog(NULL,
+					L"Sum of Draw Count Error", L"ERROR", wxOK | wxICON_ERROR);
+			dial->ShowModal();
+			return;
+		}
+
 		m_needToReset = true;
 	}
 
