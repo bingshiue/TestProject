@@ -1084,8 +1084,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 	while (this->m_gameFrame.m_gameRecord.m_totalKeyInCoin
 			< this->m_settingData.m_maxKeyIn && RunFlag == true) {
 		// Check Credit/KeyIn
-		if (this->m_gameFrame.m_gameCredit.m_credit
-				<= 20 * this->m_settingData.m_coinValue) {
+		if (this->m_gameFrame.m_gameCredit.m_credit <= 20 * this->m_settingData.m_coinValue ||
+			    this->m_gameFrame.m_gameCredit.m_credit < this->m_settingData.m_maxBet * 4)
+		{
 			//
 			if ((this->m_settingData.m_maxKeyIn
 					- this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) >= 100) {
@@ -1103,9 +1104,13 @@ void MainFrame::Start(wxCommandEvent& event) {
 			}
 		}
 
+		// Credit >= this->m_settingData.m_maxBet * 4
+		assert(this->m_gameFrame.m_gameCredit.m_credit >= this->m_settingData.m_maxBet * 4);
+
 		// Bet
 		this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet
 				* 4;
+
 		this->m_gameFrame.m_gameCredit.m_matchBet =
 				this->m_settingData.m_maxBet;
 		this->m_gameFrame.m_gameCredit.m_slotBet[0] =
@@ -1163,6 +1168,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 
 		// Check Key Out
 		if (KeyOutCheck(this) == true) {
+			LOGD("KeyOut","Credit=%d \n",this->m_gameFrame.m_gameCredit.m_credit);
 			while (this->m_gameFrame.m_gameCredit.m_credit
 					>= 100 * this->m_settingData.m_coinValue) {
 				this->m_gameFrame.m_gameCredit.m_credit -= 100
