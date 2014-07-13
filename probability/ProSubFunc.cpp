@@ -151,18 +151,46 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
 	unsigned int award = match_award_none;
+	unsigned int slot_freecoin_cnt=0;
 	bool bingo = false;
 
-	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
-		if(gameFrame->m_match.item == gameFrame->m_slot[idx].item){
-			bingo = true;
-			break;
+	switch(gameFrame->m_match.item){
+	case match_item_cherry:
+	case match_item_apple:
+	case match_item_orange:
+	case match_item_bar:
+	case match_item_diamond:
+	case match_item_crown:
+		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+			if(gameFrame->m_match.item == gameFrame->m_slot[idx].item){
+				bingo = true;
+				break;
+			}
 		}
+		break;
+
+	case match_item_coin:
+		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+			if(gameFrame->m_slot[idx].item==slot_item_coin || gameFrame->m_slot[idx].item==slot_item_freecoin){
+				bingo = true;
+				if(gameFrame->m_slot[idx].item==slot_item_freecoin){
+					slot_freecoin_cnt++;
+				}
+			}
+		}
+		break;
+
+	case match_item_multiple:
+	case match_item_train:
+		bingo = true;
+		break;
+
+	default:
+		LOGE("Probability","%s: Error \n",__func__);
+		break;
+
 	}
 
-	if(gameFrame->m_match.item == match_item_multiple || gameFrame->m_match.item == match_item_train){
-		bingo = true;
-	}
 
 	if(bingo==true){
 		switch(gameFrame->m_match.item){
@@ -178,6 +206,13 @@ unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
 			break;
 		case match_item_coin:
 			award = match_award_coin;
+			//freecoin
+			if(slot_freecoin_cnt > 0){
+				LOGI("Probability","Win Free Time, Match Item = %d, Slot Item= %d,%d,%d \n",gameFrame->m_match.item,gameFrame->m_slot[0].item,gameFrame->m_slot[1].item,gameFrame->m_slot[2].item);
+				gameFrame->m_gameCredit.m_freetimes += (slot_freecoin_cnt*5);
+				LOGI("Probability","%s: Free Time += %d, Free Times = %d \n",__func__,slot_freecoin_cnt*5, gameFrame->m_gameCredit.m_freetimes);
+			}
+
 			break;
 		case match_item_bar:
 			award = match_award_bar;
@@ -222,6 +257,12 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
 		}
 	}
 
+	// Coin & Free Coin
+	if((cnt[slot_item_coin] + cnt[slot_item_freecoin]) == 3){
+		LOGI("Probability","Coin & Free Coin Mix Straight, Slot Item= %d,%d,%d \n",gameFrame->m_slot[0].item,gameFrame->m_slot[1].item,gameFrame->m_slot[2].item);
+		bingo = true;
+	}
+
 	if(bingo==true){
 		switch(gameFrame->m_slot[0].item){
 
@@ -235,6 +276,7 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
 			award = straight_award_orange;
 			break;
 		case slot_item_coin:
+		case slot_item_freecoin:
 			award = straight_award_coin;
 			break;
 		case slot_item_bar:
@@ -246,9 +288,9 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
 		case slot_item_crown:
 			award = straight_award_crown;
 			break;
-		case slot_item_freecoin:
-			award = straight_award_freecoin;
-			break;
+		//case slot_item_freecoin:
+			//award = straight_award_freecoin;
+			//break;
 		case slot_item_roulette:
 			award = straight_award_roulette;
 			break;

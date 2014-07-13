@@ -26,6 +26,8 @@ typedef struct _GameRecord{
 	unsigned long m_matchAwardRec[NUM_MTACH_AWARDS];/**< Match Award Size */
 	unsigned long m_slotAwardRec[NUM_STRAIGHT_AWARDS];/**< Straight Award Size */
 
+	unsigned long m_totalFreeTimes;/**< Total Free Times */
+
 	/**
 	 * @brief Clean All Member
 	 */
@@ -45,6 +47,7 @@ typedef struct _GameRecord{
 		m_maxDoubleContinousWinTimes=0;
 		for(unsigned int idx=0;idx<sizeof(m_matchAwardRec)/sizeof(m_matchAwardRec[0]);idx++) m_matchAwardRec[idx]=0;
 		for(unsigned int idx=0;idx<sizeof(m_slotAwardRec)/sizeof(m_slotAwardRec[0]);idx++) m_slotAwardRec[idx]=0;
+		m_totalFreeTimes=0;
 	}
 
 	/**

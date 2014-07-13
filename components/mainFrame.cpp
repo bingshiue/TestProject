@@ -969,6 +969,9 @@ void MainFrame::PrintAwardDetail() {
 				this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]);
 	}
 	LOGI("Probability", "------------------------------\n");
+
+	LOGI("Probability", "----- Free Times Detail -----\n");
+	LOGI("Probability", "Total Free Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalFreeTimes);
 }
 
 void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
@@ -1108,8 +1111,14 @@ void MainFrame::Start(wxCommandEvent& event) {
 		assert(this->m_gameFrame.m_gameCredit.m_credit >= this->m_settingData.m_maxBet * 4);
 
 		// Bet
-		this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet
-				* 4;
+		if(this->m_gameFrame.m_gameCredit.m_freetimes > 0){
+			LOGI("Free Time","Play Free Time = %d, Credit=%d \n",this->m_gameFrame.m_gameCredit.m_freetimes,this->m_gameFrame.m_gameCredit.m_credit);
+			this->m_gameFrame.m_gameCredit.m_freetimes--;
+			//Record
+			this->m_gameFrame.m_gameRecord.m_totalFreeTimes++;
+		}else{
+			this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet * 4;
+		}
 
 		this->m_gameFrame.m_gameCredit.m_matchBet =
 				this->m_settingData.m_maxBet;
