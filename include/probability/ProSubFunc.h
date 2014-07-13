@@ -27,6 +27,10 @@ unsigned int GetMatchWin(unsigned int matchAward,unsigned int bet);
 
 unsigned int GetSlotStraightWin(unsigned int slotStraightAward,unsigned int bet);
 
+unsigned int PlayMatchMultiple(GAMEFRAME* gameFrame);
+
+unsigned int PlayMatchTrain(GAMEFRAME* gameFrame);
+
 bool KeyOutCheck(MainFrame* mainFrame);
 
 #endif /* PROSUBFUNC_H_ */

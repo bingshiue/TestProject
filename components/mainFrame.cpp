@@ -1144,11 +1144,20 @@ void MainFrame::Start(wxCommandEvent& event) {
 		}
 
 		// Get Win
+		// Match Item Win
 		this->m_gameFrame.m_matchAwardType = GetMatchAward(&this->m_gameFrame);
 		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(
 				this->m_gameFrame.m_matchAwardType,
 				this->m_gameFrame.m_gameCredit.m_matchBet);
 
+		// Special Match Item Win
+		if(this->m_gameFrame.m_matchAwardType==match_award_multiple){
+			PlayMatchMultiple(&this->m_gameFrame);
+		}else if(this->m_gameFrame.m_matchAwardType==match_award_train){
+			PlayMatchTrain(&this->m_gameFrame);
+		}
+
+		// Slot Win
 		this->m_gameFrame.m_slotAwardType = GetSlotStraightAward(
 				&this->m_gameFrame);
 		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(
