@@ -7,6 +7,7 @@
 #include "../include/probability/ProDefine.h"
 #include "../include/probability/ProDefaultKeyInOut.h"
 #include "../include/probability/ProSubFunc.h"
+#include "../include/probability/ProMultipleSubFunc.h"
 #include "../icons/sample.xpm"
 
 MainFrame::MainFrame(const wxString& title) :
@@ -79,6 +80,10 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Create Match Item Panel Instance */
 	this->m_matchItemPanel = new MatchItemPanel(this->m_parent,
 			L"Match Award Item");
+
+	/* Create Match Multiple Item Panel Instance */
+	this->m_matchMultipleItemPanel = new MatchMultipleItemPanel(this->m_parent,
+			L"Match Multiple Item");
 
 	/* Create Key In/Out Panel */
 	this->m_keyInOutPanel = new KeyInOutPanel(this->m_parent, L"Key In/Out");
@@ -383,6 +388,44 @@ void MainFrame::setMatchItemPanelDefaultValue(void) {
 	wxString item9Value;
 	item9Value << DEFAULT_MATCH_TRAIN;
 	this->m_matchItemPanel->mItem_train_tc->SetValue(item9Value);
+}
+
+void MainFrame::setMatchMultipleItemPanelDefaultValue(void){
+	wxString item1Value;
+	item1Value << DEFAULT_MATCH_MULTIPLE_CHERRY;
+	this->m_matchMultipleItemPanel->mItem_cherry_tc->SetValue(item1Value);
+
+	wxString item3Value;
+	item3Value << DEFAULT_MATCH_MULTIPLE_APPLE;
+	this->m_matchMultipleItemPanel->mItem_apple_tc->SetValue(item3Value);
+
+	wxString item2Value;
+	item2Value << DEFAULT_MATCH_MULTIPLE_ORANGE;
+	this->m_matchMultipleItemPanel->mItem_orange_tc->SetValue(item2Value);
+
+	wxString item4Value;
+	item4Value << DEFAULT_MATCH_MULTIPLE_COIN;
+	this->m_matchMultipleItemPanel->mItem_coin_tc->SetValue(item4Value);
+
+	wxString item5Value;
+	item5Value << DEFAULT_MATCH_MULTIPLE_BAR;
+	this->m_matchMultipleItemPanel->mItem_bar_tc->SetValue(item5Value);
+
+	wxString item6Value;
+	item6Value << DEFAULT_MATCH_MULTIPLE_DIAMOND;
+	this->m_matchMultipleItemPanel->mItem_diamond_tc->SetValue(item6Value);
+
+	wxString item7Value;
+	item7Value << DEFAULT_MATCH_MULTIPLE_CROWN;
+	this->m_matchMultipleItemPanel->mItem_crown_tc->SetValue(item7Value);
+
+	wxString item8Value;
+	item8Value << DEFAULT_MATCH_MULTIPLE_MULTIPLE;
+	this->m_matchMultipleItemPanel->mItem_multiple_tc->SetValue(item8Value);
+
+	wxString item9Value;
+	item9Value << DEFAULT_MATCH_MULTIPLE_TRAIN;
+	this->m_matchMultipleItemPanel->mItem_train_tc->SetValue(item9Value);
 }
 
 void MainFrame::setKeyInOutDefaultValue(void) {
@@ -802,6 +845,10 @@ void MainFrame::SetMatchProStep(void) {
 			m_matchStep.step1, m_matchStep.step2, m_matchStep.step3,
 			m_matchStep.step4, m_matchStep.step5, m_matchStep.step6,
 			m_matchStep.step7, m_matchStep.step8, m_matchStep.step9);
+}
+
+void MainFrame::SetMatchMultipleProStep(void){
+
 }
 
 void MainFrame::ResetResultPanel(void) {

@@ -324,16 +324,6 @@ unsigned int GetSlotStraightWin(unsigned int slotStraightAward,unsigned int bet)
 	return slotStraightWin;
 }
 
-unsigned int PlayMatchMultiple(GAMEFRAME* gameFrame){
-
-	return 0;
-}
-
-unsigned int PlayMatchTrain(GAMEFRAME* gameFrame){
-
-	return 0;
-}
-
 bool KeyOutCheck(MainFrame* mainFrame){
 	bool result;
 	unsigned long w1;
