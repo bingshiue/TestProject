@@ -1,10 +1,10 @@
 /**
- * @file ProMultiple.h
+ * @file ProMulTable.h
  *
  */
 
-#ifndef PROMULTIPLE_H_
-#define PROMULTIPLE_H_
+#ifndef PROMULTABLE_H_
+#define PROMULTABLE_H_
 
 #include "ProAward.h"
 
@@ -36,4 +36,4 @@ unsigned int SlotAwardMulTable[NUM_STRAIGHT_AWARDS]={
 
 
 
-#endif /* PROMULTIPLE_H_ */
+#endif /* PROMULTABLE_H_ */

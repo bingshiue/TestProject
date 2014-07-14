@@ -8,7 +8,7 @@
 #include "../include/probability/ProType.h"
 #include "../include/probability/ProItem.h"
 #include "../include/probability/ProAward.h"
-#include "../include/probability/ProMultiple.h"
+#include "../include/probability/ProMulTable.h"
 #include "../include/probability/ProSubFunc.h"
 
 extern unsigned int DefaultKeyInOut[10][3];
