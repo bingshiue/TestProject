@@ -37,8 +37,12 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Create Panel Instance */
 	this->m_parent = new wxPanel(this->m_noteBook, wxID_ANY);
 
+	/* Create Special Panel */
+	this->m_specialPanel = new wxPanel(this->m_noteBook, wxID_ANY);
+
 	/* Add Panels to Notebook */
 	this->m_noteBook->AddPage(this->m_parent, L"CrownTrain", true);
+	this->m_noteBook->AddPage(this->m_specialPanel, L"Special", false);
 
 	/* Create Main Top Box Sizer */
 	this->m_mainTopSizer = new wxBoxSizer(wxVERTICAL);
@@ -61,6 +65,9 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Create Horizontal Box Sizer 5 */
 	this->m_hbox_5 = new wxBoxSizer(wxHORIZONTAL);
 
+	/* Create Special Top Box Sizer */
+	this->m_specialTopSizer = new wxBoxSizer(wxVERTICAL);
+
 	/* Create Static Box Instance */
 	this->m_sb = new wxStaticBox(this->m_parent, wxID_ANY, L"Run",
 			wxDefaultPosition, wxDefaultSize);
@@ -82,7 +89,7 @@ MainFrame::MainFrame(const wxString& title) :
 			L"Match Award Item");
 
 	/* Create Match Multiple Item Panel Instance */
-	this->m_matchMultipleItemPanel = new MatchMultipleItemPanel(this->m_parent,
+	this->m_matchMultipleItemPanel = new MatchMultipleItemPanel(this->m_specialPanel,
 			L"Match Multiple Item");
 
 	/* Create Key In/Out Panel */
@@ -148,6 +155,10 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Setup Main Top Box Sizer To Parent Panel */
 	this->m_parent->SetSizer(this->m_mainTopSizer, true);
 
+	/* Setup Special Top Box Sizer To Special Panel */
+	this->m_specialTopSizer->Add(this->m_matchMultipleItemPanel,1,wxEXPAND | wxALL);
+	this->m_specialPanel->SetSizer(this->m_specialTopSizer,true);
+
 	//wxImage::AddHandler( new wxPNGHandler );
 
 	/* Create Menu Bar Instance */
@@ -207,6 +218,10 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Set Match Item Panel Default Value */
 	this->setMatchItemPanelDefaultValue();
 	LOGI("Probability", "Set Match Item Panel Default Value \n");
+
+	/* Set Match Multiple Item Panel Default Value */
+	this->setMatchMultipleItemPanelDefaultValue();
+	LOGI("Probability", "Set Match Multiple Item Panel Default Value \n");
 
 	/* Set Key In/Out Panel Default Value */
 	this->setKeyInOutDefaultValue();
@@ -848,7 +863,75 @@ void MainFrame::SetMatchProStep(void) {
 }
 
 void MainFrame::SetMatchMultipleProStep(void){
+	//step 1
+	m_matchMultipleStep.step1 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue());
+	//step 2
+	m_matchMultipleStep.step2 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue());
+	//step 3
+	m_matchMultipleStep.step3 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue());
+	//step 4
+	m_matchMultipleStep.step4 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue());
+	//step 5
+	m_matchMultipleStep.step5 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_bar_tc->GetValue());
+	//step 6
+	m_matchMultipleStep.step6 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_bar_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_diamond_tc->GetValue());
+	//step 7
+	m_matchMultipleStep.step7 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_bar_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_diamond_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_crown_tc->GetValue());
+	//step 8
+	m_matchMultipleStep.step8 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_bar_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_diamond_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_crown_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_multiple_tc->GetValue());
+	//step 9
+	m_matchMultipleStep.step9 = wxAtoi(
+			this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_bar_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_diamond_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_crown_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_multiple_tc->GetValue())
+			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_train_tc->GetValue());
 
+	LOGD("Probability",
+			"Set Match Multiple Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
+			m_matchMultipleStep.step1, m_matchMultipleStep.step2, m_matchMultipleStep.step3,
+			m_matchMultipleStep.step4, m_matchMultipleStep.step5, m_matchMultipleStep.step6,
+			m_matchMultipleStep.step7, m_matchMultipleStep.step8, m_matchMultipleStep.step9);
 }
 
 void MainFrame::ResetResultPanel(void) {
@@ -1069,6 +1152,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 		if(wxAtoi(this->m_slotItemPanel_middle->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
 		if(wxAtoi(this->m_slotItemPanel_right->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
 		if(wxAtoi(this->m_matchItemPanel->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
+		if(wxAtoi(this->m_matchMultipleItemPanel->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
 
 		if(check_draw_cnt_ok==false){
 			wxMessageDialog *dial = new wxMessageDialog(NULL,
@@ -1085,6 +1169,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 	SetSlot2ProStep();
 	SetSlot3ProStep();
 	SetMatchProStep();
+	SetMatchMultipleProStep();
 
 	/* Set Options */
 	// Set Max Key In

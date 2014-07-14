@@ -67,6 +67,7 @@ public:
 	bool m_runOneTest;/**< Run One Test */
 
 	wxPanel *m_parent;/**< Parent Panel */
+	wxPanel *m_specialPanel;/**< Special Panel */
 	wxNotebook *m_noteBook;/**< Note Book */
 
 	wxSizer *m_mainTopSizer;/**< Main Top Level Sizer */
@@ -76,6 +77,8 @@ public:
 	wxSizer *m_hbox_3;/**< Horizontal Sizer 3 */
 	wxSizer *m_hbox_4;/**< Horizontal Sizer 4 */
 	wxSizer *m_hbox_5;/**< Horizontal Sizer 5 */
+
+	wxSizer *m_specialTopSizer;/**< Special Top Level Sizer */
 
 	wxStaticBox *m_sb;/**< Static Box */
 	wxStaticBoxSizer *m_sz;/**< Static Box Sizer */
