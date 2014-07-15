@@ -7,6 +7,9 @@
 #define MATCHTRAINITEMPANEL_H_
 
 #include <wx/wx.h>
+#include "../probability/ProDefine.h"
+
+#define FRAME_CNT  29
 
 enum {
 	CID_MATCH_TRAIN_FRAME_1 = 0,
@@ -48,12 +51,14 @@ public:
     wxStaticBoxSizer *m_sz;/**< Static Box Sizer */
     wxGridSizer *m_gridSz;/**< Grid Sizer */
 
-    wxStaticText* mItem_label[29];/**< Item Static Text */
+    wxStaticText* mItem_label[FRAME_CNT];/**< Item Static Text */
 
-    wxTextCtrl* mItem_tc[29];/**< Item Text Control */
+    wxTextCtrl* mItem_tc[FRAME_CNT];/**< Item Text Control */
 
     wxStaticText* mTotalValue_label;/**< Total Value Text */
     wxTextCtrl* mTotalValue_tc;/**< Total Value Text Control */
+
+    int m_defaultValue[FRAME_CNT];/**< Default Value */
 
 	/**
 	 * @brief Constructor.

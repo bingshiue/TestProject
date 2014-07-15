@@ -92,6 +92,10 @@ MainFrame::MainFrame(const wxString& title) :
 	this->m_matchMultipleItemPanel = new MatchMultipleItemPanel(this->m_specialPanel,
 			L"Match Multiple Item");
 
+	/* Create Match Train Item Panel Instance */
+	this->m_matchTrainItemPanel = new MatchTrainItemPanel(this->m_specialPanel,
+			L"Match Train Item");
+
 	/* Create Key In/Out Panel */
 	this->m_keyInOutPanel = new KeyInOutPanel(this->m_parent, L"Key In/Out");
 
@@ -156,7 +160,8 @@ MainFrame::MainFrame(const wxString& title) :
 	this->m_parent->SetSizer(this->m_mainTopSizer, true);
 
 	/* Setup Special Top Box Sizer To Special Panel */
-	this->m_specialTopSizer->Add(this->m_matchMultipleItemPanel,1,wxEXPAND | wxALL);
+	this->m_specialTopSizer->Add(this->m_matchMultipleItemPanel,0,wxEXPAND | wxALL);
+	this->m_specialTopSizer->Add(this->m_matchTrainItemPanel,0,wxEXPAND | wxALL );
 	this->m_specialPanel->SetSizer(this->m_specialTopSizer,true);
 
 	//wxImage::AddHandler( new wxPNGHandler );
@@ -222,6 +227,10 @@ MainFrame::MainFrame(const wxString& title) :
 	/* Set Match Multiple Item Panel Default Value */
 	this->setMatchMultipleItemPanelDefaultValue();
 	LOGI("Probability", "Set Match Multiple Item Panel Default Value \n");
+
+	/* Set Match Train Item Panel Default Value */
+	this->setMatchTrainItemPanelDefaultValue();
+	LOGI("Probability", "Set Match Train Item Panel Default Value \n");
 
 	/* Set Key In/Out Panel Default Value */
 	this->setKeyInOutDefaultValue();
@@ -443,6 +452,14 @@ void MainFrame::setMatchMultipleItemPanelDefaultValue(void){
 	this->m_matchMultipleItemPanel->mItem_train_tc->SetValue(item9Value);
 }
 
+void MainFrame::setMatchTrainItemPanelDefaultValue(void){
+	for(int idx=0; idx<FRAME_CNT; idx++){
+		wxString Value;
+		Value << this->m_matchTrainItemPanel->m_defaultValue[idx];
+		this->m_matchTrainItemPanel->mItem_tc[idx]->SetValue(Value);
+	}
+}
+
 void MainFrame::setKeyInOutDefaultValue(void) {
 	//Step 1
 	wxString set_1_start;
@@ -620,7 +637,7 @@ void MainFrame::SetSlot1ProStep(void) {
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_freecoin_tc->GetValue())
 			+ wxAtoi(this->m_slotItemPanel_left->mItem_roulette_tc->GetValue());
 
-	LOGD("Probability",
+	LOGI("Probability",
 			"Set Slot 1 Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
 			m_slot1Step.step1, m_slot1Step.step2, m_slot1Step.step3,
 			m_slot1Step.step4, m_slot1Step.step5, m_slot1Step.step6,
@@ -709,7 +726,7 @@ void MainFrame::SetSlot2ProStep(void) {
 					+ wxAtoi(
 							this->m_slotItemPanel_middle->mItem_roulette_tc->GetValue());
 
-	LOGD("Probability",
+	LOGI("Probability",
 			"Set Slot 2 Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
 			m_slot2Step.step1, m_slot2Step.step2, m_slot2Step.step3,
 			m_slot2Step.step4, m_slot2Step.step5, m_slot2Step.step6,
@@ -783,7 +800,7 @@ void MainFrame::SetSlot3ProStep(void) {
 			+ wxAtoi(
 					this->m_slotItemPanel_right->mItem_roulette_tc->GetValue());
 
-	LOGD("Probability",
+	LOGI("Probability",
 			"Set Slot 3 Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
 			m_slot3Step.step1, m_slot3Step.step2, m_slot3Step.step3,
 			m_slot3Step.step4, m_slot3Step.step5, m_slot3Step.step6,
@@ -855,7 +872,7 @@ void MainFrame::SetMatchProStep(void) {
 			+ wxAtoi(this->m_matchItemPanel->mItem_multiple_tc->GetValue())
 			+ wxAtoi(this->m_matchItemPanel->mItem_train_tc->GetValue());
 
-	LOGD("Probability",
+	LOGI("Probability",
 			"Set Match Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
 			m_matchStep.step1, m_matchStep.step2, m_matchStep.step3,
 			m_matchStep.step4, m_matchStep.step5, m_matchStep.step6,
@@ -927,11 +944,25 @@ void MainFrame::SetMatchMultipleProStep(void){
 			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_multiple_tc->GetValue())
 			+ wxAtoi(this->m_matchMultipleItemPanel->mItem_train_tc->GetValue());
 
-	LOGD("Probability",
+	LOGI("Probability",
 			"Set Match Multiple Probability Step => %d,%d,%d,%d,%d,%d,%d,%d,%d \n",
 			m_matchMultipleStep.step1, m_matchMultipleStep.step2, m_matchMultipleStep.step3,
 			m_matchMultipleStep.step4, m_matchMultipleStep.step5, m_matchMultipleStep.step6,
 			m_matchMultipleStep.step7, m_matchMultipleStep.step8, m_matchMultipleStep.step9);
+}
+
+void MainFrame::SetMatchTrainProStep(void){
+	int idx=0;
+	m_matchTrainStep.step[0] = wxAtoi(this->m_matchTrainItemPanel->mItem_tc[0]->GetValue());
+	for(idx=1; idx<FRAME_CNT; idx++){
+		m_matchTrainStep.step[idx] = m_matchTrainStep.step[idx-1] + wxAtoi(this->m_matchTrainItemPanel->mItem_tc[idx]->GetValue());;
+	}
+
+	for(idx=0; idx<FRAME_CNT; idx++){
+		LOGI("Probability",
+				"Set Match Train Probability Step => Step %d : %d \n",
+				idx, m_matchTrainStep.step[idx]);
+	}
 }
 
 void MainFrame::ResetResultPanel(void) {
@@ -1153,6 +1184,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 		if(wxAtoi(this->m_slotItemPanel_right->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
 		if(wxAtoi(this->m_matchItemPanel->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
 		if(wxAtoi(this->m_matchMultipleItemPanel->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
+		if(wxAtoi(this->m_matchTrainItemPanel->mTotalValue_tc->GetValue()) != 10000) check_draw_cnt_ok = false;
 
 		if(check_draw_cnt_ok==false){
 			wxMessageDialog *dial = new wxMessageDialog(NULL,
@@ -1170,6 +1202,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 	SetSlot3ProStep();
 	SetMatchProStep();
 	SetMatchMultipleProStep();
+	SetMatchTrainProStep();
 
 	/* Set Options */
 	// Set Max Key In

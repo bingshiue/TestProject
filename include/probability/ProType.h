@@ -141,4 +141,24 @@ typedef struct MatchMultipleStep{
 	}
 }MATCHMULTIPLESTEP;
 
+typedef struct MatchTrainStep{
+	int step[29];/**< step */
+
+	/**
+	 * @brief Constructor.
+	 */
+	MatchTrainStep(){
+		this->Reset();
+	}
+
+	/**
+	 * @brief Reset all member parameter.
+	 */
+	void Reset(void){
+		for(int idx=0; idx<29; idx++){
+			step[idx]=0;
+		}
+	}
+}MATCHTRAINSTEP;
+
 #endif /* PROTYPE_H_ */

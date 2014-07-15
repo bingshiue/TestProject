@@ -27,6 +27,7 @@
 #include "slotItemPanel.h"
 #include "matchItemPanel.h"
 #include "matchMultipleItemPanel.h"
+#include "matchTrainItemPanel.h"
 #include "keyInOutPanel.h"
 #include "optionPanel.h"
 #include "resultPanel.h"
@@ -55,6 +56,8 @@ public:
 	MATCHPROSTEP m_matchStep;/**< Match Probability Item */
 
 	MatchMultipleStep m_matchMultipleStep;/**< Match Multiple Probability Item */
+
+	MatchTrainStep m_matchTrainStep;/**< Match Train Probability Item */
 
 	SETTINGDATA m_settingData;/**< Setting Data */
 
@@ -95,6 +98,8 @@ public:
 	MatchItemPanel *m_matchItemPanel;/**< Match Item Panel */
 
 	MatchMultipleItemPanel *m_matchMultipleItemPanel;/**< Match Multiple Panle */
+
+	MatchTrainItemPanel *m_matchTrainItemPanel;/**< Match Train Panle */
 
 	KeyInOutPanel *m_keyInOutPanel;/**< Key InOut Panel */
 
@@ -140,6 +145,11 @@ public:
 	void setMatchMultipleItemPanelDefaultValue(void);
 
 	/**
+	 * @brief Set Match Train Item Panel Default Value.
+	 */
+	void setMatchTrainItemPanelDefaultValue(void);
+
+	/**
 	 * @brief Set Key In/Out Panel Default Value.
 	 */
 	void setKeyInOutDefaultValue(void);
@@ -168,6 +178,11 @@ public:
 	 * @brief Set Match Multiple Probability Step.
 	 */
 	void SetMatchMultipleProStep(void);
+
+	/**
+	 * @brief Set Match Train Probability Step.
+	 */
+	void SetMatchTrainProStep(void);
 
 	/**
 	 * @brief Reset Result Panel.
