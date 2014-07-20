@@ -8,6 +8,7 @@
 #include "../include/probability/ProDefaultKeyInOut.h"
 #include "../include/probability/ProSubFunc.h"
 #include "../include/probability/ProMultipleSubFunc.h"
+#include "../include/probability/ProTrainSubFunc.h"
 #include "../icons/sample.xpm"
 
 MainFrame::MainFrame(const wxString& title) :
@@ -1133,6 +1134,26 @@ void MainFrame::PrintAwardDetail() {
 
 	LOGI("Probability", "----- Free Times Detail -----\n");
 	LOGI("Probability", "Total Free Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalFreeTimes);
+
+	LOGI("Probability", "----- Match Mulitple Detail -----\n");
+	LOGI("Probability", "Total Match Mulitple Play Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlayTimes);
+	LOGI("Probability", "Total Match Mulitple Win Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWinTimes);
+	LOGI("Probability", "Total Match Mulitple Play/Win Times %% = %4.2f \n", ((double)this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWinTimes/
+			(double)this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlayTimes)*100);
+	LOGI("Probability", "Total Match Mulitple Play = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlay);
+	LOGI("Probability", "Total Match Mulitple Win = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWin);
+	LOGI("Probability", "Total Match Mulitple Play/Win %% = %4.2f \n", ((double)this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWin/
+			(double)this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlay)*100);
+
+	LOGI("Probability", "----- Match Train Detail -----\n");
+	LOGI("Probability", "Total Match Train Play Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes);
+	LOGI("Probability", "Total Match Train Win Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes);
+	LOGI("Probability", "Total Match Train Play/Win Times %% = %4.2f \n", ((double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes/
+			(double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes)*100);
+	LOGI("Probability", "Total Match Train Play = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay);
+	LOGI("Probability", "Total Match Train Win = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainWin);
+	LOGI("Probability", "Total Match Train Play/Win %% = %4.2f \n", ((double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWin/
+			(double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay)*100);
 }
 
 void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
@@ -1161,6 +1182,21 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 				<< endl;
 	}
 	store << "------------------------------" << endl;
+
+	store << "----- Free Times Detail -----" << endl;
+	store << "Total Free Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalFreeTimes << endl;
+
+	store << "----- Match Mulitple Detail -----" << endl;
+	store << "Total Match Mulitple Play Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlayTimes << endl;
+	store << "Total Match Mulitple Win Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWinTimes << endl;
+	store << "Total Match Mulitple Play = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlay << endl;
+	store << "Total Match Mulitple Win = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWin << endl;
+
+	store << "----- Match Train Detail -----" << endl;
+	store << "Total Match Train Play Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes << endl;
+	store << "Total Match Train Win Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes << endl;
+	store << "Total Match Train Play = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay << endl;
+	store << "Total Match Train Win = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWin << endl;
 
 }
 
@@ -1317,9 +1353,45 @@ void MainFrame::Start(wxCommandEvent& event) {
 
 		// Special Match Item Win
 		if(this->m_gameFrame.m_matchAwardType==match_award_multiple){
-			PlayMatchMultiple(&this->m_gameFrame);
+			// Record
+			this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlayTimes++;
+			this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlay += this->m_settingData.m_maxBet * 4;
+
+			// Get Match Multiple Win
+			this->m_gameFrame.m_gameCredit.m_matchMultipleWin = PlayMatchMultiple(this);
+
+			if(this->m_gameFrame.m_gameCredit.m_matchMultipleWin > 0){
+				this->m_gameFrame.m_gameCredit.m_win += this->m_gameFrame.m_gameCredit.m_matchMultipleWin;
+				this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWin += this->m_gameFrame.m_gameCredit.m_matchMultipleWin;
+
+				// Record
+				this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWinTimes++;
+
+				this->m_gameFrame.m_gameCredit.m_matchMultipleWin = 0;
+
+			}else{
+				LOGD("Probability","Match Multiple Win = %d \n",this->m_gameFrame.m_gameCredit.m_matchMultipleWin);
+			}
 		}else if(this->m_gameFrame.m_matchAwardType==match_award_train){
-			PlayMatchTrain(&this->m_gameFrame);
+			// Record
+			this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes++;
+			this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay += this->m_settingData.m_maxBet * 4;
+
+			// Get Match Train Win
+			this->m_gameFrame.m_gameCredit.m_matchTrainWin = PlayMatchTrain(this);
+
+			if(this->m_gameFrame.m_gameCredit.m_matchTrainWin > 0){
+				this->m_gameFrame.m_gameCredit.m_win += this->m_gameFrame.m_gameCredit.m_matchTrainWin;
+				this->m_gameFrame.m_gameRecord.m_totalMatchTrainWin += this->m_gameFrame.m_gameCredit.m_matchTrainWin;
+
+				// Record
+				this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes++;
+
+				this->m_gameFrame.m_gameCredit.m_matchTrainWin = 0;
+
+			}else{
+				LOGD("Probability","Match Train Win = %d \n",this->m_gameFrame.m_gameCredit.m_matchTrainWin);
+			}
 		}
 
 		// Slot Win
@@ -1328,6 +1400,10 @@ void MainFrame::Start(wxCommandEvent& event) {
 		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(
 				this->m_gameFrame.m_slotAwardType,
 				this->m_gameFrame.m_gameCredit.m_slotBet[0]);
+
+		// Record
+		this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
+		this->m_gameFrame.m_gameRecord.m_slotAwardRec[this->m_gameFrame.m_slotAwardType]++;
 
 		if (this->m_gameFrame.m_gameCredit.m_win > 0) {
 			this->m_gameFrame.m_gameCredit.m_credit +=
@@ -1339,9 +1415,6 @@ void MainFrame::Start(wxCommandEvent& event) {
 			}
 
 			// Record
-			this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
-			this->m_gameFrame.m_gameRecord.m_slotAwardRec[this->m_gameFrame.m_slotAwardType]++;
-
 			this->m_gameFrame.m_gameRecord.m_totalMainWinScores +=
 					this->m_gameFrame.m_gameCredit.m_win;
 			this->m_gameFrame.m_gameRecord.m_totalMainWinTimes++;

@@ -28,6 +28,16 @@ typedef struct _GameRecord{
 
 	unsigned long m_totalFreeTimes;/**< Total Free Times */
 
+	unsigned long m_totalMatchMultiplePlayTimes;/**< Total Match Multiple Play Times */
+	unsigned long m_totalMatchMultipleWinTimes;/**< Total Match Multiple Win Times */
+	unsigned long m_totalMatchMultiplePlay;/**< Total Match Multiple Play */
+	unsigned long m_totalMatchMultipleWin;/**< Total Match Multiple Win */
+
+	unsigned long m_totalMatchTrainPlayTimes;/**< Total Match Train Play Times */
+	unsigned long m_totalMatchTrainWinTimes;/**< Total Match Train Win Times */
+	unsigned long m_totalMatchTrainPlay;/**< Total Match Train Play */
+	unsigned long m_totalMatchTrainWin;/**< Total Match Train Win */
+
 	/**
 	 * @brief Clean All Member
 	 */
@@ -48,6 +58,14 @@ typedef struct _GameRecord{
 		for(unsigned int idx=0;idx<sizeof(m_matchAwardRec)/sizeof(m_matchAwardRec[0]);idx++) m_matchAwardRec[idx]=0;
 		for(unsigned int idx=0;idx<sizeof(m_slotAwardRec)/sizeof(m_slotAwardRec[0]);idx++) m_slotAwardRec[idx]=0;
 		m_totalFreeTimes=0;
+		m_totalMatchMultiplePlayTimes=0;
+		m_totalMatchMultipleWinTimes=0;
+		m_totalMatchMultiplePlay=0;
+		m_totalMatchMultipleWin=0;
+		m_totalMatchTrainPlayTimes=0;
+		m_totalMatchTrainWinTimes=0;
+		m_totalMatchTrainPlay=0;
+		m_totalMatchTrainWin=0;
 	}
 
 	/**

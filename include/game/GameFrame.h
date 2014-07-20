@@ -6,6 +6,7 @@
 #ifndef GAMEFRAME_H_
 #define GAMEFRAME_H_
 
+#include "../common.h"
 #include "../probability/ProItem.h"
 #include "../probability/ProAward.h"
 #include "GameCredit.h"
@@ -73,14 +74,12 @@ typedef struct _Table{
 
 }TABLE;/**< Table */
 
-#define TABLE_SIZE  29
-
 typedef struct _GameFrame{
 	GAMECREDIT m_gameCredit;/**< Game Credit */
 	GAMEREC m_gameRecord;/**< Game Record */
 	MATCH m_match;/**< Match */
 	SLOT m_slot[3];/**< Slot */
-	TABLE m_table[TABLE_SIZE];/**< Table */
+	TABLE m_table[TOTAL_FRAME_COUNT];/**< Table */
 	unsigned int m_matchAwardType;/**< Match Award Type */
 	unsigned int m_slotAwardType;/**< Slot Award Type */
 
@@ -92,7 +91,7 @@ typedef struct _GameFrame{
 		m_matchAwardType = match_award_none;
 		m_slotAwardType = straight_award_none;
 		// Clean Table
-		for(int idx=0; idx<TABLE_SIZE; idx++ ) { m_table[idx].Clean(); }
+		for(int idx=0; idx<TOTAL_FRAME_COUNT; idx++ ) { m_table[idx].Clean(); }
 		// Setup Table
 		m_table[0].m_kind=match_item_orange;  //  0
 		m_table[1].m_kind=match_item_cherry;  //  1

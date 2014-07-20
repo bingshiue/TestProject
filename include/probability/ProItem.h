@@ -17,6 +17,7 @@ enum {
 	match_item_crown,       /**< Match Item Crown */
 	match_item_multiple,    /**< Match Item Multiple */
 	match_item_train,       /**< Match Item Train */
+	match_item_count        /**< Match Item Count */
 };
 
 enum {
@@ -30,6 +31,7 @@ enum {
 	slot_item_crown,       /**< Slot Item Crown */
 	slot_item_freecoin,    /**< Slot Item Freecoin */
 	slot_item_roulette,    /**< Slot Item Roulette */
+	slot_item_count        /**< SLot Item Count */
 };
 
 #endif /* PROITEM_H_ */

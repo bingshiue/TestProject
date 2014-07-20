@@ -42,7 +42,9 @@ unsigned int GetSlotLeftStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
+#ifdef OUTPUT_MAIN_DRAW_DETAIL
 	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
+#endif
 
 	return ret;
 }
@@ -76,7 +78,9 @@ unsigned int GetSlotMiddleStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
+#ifdef OUTPUT_MAIN_DRAW_DETAIL
 	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
+#endif
 
 	return ret;
 }
@@ -110,7 +114,9 @@ unsigned int GetSlotRightStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
+#ifdef OUTPUT_MAIN_DRAW_DETAIL
 	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
+#endif
 
 	return ret;
 }
@@ -121,7 +127,7 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	MatchProStep* matchStep = &(mainFrame->m_matchStep);
 
-	unsigned int ret = slot_item_unknown;
+	unsigned int ret = match_item_unknown;
 
 	if (random < matchStep->step1)
 		ret = match_item_cherry;
@@ -144,7 +150,9 @@ unsigned int GetMatchStopItem(MTRANDOM* mtRandom, MainFrame* mainFrame) {
 
 	assert(ret > 0);
 
+#ifdef OUTPUT_MAIN_DRAW_DETAIL
 	LOGD(__func__, "Random=%d,Stop Item=%d \n", random, ret);
+#endif
 
 	return ret;
 }

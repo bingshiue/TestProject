@@ -17,6 +17,7 @@
 #include <wx/datstrm.h>
 #include <wx/textfile.h>
 #include <wx/tokenzr.h>
+#include "../common.h"
 #include "../version.h"
 #include "../log.h"
 #include "../mersenne_twister/MTRandom.h"
@@ -55,9 +56,9 @@ public:
 	SLOTPROSTEP m_slot3Step;/**< Slot 3 Probability Item */
 	MATCHPROSTEP m_matchStep;/**< Match Probability Item */
 
-	MatchMultipleStep m_matchMultipleStep;/**< Match Multiple Probability Item */
+	MATCHMULTIPLESTEP m_matchMultipleStep;/**< Match Multiple Probability Item */
 
-	MatchTrainStep m_matchTrainStep;/**< Match Train Probability Item */
+	MATCHTRAINSTEP m_matchTrainStep;/**< Match Train Probability Item */
 
 	SETTINGDATA m_settingData;/**< Setting Data */
 

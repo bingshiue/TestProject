@@ -11,8 +11,16 @@
 #include "../mersenne_twister/MTRandom.h"
 #include "../components/mainFrame.h"
 
-unsigned int PlayMatchMultiple(GAMEFRAME* gameFrame);
+#define MULTIPLE_TIMES  5/**< Multiple Times */
 
-unsigned int PlayMatchTrain(GAMEFRAME* gameFrame);
+unsigned int DrawMatchMultipleItem(MainFrame* mainFrame);
+
+unsigned int CheckItemCount(unsigned int item);
+
+unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item);
+
+unsigned int GetMatchMultipleWin(unsigned int matchAward,unsigned int bet);
+
+unsigned int PlayMatchMultiple(MainFrame* mainFrame);
 
 #endif /* PROMULTIPLESUBFUNC_H_ */
