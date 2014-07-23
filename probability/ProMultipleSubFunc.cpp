@@ -165,6 +165,10 @@ unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item){
 	}
 
 	LOGD("Probability","%s: Match Multiple Award=%d \n",__func__,award);
+
+	// Record Award
+	gameFrame->m_gameRecord.m_totalMatchMultipleAwardRec[award]++;
+
 	return award;
 }
 

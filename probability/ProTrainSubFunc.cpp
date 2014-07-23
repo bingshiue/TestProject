@@ -129,6 +129,10 @@ unsigned int GetMatchTrainAward(GAMEFRAME* gameFrame,unsigned int item){
 	}
 
 	LOGD("Probability","%s: Match Train Award=%d \n",__func__,award);
+
+	// Record Award
+	gameFrame->m_gameRecord.m_totalMatchTrainAwardRec[award]++;
+
 	return award;
 }
 
