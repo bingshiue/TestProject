@@ -1587,6 +1587,29 @@ void MainFrame::SaveFileContent(wxTextOutputStream& store) {
 	store << this->m_matchItemPanel->mItem_train_tc->GetValue() << endl;
 	store << endl;
 
+	//Match Multiple Item
+	store << wxString(L"Match Multiple Item Setting Value") << endl;
+	store << " @ ";
+	store << this->m_matchMultipleItemPanel->mItem_cherry_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_apple_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_orange_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_coin_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_bar_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_diamond_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_crown_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_multiple_tc->GetValue() << "  ";
+	store << this->m_matchMultipleItemPanel->mItem_train_tc->GetValue() << endl;
+	store << endl;
+
+	//Match Train Item
+	store << wxString(L"Match Train Item Setting Value") << endl;
+	store << " @ ";
+	for(unsigned int idx=0; idx<sizeof(this->m_matchTrainItemPanel->mItem_tc)/sizeof(this->m_matchTrainItemPanel->mItem_tc[0]); idx++){
+		store << this->m_matchTrainItemPanel->mItem_tc[idx]->GetValue() << "  ";
+	}
+	store << endl;
+	store << endl;
+
 	store << endl;
 
 	store << L"Max KeyIn Coin :" << endl;
@@ -1726,11 +1749,15 @@ void MainFrame::LoadFileContent(wxString filePath) {
 	wxTextFile tfile;
 	tfile.Open(filePath);
 	wxString content;
+	unsigned char load_ok = false;
 	int times = 0;
 	int settingTimes = 0;
+	int multipleTrainTimes = 0;
 	int index = 0;
 	int slotItem_percent[3][9];
 	int matchItem_percent[9];
+	int matchMultipleItem_percent[9];
+	int matchTrainItem_percent[29];
 
 	//Reset Array
 	for (unsigned int i = 0;
@@ -1744,6 +1771,14 @@ void MainFrame::LoadFileContent(wxString filePath) {
 	for (unsigned int i = 0;
 			i < sizeof(matchItem_percent) / sizeof(matchItem_percent[0]); i++) {
 		matchItem_percent[i] = 0;
+	}
+	for (unsigned int i = 0;
+			i < sizeof(matchMultipleItem_percent) / sizeof(matchMultipleItem_percent[0]); i++) {
+		matchMultipleItem_percent[i] = 0;
+	}
+	for (unsigned int i = 0;
+			i < sizeof(matchTrainItem_percent) / sizeof(matchTrainItem_percent[0]); i++) {
+		matchTrainItem_percent[i] = 0;
 	}
 
 	// Get First Line
@@ -1820,10 +1855,43 @@ void MainFrame::LoadFileContent(wxString filePath) {
 				break;
 
 			default:
-				LOGE("Parse Save File", "Something Error! \n");
+				LOGE("Parse Save File : Match/Slot", "Something Error! \n");
 				break;
 			}
-		} else if (content.Contains(wxString("$"))) {
+		}else if (content.Contains(wxString("@"))){// Parse Multiple/Train Item Setting Value
+			LOGD("Parse Save File", "%s \n", (const char* )content.mb_str());
+			++multipleTrainTimes;
+			wxStringTokenizer multipleTrain_tokenizer(content, wxString(" "));
+			index = 0;
+
+			switch(multipleTrainTimes){
+
+			case 1:// Multiple
+				while (multipleTrain_tokenizer.HasMoreTokens() == true) {
+					wxString token = multipleTrain_tokenizer.GetNextToken();
+					if (token.IsNumber() == true) {
+						matchMultipleItem_percent[index] = wxAtoi(token);
+						index++;
+					}
+				}
+				break;
+
+			case 2:// Train
+				while (multipleTrain_tokenizer.HasMoreTokens() == true) {
+					wxString token = multipleTrain_tokenizer.GetNextToken();
+					if (token.IsNumber() == true) {
+						matchTrainItem_percent[index] = wxAtoi(token);
+						index++;
+					}
+				}
+				break;
+
+			default:
+				LOGE("Parse Save File : Multiple/Train", "Something Error! \n");
+				break;
+			}
+
+		}else if (content.Contains(wxString("$"))) {
 			++settingTimes;
 			wxStringTokenizer setting_tokenizer(content, wxString(" "));
 
@@ -2013,6 +2081,7 @@ void MainFrame::LoadFileContent(wxString filePath) {
 				break;
 
 			default:
+				LOGE("Parse Save File : Setting Value", "Something Error! \n");
 				break;
 			}
 		}
@@ -2021,151 +2090,185 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		content = tfile.GetNextLine();
 
 		// Done ?
-		if (times == 4 && settingTimes == 7)
+		if (times == 4 && multipleTrainTimes==2 && settingTimes == 7){
+			LOGD("Parse Save File", "Break ! times=%d,multipleTrainTimes=%d,settingTimes=%d \n",times,multipleTrainTimes,settingTimes);
+			load_ok = true;
 			break;
-
-		//  Write Saved Slot/Match Item Setting Value To
-		if (times == 4) {
-			wxString _item;
-
-			// Left Slot
-			_item.Clear();
-			_item << slotItem_percent[0][0];
-			this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][1];
-			this->m_slotItemPanel_left->mItem_apple_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][2];
-			this->m_slotItemPanel_left->mItem_orange_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][3];
-			this->m_slotItemPanel_left->mItem_coin_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][4];
-			this->m_slotItemPanel_left->mItem_bar_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][5];
-			this->m_slotItemPanel_left->mItem_diamond_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][6];
-			this->m_slotItemPanel_left->mItem_crown_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][7];
-			this->m_slotItemPanel_left->mItem_freecoin_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-			_item << slotItem_percent[0][8];
-			this->m_slotItemPanel_left->mItem_roulette_tc->SetValue(_item);
-			LOGD("Parse Save File", "_item=%s \n",
-					(const char* )_item.mb_str());
-			_item.Clear();
-
-			// Middle Slot
-			_item.Clear();
-			_item << slotItem_percent[1][0];
-			this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][1];
-			this->m_slotItemPanel_middle->mItem_apple_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][2];
-			this->m_slotItemPanel_middle->mItem_orange_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][3];
-			this->m_slotItemPanel_middle->mItem_coin_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][4];
-			this->m_slotItemPanel_middle->mItem_bar_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][5];
-			this->m_slotItemPanel_middle->mItem_diamond_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][6];
-			this->m_slotItemPanel_middle->mItem_crown_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][7];
-			this->m_slotItemPanel_middle->mItem_freecoin_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[1][8];
-			this->m_slotItemPanel_middle->mItem_roulette_tc->SetValue(_item);
-			_item.Clear();
-
-			// Right Slot
-			_item.Clear();
-			_item << slotItem_percent[2][0];
-			this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][1];
-			this->m_slotItemPanel_right->mItem_apple_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][2];
-			this->m_slotItemPanel_right->mItem_orange_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][3];
-			this->m_slotItemPanel_right->mItem_coin_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][4];
-			this->m_slotItemPanel_right->mItem_bar_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][5];
-			this->m_slotItemPanel_right->mItem_diamond_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][6];
-			this->m_slotItemPanel_right->mItem_crown_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][7];
-			this->m_slotItemPanel_right->mItem_freecoin_tc->SetValue(_item);
-			_item.Clear();
-			_item << slotItem_percent[2][8];
-			this->m_slotItemPanel_right->mItem_roulette_tc->SetValue(_item);
-			_item.Clear();
-
-			// Match Item
-			_item.Clear();
-			_item << matchItem_percent[0];
-			this->m_matchItemPanel->mItem_cherry_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[1];
-			this->m_matchItemPanel->mItem_apple_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[2];
-			this->m_matchItemPanel->mItem_orange_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[3];
-			this->m_matchItemPanel->mItem_coin_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[4];
-			this->m_matchItemPanel->mItem_bar_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[5];
-			this->m_matchItemPanel->mItem_diamond_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[6];
-			this->m_matchItemPanel->mItem_crown_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[7];
-			this->m_matchItemPanel->mItem_multiple_tc->SetValue(_item);
-			_item.Clear();
-			_item << matchItem_percent[8];
-			this->m_matchItemPanel->mItem_train_tc->SetValue(_item);
-			_item.Clear();
 		}
 	}
+
+	//  Load Saved Slot/Match Multiple/Train Item Setting Value
+	if ( load_ok == true ) {
+		wxString _item;
+
+		// Left Slot
+		_item.Clear();
+		_item << slotItem_percent[0][0];
+		this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][1];
+		this->m_slotItemPanel_left->mItem_apple_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][2];
+		this->m_slotItemPanel_left->mItem_orange_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][3];
+		this->m_slotItemPanel_left->mItem_coin_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][4];
+		this->m_slotItemPanel_left->mItem_bar_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][5];
+		this->m_slotItemPanel_left->mItem_diamond_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][6];
+		this->m_slotItemPanel_left->mItem_crown_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][7];
+		this->m_slotItemPanel_left->mItem_freecoin_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+		_item << slotItem_percent[0][8];
+		this->m_slotItemPanel_left->mItem_roulette_tc->SetValue(_item);
+		//LOGD("Parse Save File", "_item=%s \n",(const char* )_item.mb_str());
+		_item.Clear();
+
+		// Middle Slot
+		_item.Clear();
+		_item << slotItem_percent[1][0];
+		this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][1];
+		this->m_slotItemPanel_middle->mItem_apple_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][2];
+		this->m_slotItemPanel_middle->mItem_orange_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][3];
+		this->m_slotItemPanel_middle->mItem_coin_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][4];
+		this->m_slotItemPanel_middle->mItem_bar_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][5];
+		this->m_slotItemPanel_middle->mItem_diamond_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][6];
+		this->m_slotItemPanel_middle->mItem_crown_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][7];
+		this->m_slotItemPanel_middle->mItem_freecoin_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[1][8];
+		this->m_slotItemPanel_middle->mItem_roulette_tc->SetValue(_item);
+		_item.Clear();
+
+		// Right Slot
+		_item.Clear();
+		_item << slotItem_percent[2][0];
+		this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][1];
+		this->m_slotItemPanel_right->mItem_apple_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][2];
+		this->m_slotItemPanel_right->mItem_orange_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][3];
+		this->m_slotItemPanel_right->mItem_coin_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][4];
+		this->m_slotItemPanel_right->mItem_bar_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][5];
+		this->m_slotItemPanel_right->mItem_diamond_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][6];
+		this->m_slotItemPanel_right->mItem_crown_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][7];
+		this->m_slotItemPanel_right->mItem_freecoin_tc->SetValue(_item);
+		_item.Clear();
+		_item << slotItem_percent[2][8];
+		this->m_slotItemPanel_right->mItem_roulette_tc->SetValue(_item);
+		_item.Clear();
+
+		// Match Items
+		_item.Clear();
+		_item << matchItem_percent[0];
+		this->m_matchItemPanel->mItem_cherry_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[1];
+		this->m_matchItemPanel->mItem_apple_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[2];
+		this->m_matchItemPanel->mItem_orange_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[3];
+		this->m_matchItemPanel->mItem_coin_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[4];
+		this->m_matchItemPanel->mItem_bar_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[5];
+		this->m_matchItemPanel->mItem_diamond_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[6];
+		this->m_matchItemPanel->mItem_crown_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[7];
+		this->m_matchItemPanel->mItem_multiple_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchItem_percent[8];
+		this->m_matchItemPanel->mItem_train_tc->SetValue(_item);
+		_item.Clear();
+
+		// Multiple Items
+		_item.Clear();
+		_item << matchMultipleItem_percent[0];
+		this->m_matchMultipleItemPanel->mItem_cherry_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[1];
+		this->m_matchMultipleItemPanel->mItem_apple_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[2];
+		this->m_matchMultipleItemPanel->mItem_orange_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[3];
+		this->m_matchMultipleItemPanel->mItem_coin_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[4];
+		this->m_matchMultipleItemPanel->mItem_bar_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[5];
+		this->m_matchMultipleItemPanel->mItem_diamond_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[6];
+		this->m_matchMultipleItemPanel->mItem_crown_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[7];
+		this->m_matchMultipleItemPanel->mItem_multiple_tc->SetValue(_item);
+		_item.Clear();
+		_item << matchMultipleItem_percent[8];
+		this->m_matchMultipleItemPanel->mItem_train_tc->SetValue(_item);
+		_item.Clear();
+
+		// Train Items
+		for(unsigned int idx=0; idx<sizeof(this->m_matchTrainItemPanel->mItem_tc)/sizeof(this->m_matchTrainItemPanel->mItem_tc[0]); idx++){
+			_item.Clear();
+			_item << matchTrainItem_percent[idx];
+			this->m_matchTrainItemPanel->mItem_tc[idx]->SetValue(_item);
+		}
+	}else{
+		LOGE("Parse Save File", "load_ok == false \n");
+	}
+
 }
 
