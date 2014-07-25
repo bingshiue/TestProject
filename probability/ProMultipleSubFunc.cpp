@@ -10,7 +10,7 @@
 #include "../include/probability/ProMulTable.h"
 #include "../include/probability/ProMultipleSubFunc.h"
 
-unsigned int multiple_result[MULTIPLE_TIMES];
+unsigned int multiple_result[MULTIPLE_MAX_TIMES];
 unsigned int multiple_idx;
 
 unsigned int item_count[match_item_count][2] = {
@@ -26,11 +26,19 @@ unsigned int item_count[match_item_count][2] = {
 		{match_item_train,   1}
 };
 
-unsigned int DrawMatchMultipleItem(MainFrame* mainFrame){
+unsigned int DrawMatchMultipleItem(MainFrame* mainFrame,unsigned int time, unsigned int totalTimes){
 	int random = 0;
-	random = mainFrame->m_mtRandom.getRandomLong(RANDOM_BASE);
-
 	MATCHMULTIPLESTEP* matchMultipleStep = &(mainFrame->m_matchMultipleStep);
+
+	unsigned int finalChance = (totalTimes==time) ? true : false ;// Final Chance
+
+	if(finalChance==true){
+		random = mainFrame->m_mtRandom.getRandomLong(RANDOM_BASE);
+	}else{
+		int tmp_base = RANDOM_BASE - wxAtoi(mainFrame->m_matchMultipleItemPanel->mItem_train_tc->GetValue());
+		LOGD("Probability","%s:tmp_base = %d \n",__func__,tmp_base);
+		random = mainFrame->m_mtRandom.getRandomLong(tmp_base);
+	}
 
 	unsigned int ret = match_item_unknown;
 
@@ -62,7 +70,7 @@ unsigned int CheckItemCount(unsigned int item){
 	int ret = -1;
 	unsigned int tmp_cnt=0;
 
-	for(int idx=0; idx<MULTIPLE_TIMES; idx++){
+	for(int idx=0; idx<MULTIPLE_MAX_TIMES; idx++){
 		if(multiple_result[idx]==item){
 			tmp_cnt++;
 		}
@@ -181,18 +189,25 @@ unsigned int GetMatchMultipleWin(unsigned int matchAward,unsigned int bet){
 	return matchMultipleWin;
 }
 
-unsigned int PlayMatchMultiple(MainFrame* mainFrame){
+unsigned int PlayMatchMultiple(MainFrame* mainFrame,unsigned int *drawTrain){
 
 	int item=0;
 	int check_cnt_result=0;
 	int award;
 	unsigned int totalWin=0;
+	unsigned int playTimes=0;
 
-	for(int idx=0; idx<MULTIPLE_TIMES; idx++) multiple_result[idx]=0;
+	*drawTrain = false;
+
+	for(int idx=0; idx<MULTIPLE_MAX_TIMES; idx++) multiple_result[idx]=0;
 	multiple_idx=0;
 
-	while(multiple_idx < MULTIPLE_TIMES ){
-		item = DrawMatchMultipleItem(mainFrame);
+	// Decide Play Times
+	playTimes = mainFrame->m_mtRandom.getRandomLong(MULTIPLE_MIN_TIMES,MULTIPLE_MAX_TIMES);
+	LOGD("Probability","%s:Decide Multiple Times = %d \n",__func__,playTimes);
+
+	while(multiple_idx < playTimes ){
+		item = DrawMatchMultipleItem(mainFrame,(multiple_idx+1),playTimes);
 		check_cnt_result = CheckItemCount(item);
 
 		if(!check_cnt_result){
@@ -203,9 +218,14 @@ unsigned int PlayMatchMultiple(MainFrame* mainFrame){
 		}
 	};
 
-	for(int idx=0; idx<MULTIPLE_TIMES; idx++){
+	for(unsigned int idx=0; idx<playTimes; idx++){
 		award = GetMatchMultipleAward(&mainFrame->m_gameFrame,multiple_result[idx]);
 		totalWin += GetMatchMultipleWin(award,mainFrame->m_gameFrame.m_gameCredit.m_matchBet);
+
+		if(award==match_award_train){
+			*drawTrain = true;
+			LOGD("Probability","%s:Draw Train in Multiple \n",__func__);
+		}
 	}
 
 	return totalWin;

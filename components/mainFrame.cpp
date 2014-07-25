@@ -1239,6 +1239,7 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 void MainFrame::Start(wxCommandEvent& event) {
 	bool RunFlag = true;
 	unsigned long PreviousKeyIn = 0;
+	unsigned int drawTrain = false;
 
 	LOGI("Start Button", "In Start Button Handle \n");
 
@@ -1394,7 +1395,8 @@ void MainFrame::Start(wxCommandEvent& event) {
 			this->m_gameFrame.m_gameRecord.m_totalMatchMultiplePlay += this->m_settingData.m_maxBet * 4;
 
 			// Get Match Multiple Win
-			this->m_gameFrame.m_gameCredit.m_matchMultipleWin = PlayMatchMultiple(this);
+			drawTrain = false;
+			this->m_gameFrame.m_gameCredit.m_matchMultipleWin = PlayMatchMultiple(this,&drawTrain);
 
 			if(this->m_gameFrame.m_gameCredit.m_matchMultipleWin > 0){
 				this->m_gameFrame.m_gameCredit.m_win += this->m_gameFrame.m_gameCredit.m_matchMultipleWin;
@@ -1428,6 +1430,33 @@ void MainFrame::Start(wxCommandEvent& event) {
 			}else{
 				LOGD("Probability","Match Train Win = %d \n",this->m_gameFrame.m_gameCredit.m_matchTrainWin);
 			}
+		}
+
+		// Draw Train in Multiple Game
+		if(drawTrain==true){
+			LOGD("Probability","Play Train (Draw in Multiple) \n");
+
+			// Record
+			this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes++;
+			this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay += this->m_settingData.m_maxBet * 4;
+
+			// Get Match Train Win
+			this->m_gameFrame.m_gameCredit.m_matchTrainWin = PlayMatchTrain(this);
+
+			if(this->m_gameFrame.m_gameCredit.m_matchTrainWin > 0){
+				this->m_gameFrame.m_gameCredit.m_win += this->m_gameFrame.m_gameCredit.m_matchTrainWin;
+				this->m_gameFrame.m_gameRecord.m_totalMatchTrainWin += this->m_gameFrame.m_gameCredit.m_matchTrainWin;
+
+				// Record
+				this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes++;
+
+				this->m_gameFrame.m_gameCredit.m_matchTrainWin = 0;
+
+			}else{
+				LOGD("Probability","Match Train Win (Draw in Multiple) = %d \n",this->m_gameFrame.m_gameCredit.m_matchTrainWin);
+			}
+
+			drawTrain = false;
 		}
 
 		// Slot Win
