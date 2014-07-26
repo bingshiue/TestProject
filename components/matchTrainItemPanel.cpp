@@ -80,6 +80,29 @@ MatchTrainItemPanel::MatchTrainItemPanel(wxPanel* parent,wxString title) : wxPan
 	m_defaultValue[26] = DEFAULT_MATCH_TRAIN_FRAME_27;
 	m_defaultValue[27] = DEFAULT_MATCH_TRAIN_FRAME_28;
 	m_defaultValue[28] = DEFAULT_MATCH_TRAIN_FRAME_29;
+
+	// Set Editable
+	this->mItem_tc[6]->SetEditable(false);
+	this->mItem_tc[7]->SetEditable(false);
+	this->mItem_tc[8]->SetEditable(false);
+	this->mItem_tc[9]->SetEditable(false);
+
+	this->mItem_tc[21]->SetEditable(false);
+	this->mItem_tc[22]->SetEditable(false);
+	this->mItem_tc[23]->SetEditable(false);
+	this->mItem_tc[24]->SetEditable(false);
+
+	// Set Color
+	this->mItem_tc[6]->SetForegroundColour(wxColour(0,255,0));
+	this->mItem_tc[7]->SetForegroundColour(wxColour(0,255,0));
+	this->mItem_tc[8]->SetForegroundColour(wxColour(0,255,0));
+	this->mItem_tc[9]->SetForegroundColour(wxColour(0,255,0));
+
+	this->mItem_tc[21]->SetForegroundColour(wxColour(0,255,0));
+	this->mItem_tc[22]->SetForegroundColour(wxColour(0,255,0));
+	this->mItem_tc[23]->SetForegroundColour(wxColour(0,255,0));
+	this->mItem_tc[24]->SetForegroundColour(wxColour(0,255,0));
+
 }
 
 void MatchTrainItemPanel::AfterEdit(wxCommandEvent& event){

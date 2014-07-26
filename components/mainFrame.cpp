@@ -1166,7 +1166,9 @@ void MainFrame::PrintAwardDetail() {
 	for(unsigned int idx=0; idx<sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainAwardRec)/sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainAwardRec[0]); idx++){
 		LOGI("Probability","Train Award %s:%d \n",awardStr[idx],m_gameFrame.m_gameRecord.m_totalMatchTrainAwardRec[idx]);
 	}
-
+	for(unsigned int idx=0; idx<sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec)/sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec[0]); idx++){
+		LOGI("Probability","Frame %d Drew Count = %d \n",idx+1,m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec[idx]);
+	}
 }
 
 void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
@@ -1232,6 +1234,9 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 			(double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay)*100 << "%" << endl;
 	for(unsigned int idx=0; idx<sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainAwardRec)/sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainAwardRec[0]); idx++){
 		store << "Train Award "<< awardStr[idx] << ":" << (unsigned int)m_gameFrame.m_gameRecord.m_totalMatchTrainAwardRec[idx] << endl;
+	}
+	for(unsigned int idx=0; idx<sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec)/sizeof(m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec[0]); idx++){
+		store << "Frame " <<  idx+1 << " Drew Count = " << (unsigned int)m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec[idx] << endl;
 	}
 
 }

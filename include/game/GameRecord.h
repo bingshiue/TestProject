@@ -39,6 +39,7 @@ typedef struct _GameRecord{
 	unsigned long m_totalMatchTrainWinTimes;/**< Total Match Train Win Times */
 	unsigned long m_totalMatchTrainPlay;/**< Total Match Train Play */
 	unsigned long m_totalMatchTrainWin;/**< Total Match Train Win */
+	unsigned long m_totalMatchTrainDrawFrameRec[TOTAL_FRAME_COUNT];/**< Total Match Train Draw Frame Record */
 	unsigned long m_totalMatchTrainAwardRec[NUM_MTACH_AWARDS];/**< Total Match Train Award Record */
 
 	/**
@@ -70,6 +71,7 @@ typedef struct _GameRecord{
 		m_totalMatchTrainWinTimes=0;
 		m_totalMatchTrainPlay=0;
 		m_totalMatchTrainWin=0;
+		for(unsigned int idx=0;idx<sizeof(m_totalMatchTrainDrawFrameRec)/sizeof(m_totalMatchTrainDrawFrameRec[0]); idx++) m_totalMatchTrainDrawFrameRec[idx]=0;
 		for(unsigned int idx=0;idx<sizeof(m_totalMatchTrainAwardRec)/sizeof(m_totalMatchTrainAwardRec[0]);idx++) m_totalMatchTrainAwardRec[idx]=0;
 	}
 

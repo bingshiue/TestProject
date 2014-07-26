@@ -154,6 +154,9 @@ unsigned int PlayMatchTrain(MainFrame* mainFrame){
 	// head_frame is index
 	head_frame = DrawMatchTrainHeadFrame(mainFrame);
 
+	// Record head frame
+	mainFrame->m_gameFrame.m_gameRecord.m_totalMatchTrainDrawFrameRec[head_frame]++;
+
 	for(unsigned idx=0; idx<TRAIN_FRAME_COUNT; idx++){
 		// get frame
 		item = mainFrame->m_gameFrame.m_table[head_frame].m_kind;
