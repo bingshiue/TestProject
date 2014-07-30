@@ -163,7 +163,7 @@ unsigned int PlayMatchTrain(MainFrame* mainFrame){
 		// get award
 		award = GetMatchTrainAward(&mainFrame->m_gameFrame,item);
 		// get win
-		totalWin += GetMatchTrainWin(award,mainFrame->m_gameFrame.m_gameCredit.m_matchBet);
+		totalWin += GetMatchTrainWin(award,mainFrame->m_gameFrame.m_gameCredit.m_slotAwardBet);
 
 		// get next frame
 		head_frame--;

@@ -81,6 +81,7 @@ typedef struct _GameFrame{
 	SLOT m_slot[3];/**< Slot */
 	TABLE m_table[TOTAL_FRAME_COUNT];/**< Table */
 	unsigned int m_matchAwardType;/**< Match Award Type */
+	unsigned int m_matchCount;/**M Match Count */
 	unsigned int m_slotAwardType;/**< Slot Award Type */
 
 	/**
@@ -89,6 +90,7 @@ typedef struct _GameFrame{
 	void Clean(void){
 		// Reset Match/Slot Award Type
 		m_matchAwardType = match_award_none;
+		m_matchCount = 0;
 		m_slotAwardType = straight_award_none;
 		// Clean Table
 		for(int idx=0; idx<TOTAL_FRAME_COUNT; idx++ ) { m_table[idx].Clean(); }

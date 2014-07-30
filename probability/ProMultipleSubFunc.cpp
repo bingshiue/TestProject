@@ -220,7 +220,7 @@ unsigned int PlayMatchMultiple(MainFrame* mainFrame,unsigned int *drawTrain){
 
 	for(unsigned int idx=0; idx<playTimes; idx++){
 		award = GetMatchMultipleAward(&mainFrame->m_gameFrame,multiple_result[idx]);
-		totalWin += GetMatchMultipleWin(award,mainFrame->m_gameFrame.m_gameCredit.m_matchBet);
+		totalWin += GetMatchMultipleWin(award,mainFrame->m_gameFrame.m_gameCredit.m_slotAwardBet);
 
 		if(award==match_award_train){
 			*drawTrain = true;
