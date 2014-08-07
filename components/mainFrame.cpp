@@ -1353,6 +1353,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 		// Credit >= this->m_settingData.m_maxBet * 4
 		assert(this->m_gameFrame.m_gameCredit.m_credit >= this->m_settingData.m_maxBet * 4);
 
+		LOGD("Credit","-------------------- \n");
+		LOGD("Credit","Credit=%d \n",this->m_gameFrame.m_gameCredit.m_credit);
+
 		// Bet
 		if(this->m_gameFrame.m_gameCredit.m_freetimes > 0){
 			LOGI("Free Time","Play Free Time = %d, Credit=%d \n",this->m_gameFrame.m_gameCredit.m_freetimes,this->m_gameFrame.m_gameCredit.m_credit);
@@ -1491,6 +1494,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 
 			this->m_gameFrame.m_gameCredit.m_win = 0;
 		}
+
+		LOGD("Credit","Credit=%d \n",this->m_gameFrame.m_gameCredit.m_credit);
+		LOGD("Credit","-------------------- \n");
 
 		// Check Key Out
 		if (KeyOutCheck(this) == true) {
@@ -2172,6 +2178,16 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		wxString _item;
 
 		// Left Slot
+		this->m_slotItemPanel_left->mItem_cherry_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_apple_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_orange_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_coin_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_bar_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_diamond_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_crown_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_freecoin_tc->SetValue("0");
+		this->m_slotItemPanel_left->mItem_roulette_tc->SetValue("0");
+
 		_item.Clear();
 		_item << slotItem_percent[0][0];
 		this->m_slotItemPanel_left->mItem_cherry_tc->SetValue(_item);
@@ -2211,6 +2227,16 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		_item.Clear();
 
 		// Middle Slot
+		this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_apple_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_orange_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_coin_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_bar_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_diamond_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_crown_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_freecoin_tc->SetValue("0");
+		this->m_slotItemPanel_middle->mItem_roulette_tc->SetValue("0");
+
 		_item.Clear();
 		_item << slotItem_percent[1][0];
 		this->m_slotItemPanel_middle->mItem_cherry_tc->SetValue(_item);
@@ -2241,6 +2267,16 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		_item.Clear();
 
 		// Right Slot
+		this->m_slotItemPanel_right->mItem_cherry_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_apple_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_orange_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_coin_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_bar_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_diamond_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_crown_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_freecoin_tc->SetValue("0");
+		this->m_slotItemPanel_right->mItem_roulette_tc->SetValue("0");
+
 		_item.Clear();
 		_item << slotItem_percent[2][0];
 		this->m_slotItemPanel_right->mItem_cherry_tc->SetValue(_item);
@@ -2271,6 +2307,16 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		_item.Clear();
 
 		// Match Items
+		this->m_matchItemPanel->mItem_cherry_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_apple_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_orange_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_coin_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_bar_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_diamond_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_crown_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_multiple_tc->SetValue("0");
+		this->m_matchItemPanel->mItem_train_tc->SetValue("0");
+
 		_item.Clear();
 		_item << matchItem_percent[0];
 		this->m_matchItemPanel->mItem_cherry_tc->SetValue(_item);
@@ -2301,6 +2347,16 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		_item.Clear();
 
 		// Multiple Items
+		this->m_matchMultipleItemPanel->mItem_cherry_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_apple_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_orange_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_coin_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_bar_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_diamond_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_crown_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_multiple_tc->SetValue("0");
+		this->m_matchMultipleItemPanel->mItem_train_tc->SetValue("0");
+
 		_item.Clear();
 		_item << matchMultipleItem_percent[0];
 		this->m_matchMultipleItemPanel->mItem_cherry_tc->SetValue(_item);
@@ -2331,6 +2387,9 @@ void MainFrame::LoadFileContent(wxString filePath) {
 		_item.Clear();
 
 		// Train Items
+		for(unsigned int idx=0; idx<sizeof(this->m_matchTrainItemPanel->mItem_tc)/sizeof(this->m_matchTrainItemPanel->mItem_tc[0]); idx++){
+			this->m_matchTrainItemPanel->mItem_tc[idx]->SetValue("0");
+		}
 		for(unsigned int idx=0; idx<sizeof(this->m_matchTrainItemPanel->mItem_tc)/sizeof(this->m_matchTrainItemPanel->mItem_tc[0]); idx++){
 			_item.Clear();
 			_item << matchTrainItem_percent[idx];

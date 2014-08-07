@@ -121,7 +121,7 @@ void SlotItemPanel::AfterEdit(wxCommandEvent& event){
 
 	if(tmp > 10000){
       this->mTotalValue_tc->SetForegroundColour(wxColour(255,0,0));
-	  wxMessageDialog *dial = new wxMessageDialog(NULL,L"Sum Over 10000",L"Error", wxOK | wxICON_ERROR);
+	  wxMessageDialog *dial = new wxMessageDialog(NULL,L"Slot Item Sum Over 10000",L"Error", wxOK | wxICON_ERROR);
 	  dial->ShowModal();
 	}else if(tmp < 10000){
 	  this->mTotalValue_tc->SetForegroundColour(wxColour(255,0,0));
