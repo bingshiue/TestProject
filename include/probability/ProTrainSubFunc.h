@@ -20,7 +20,7 @@ unsigned int DrawMatchTrainHeadFrame(MainFrame* mainFrame);
 
 unsigned int GetMatchTrainAward(GAMEFRAME* gameFrame,unsigned int item);
 
-unsigned int GetMatchTrainWin(unsigned int matchAward,unsigned int bet);
+unsigned int GetMatchTrainWin(GAMEFRAME* gameFrame,unsigned int matchAward,unsigned int* bet);
 
 unsigned int PlayMatchTrain(MainFrame* mainFrame);
 

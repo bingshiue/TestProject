@@ -88,6 +88,8 @@ unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item){
 	unsigned int slot_freecoin_cnt=0;
 	bool bingo = false;
 
+	gameFrame->m_matchCount = 0;
+
 	switch(item){
 	case match_item_cherry:
 	case match_item_apple:
@@ -98,7 +100,7 @@ unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item){
 		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
 			if(item == gameFrame->m_slot[idx].item){
 				bingo = true;
-				break;
+				gameFrame->m_matchCount++;
 			}
 		}
 		break;
@@ -110,6 +112,7 @@ unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item){
 				if(item==slot_item_freecoin){
 					slot_freecoin_cnt++;
 				}
+				gameFrame->m_matchCount++;
 			}
 		}
 		break;
@@ -180,11 +183,11 @@ unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item){
 	return award;
 }
 
-unsigned int GetMatchMultipleWin(unsigned int matchAward,unsigned int bet){
+unsigned int GetMatchMultipleWin(GAMEFRAME* gameFrame,unsigned int matchAward,unsigned int* bet){
 	unsigned int matchMultipleWin = 0;
 
-	matchMultipleWin = MatchAwardMulTable[matchAward] * bet;
-	LOGD("Probability","%s: Match Muliple Win = %d \n",__func__,matchMultipleWin);
+	matchMultipleWin = MatchAwardMulTable[matchAward] * (bet[0]+bet[1]+bet[2]) * gameFrame->m_matchCount;
+	LOGD("Probability","%s: Match Multiple Award = %d, Match Multiple Count = %d, Match Multiple Win = %d \n",__func__,matchAward,gameFrame->m_matchCount,matchMultipleWin);
 
 	return matchMultipleWin;
 }
@@ -220,7 +223,7 @@ unsigned int PlayMatchMultiple(MainFrame* mainFrame,unsigned int *drawTrain){
 
 	for(unsigned int idx=0; idx<playTimes; idx++){
 		award = GetMatchMultipleAward(&mainFrame->m_gameFrame,multiple_result[idx]);
-		totalWin += GetMatchMultipleWin(award,mainFrame->m_gameFrame.m_gameCredit.m_matchBet);
+		totalWin += GetMatchMultipleWin(&mainFrame->m_gameFrame,award,mainFrame->m_gameFrame.m_gameCredit.m_matchAwardBet);
 
 		if(award==match_award_train){
 			*drawTrain = true;

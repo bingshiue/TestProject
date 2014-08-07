@@ -20,7 +20,7 @@ unsigned int CheckItemCount(unsigned int item);
 
 unsigned int GetMatchMultipleAward(GAMEFRAME* gameFrame,unsigned int item);
 
-unsigned int GetMatchMultipleWin(unsigned int matchAward,unsigned int bet);
+unsigned int GetMatchMultipleWin(GAMEFRAME* gameFrame,unsigned int matchAward,unsigned int* bet);
 
 unsigned int PlayMatchMultiple(MainFrame* mainFrame,unsigned int *drawTrain);
 

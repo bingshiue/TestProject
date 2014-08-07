@@ -1366,13 +1366,13 @@ void MainFrame::Start(wxCommandEvent& event) {
 			this->m_gameFrame.m_gameCredit.m_credit -= this->m_settingData.m_maxBet * 4;
 		}
 
-		this->m_gameFrame.m_gameCredit.m_matchBet =
+		this->m_gameFrame.m_gameCredit.m_slotAwardBet =
 				this->m_settingData.m_maxBet;
-		this->m_gameFrame.m_gameCredit.m_slotBet[0] =
+		this->m_gameFrame.m_gameCredit.m_matchAwardBet[0] =
 				this->m_settingData.m_maxBet;
-		this->m_gameFrame.m_gameCredit.m_slotBet[1] =
+		this->m_gameFrame.m_gameCredit.m_matchAwardBet[1] =
 				this->m_settingData.m_maxBet;
-		this->m_gameFrame.m_gameCredit.m_slotBet[2] =
+		this->m_gameFrame.m_gameCredit.m_matchAwardBet[2] =
 				this->m_settingData.m_maxBet;
 
 		// Record
@@ -1393,8 +1393,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 		// Match Item Win
 		this->m_gameFrame.m_matchAwardType = GetMatchAward(&this->m_gameFrame);
 		this->m_gameFrame.m_gameCredit.m_win += GetMatchWin(
+				&this->m_gameFrame,
 				this->m_gameFrame.m_matchAwardType,
-				this->m_gameFrame.m_gameCredit.m_matchBet);
+				this->m_gameFrame.m_gameCredit.m_matchAwardBet);
 
 		// Special Match Item Win
 		if(this->m_gameFrame.m_matchAwardType==match_award_multiple){// Match Multiple
@@ -1472,7 +1473,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 				&this->m_gameFrame);
 		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(
 				this->m_gameFrame.m_slotAwardType,
-				this->m_gameFrame.m_gameCredit.m_slotBet[0]);
+				this->m_gameFrame.m_gameCredit.m_slotAwardBet);
 
 		// Record
 		this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
