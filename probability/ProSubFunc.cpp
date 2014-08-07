@@ -163,6 +163,9 @@ unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
 	bool bingo = false;
 
 	gameFrame->m_matchCount = 0;
+	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+		gameFrame->m_slot[idx].matchFlag = false;
+	}
 
 	switch(gameFrame->m_match.item){
 	case match_item_cherry:
@@ -174,6 +177,7 @@ unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
 		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
 			if(gameFrame->m_match.item == gameFrame->m_slot[idx].item){
 				bingo = true;
+				gameFrame->m_slot[idx].matchFlag = true;
 				gameFrame->m_matchCount++;
 			}
 		}
@@ -183,6 +187,7 @@ unsigned int GetMatchAward(GAMEFRAME* gameFrame) {
 		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
 			if(gameFrame->m_slot[idx].item==slot_item_coin || gameFrame->m_slot[idx].item==slot_item_freecoin){
 				bingo = true;
+				gameFrame->m_slot[idx].matchFlag = true;
 				if(gameFrame->m_slot[idx].item==slot_item_freecoin){
 					slot_freecoin_cnt++;
 				}
@@ -320,7 +325,13 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
 unsigned int GetMatchWin(GAMEFRAME* gameFrame,unsigned int matchAward,unsigned int* bet){
 	unsigned int matchWin = 0;
 
-	matchWin = MatchAwardMulTable[matchAward] * (bet[0]+bet[1]+bet[2]) * gameFrame->m_matchCount;
+	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+		if(gameFrame->m_slot[idx].matchFlag == true){
+			matchWin += MatchAwardMulTable[matchAward] * bet[idx];
+		}
+	}
+
+	//matchWin = MatchAwardMulTable[matchAward] * (bet[0]+bet[1]+bet[2]) * gameFrame->m_matchCount;
 	LOGD("Probability","%s: Match Award = %d, Match Count = %d, Match Win = %d \n",__func__,matchAward,gameFrame->m_matchCount,matchWin);
 
 	return matchWin;

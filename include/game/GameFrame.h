@@ -33,12 +33,14 @@ typedef struct _Match{
 
 typedef struct _Slot{
 	unsigned int item;
+	bool matchFlag;
 
 	/**
 	 * @brief Clean.
 	 */
 	void Clean(void){
 		item = slot_item_unknown;
+		matchFlag = false;
 	}
 
 	/**

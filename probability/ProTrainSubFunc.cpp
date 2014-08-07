@@ -45,6 +45,9 @@ unsigned int GetMatchTrainAward(GAMEFRAME* gameFrame,unsigned int item){
 	bool bingo = false;
 
 	gameFrame->m_matchCount = 0;
+	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+		gameFrame->m_slot[idx].matchFlag = false;
+	}
 
 	switch(item){
 	case match_item_cherry:
@@ -56,6 +59,7 @@ unsigned int GetMatchTrainAward(GAMEFRAME* gameFrame,unsigned int item){
 		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
 			if(item == gameFrame->m_slot[idx].item){
 				bingo = true;
+				gameFrame->m_slot[idx].matchFlag = true;
 				gameFrame->m_matchCount++;
 			}
 		}
@@ -65,6 +69,7 @@ unsigned int GetMatchTrainAward(GAMEFRAME* gameFrame,unsigned int item){
 		for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
 			if(gameFrame->m_slot[idx].item==slot_item_coin || gameFrame->m_slot[idx].item==slot_item_freecoin){
 				bingo = true;
+				gameFrame->m_slot[idx].matchFlag = true;
 				if(item==slot_item_freecoin){
 					slot_freecoin_cnt++;
 				}
@@ -142,7 +147,13 @@ unsigned int GetMatchTrainAward(GAMEFRAME* gameFrame,unsigned int item){
 unsigned int GetMatchTrainWin(GAMEFRAME* gameFrame,unsigned int matchAward,unsigned int* bet){
 	unsigned int matchTrainWin = 0;
 
-	matchTrainWin = MatchAwardMulTable[matchAward] * (bet[0]+bet[1]+bet[2]) * gameFrame->m_matchCount;
+	for(unsigned int idx=0; idx<sizeof(gameFrame->m_slot)/sizeof(gameFrame->m_slot[0]); idx++){
+		if(gameFrame->m_slot[idx].matchFlag == true){
+			matchTrainWin += MatchAwardMulTable[matchAward] * bet[idx];
+		}
+	}
+
+	//matchTrainWin = MatchAwardMulTable[matchAward] * (bet[0]+bet[1]+bet[2]) * gameFrame->m_matchCount;
 	LOGD("Probability","%s: Match Train Award = %d, Match Train Count = %d, Match Train Win = %d \n",__func__,matchAward,gameFrame->m_matchCount,matchTrainWin);
 
 	return matchTrainWin;

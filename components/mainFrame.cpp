@@ -1383,11 +1383,16 @@ void MainFrame::Start(wxCommandEvent& event) {
 		// Get Match Stop Item
 		this->m_gameFrame.m_match.item = GetMatchStopItem(&this->m_mtRandom,
 				this);
+		LOGD("Probability","Match Stop Item = %d \n",this->m_gameFrame.m_match.item);
 		// Get Slot Stop Item
 		for (int idx = 0; idx < 3; idx++) {
 			this->m_gameFrame.m_slot[idx].item = m_slotStopSubFunc[idx](
 					&this->m_mtRandom, this);
 		}
+		LOGD("Probability","Slot Stop Item = [%d][%d][%d] \n",
+				this->m_gameFrame.m_slot[0].item,
+				this->m_gameFrame.m_slot[1].item,
+				this->m_gameFrame.m_slot[2].item);
 
 		// Get Win
 		// Match Item Win
