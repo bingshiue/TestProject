@@ -1334,6 +1334,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 			    this->m_gameFrame.m_gameCredit.m_credit < this->m_settingData.m_maxBet * 4)
 		{
 			//
+			LOGD("KeyIn","Before KeyIn : Credit=%d, Total KeyIn=%d Total KeyOut=%d \n",
+					this->m_gameFrame.m_gameCredit.m_credit,this->m_gameFrame.m_gameRecord.m_totalKeyInCoin,this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
+			//
 			if ((this->m_settingData.m_maxKeyIn
 					- this->m_gameFrame.m_gameRecord.m_totalKeyInCoin) >= 100) {
 				this->m_gameFrame.m_gameRecord.m_totalKeyInCoin += 100;
@@ -1348,13 +1351,20 @@ void MainFrame::Start(wxCommandEvent& event) {
 								- this->m_gameFrame.m_gameRecord.m_totalKeyInCoin)
 								* this->m_settingData.m_coinValue;
 			}
+
+			//
+			LOGD("KeyIn","Before KeyIn : Credit=%d, Total KeyIn=%d Total KeyOut=%d \n",
+					this->m_gameFrame.m_gameCredit.m_credit,this->m_gameFrame.m_gameRecord.m_totalKeyInCoin,this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
 		}
 
 		// Credit >= this->m_settingData.m_maxBet * 4
 		assert(this->m_gameFrame.m_gameCredit.m_credit >= this->m_settingData.m_maxBet * 4);
 
 		LOGD("Credit","-------------------- \n");
-		LOGD("Credit","Credit=%d \n",this->m_gameFrame.m_gameCredit.m_credit);
+		LOGD("Credit","Credit=%d, TMP=%d, TMW=%d, TM P/W=%4.2f%% \n",this->m_gameFrame.m_gameCredit.m_credit,
+				this->m_gameFrame.m_gameRecord.m_totalMainPlayScores,
+				this->m_gameFrame.m_gameRecord.m_totalMainWinScores,
+				((double)this->m_gameFrame.m_gameRecord.m_totalMainWinScores/(double)this->m_gameFrame.m_gameRecord.m_totalMainPlayScores)*100);
 
 		// Bet
 		if(this->m_gameFrame.m_gameCredit.m_freetimes > 0){
@@ -1529,8 +1539,23 @@ void MainFrame::Start(wxCommandEvent& event) {
 			PreviousKeyIn = this->m_gameFrame.m_gameRecord.m_totalKeyInCoin;
 			// Update Result Panel
 			this->UpdateResultPanel();
+
+			// Print Award Detail
+			if(this->m_gameFrame.m_gameRecord.m_totalKeyInCoin >= this->m_settingData.m_maxKeyIn){
+				this->PrintAwardDetail();
+
+				LOGD("KeyOut","Remain Credit=%d Total KeyOut=%d \n",
+						this->m_gameFrame.m_gameCredit.m_credit,this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
+				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin +=
+						this->m_gameFrame.m_gameCredit.m_credit
+								/ this->m_settingData.m_coinValue;
+				this->m_gameFrame.m_gameCredit.m_credit = 0;
+				LOGD("KeyOut","Add Remain Credit, Total KeyOut=%d \n",this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin);
+
+				this->UpdateResultPanel();
+			}
+
 			// Update Progress Dialog
-			this->PrintAwardDetail();
 			LOGD("progressBar","progress=%d ,%d, %d, %d \n"
 					,(int) ((((float)this->m_gameFrame.m_gameRecord.m_totalKeyInCoin)/ (float)(this->m_settingData.m_maxKeyIn)) * 100)
 					,this->m_gameFrame.m_gameRecord.m_totalKeyInCoin
@@ -1540,11 +1565,6 @@ void MainFrame::Start(wxCommandEvent& event) {
 					(int) ((((float)this->m_gameFrame.m_gameRecord.m_totalKeyInCoin)/ (float)(this->m_settingData.m_maxKeyIn)) * 100))
 					== false) {
 				progressDial->Destroy();
-				this->m_gameFrame.m_gameRecord.m_totalKeyOutCoin +=
-						this->m_gameFrame.m_gameCredit.m_credit
-								/ this->m_settingData.m_coinValue;
-				this->m_gameFrame.m_gameCredit.m_credit = 0;
-				this->UpdateResultPanel();
 				RunFlag = false;
 			}
 
