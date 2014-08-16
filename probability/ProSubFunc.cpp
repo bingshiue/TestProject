@@ -293,7 +293,11 @@ unsigned int GetSlotStraightAward(GAMEFRAME* gameFrame){
 			break;
 		case slot_item_coin:
 		case slot_item_freecoin:
-			award = straight_award_coin;
+			if(cnt[slot_item_freecoin]==3)
+				award = straight_award_freecoin;
+			else
+				award = straight_award_coin;
+
 			break;
 		case slot_item_bar:
 			award = straight_award_bar;
