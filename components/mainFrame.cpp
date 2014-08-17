@@ -1108,6 +1108,8 @@ void MainFrame::UpdateResultPanel(void) {
 }
 
 void MainFrame::PrintAwardDetail() {
+	unsigned int tmp=0;
+
 	const char *matchAwardStr[NUM_MTACH_AWARDS] = { "Match Award None",
 			"Match Award Cherry", "Match Award Apple", "Match Award Orange",
 			"Match Award Coin", "Match Award Bar", "Match Award Diamond",
@@ -1128,6 +1130,13 @@ void MainFrame::PrintAwardDetail() {
 		LOGI("Probability", "%s : %d \n", matchAwardStr[idx],
 				this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx]);
 	}
+
+	// Total Match Award Count
+	for(unsigned int idx=0; idx<sizeof(this->m_gameFrame.m_gameRecord.m_matchAwardRec)/sizeof(this->m_gameFrame.m_gameRecord.m_matchAwardRec[0]);idx++){
+		tmp += this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx];
+	}
+	LOGI("Probability", "Total Match Award Count = %d(%d) \n",tmp-this->m_gameFrame.m_gameRecord.m_matchAwardRec[0],tmp);
+
 	LOGI("Probability", "------------------------------\n");
 
 	LOGI("Probability", "----- Slot Award Detail -----\n");
@@ -1135,6 +1144,17 @@ void MainFrame::PrintAwardDetail() {
 		LOGI("Probability", "%s : %d \n", slotAwardStr[idx],
 				this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]);
 	}
+
+	// Total Slot Award Count
+	tmp=0;
+	for(unsigned int idx=0; idx<sizeof(this->m_gameFrame.m_gameRecord.m_slotAwardRec)/sizeof(this->m_gameFrame.m_gameRecord.m_slotAwardRec[0]);idx++){
+		tmp += this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx];
+	}
+	LOGI("Probability", "Total Slot Award Count = %d(%d) \n",tmp-this->m_gameFrame.m_gameRecord.m_slotAwardRec[0],tmp);
+
+	LOGI("Probability", "------------------------------\n");
+
+	LOGI("Probability", "Slot Award Only Count = %d \n",this->m_gameFrame.m_gameRecord.m_onlySlotAwardCnt);
 	LOGI("Probability", "------------------------------\n");
 
 	LOGI("Probability", "----- Free Times Detail -----\n");
@@ -1155,8 +1175,11 @@ void MainFrame::PrintAwardDetail() {
 	}
 
 	LOGI("Probability", "----- Match Train Detail -----\n");
-	LOGI("Probability", "Total Match Train Play Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes);
-	LOGI("Probability", "Total Match Train Win Times = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes);
+	LOGI("Probability", "Total Match Train Play Times = %d(%d) \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes,
+			this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainTotalTimes);
+	LOGI("Probability", "Total Match Train Win Times = %d(%d,%d) \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes,
+			this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainWinTimes,
+			this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainNoWinTimes);
 	LOGI("Probability", "Total Match Train Play/Win Times %% = %4.2f %% \n", ((double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes/
 			(double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes)*100);
 	LOGI("Probability", "Total Match Train Play = %d \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlay);
@@ -1172,6 +1195,8 @@ void MainFrame::PrintAwardDetail() {
 }
 
 void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
+	unsigned int tmp=0;
+
 	const char *matchAwardStr[NUM_MTACH_AWARDS] = { "Match Award None",
 			"Match Award Cherry", "Match Award Apple", "Match Award Orange",
 			"Match Award Coin", "Match Award Bar", "Match Award Diamond",
@@ -1193,6 +1218,13 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 				<< (unsigned int) this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx]
 				<< endl;
 	}
+
+	// Total Match Award Count
+	for(unsigned int idx=0; idx<sizeof(this->m_gameFrame.m_gameRecord.m_matchAwardRec)/sizeof(this->m_gameFrame.m_gameRecord.m_matchAwardRec[0]);idx++){
+		tmp += this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx];
+	}
+	store << "Total Match Award Count = " << (unsigned int)(tmp-this->m_gameFrame.m_gameRecord.m_matchAwardRec[0]) << "(" << tmp << ")" << endl;
+
 	store << "------------------------------" << endl;
 
 	store << "----- Slot Award Detail -----" << endl;
@@ -1201,6 +1233,17 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 				<< (unsigned int) this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx]
 				<< endl;
 	}
+
+	// Total Slot Award Count
+	tmp=0;
+	for(unsigned int idx=0; idx<sizeof(this->m_gameFrame.m_gameRecord.m_slotAwardRec)/sizeof(this->m_gameFrame.m_gameRecord.m_slotAwardRec[0]);idx++){
+		tmp += this->m_gameFrame.m_gameRecord.m_slotAwardRec[idx];
+	}
+	store << "Total Slot Award Count = " << (unsigned int)(tmp-this->m_gameFrame.m_gameRecord.m_slotAwardRec[0]) << "(" << tmp << ")" <<endl;
+
+	store << "------------------------------" << endl;
+
+	store << "Slot Award Only Count = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_onlySlotAwardCnt << endl;
 	store << "------------------------------" << endl;
 
 	store << "----- Free Times Detail -----" << endl;
@@ -1223,8 +1266,14 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 
 
 	store << "----- Match Train Detail -----" << endl;
-	store << "Total Match Train Play Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes << endl;
-	store << "Total Match Train Win Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes << endl;
+	store << "Total Match Train Play Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes << "(" <<
+			(unsigned int)this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainTotalTimes << ")" << "(" <<
+			(unsigned int)this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainTotalTimes << ")" << endl;
+	store << "Total Match Train Win Times = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes << "(" <<
+			(unsigned int)this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainWinTimes << "," << (unsigned int)this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainNoWinTimes <<
+			")" << "(" <<
+			(unsigned int)this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainWinTimes << "," << (unsigned int)this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainNoWinTimes <<
+			")" <<endl;
 	store << "Total Match Train Play/Win Times % = "<< ((double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes/
 			(double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes)*100 << "%" << endl;
 
@@ -1245,6 +1294,8 @@ void MainFrame::Start(wxCommandEvent& event) {
 	bool RunFlag = true;
 	unsigned long PreviousKeyIn = 0;
 	unsigned int drawTrain = false;
+	unsigned int multipleWinAndDrawTrain=false;/**< Match Multiple Win And Draw Train */
+	unsigned int multipleNoWinButDrawTrain=false;/**< Match Multiple No Win But Draw Train */
 
 	LOGI("Start Button", "In Start Button Handle \n");
 
@@ -1423,16 +1474,26 @@ void MainFrame::Start(wxCommandEvent& event) {
 			this->m_gameFrame.m_gameCredit.m_matchMultipleWin = PlayMatchMultiple(this,&drawTrain);
 
 			if(this->m_gameFrame.m_gameCredit.m_matchMultipleWin > 0){
+				LOGD("Probability","Match Multiple Win = %d \n",this->m_gameFrame.m_gameCredit.m_matchMultipleWin);
+
 				this->m_gameFrame.m_gameCredit.m_win += this->m_gameFrame.m_gameCredit.m_matchMultipleWin;
 				this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWin += this->m_gameFrame.m_gameCredit.m_matchMultipleWin;
 
 				// Record
 				this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWinTimes++;
+				if(drawTrain==true){
+					multipleWinAndDrawTrain=true;
+					this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainTotalTimes++;
+				}
 
 				this->m_gameFrame.m_gameCredit.m_matchMultipleWin = 0;
 
 			}else{
 				LOGD("Probability","Match Multiple Win = %d \n",this->m_gameFrame.m_gameCredit.m_matchMultipleWin);
+				if(drawTrain==true){
+					multipleNoWinButDrawTrain=true;
+					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainTotalTimes++;
+				}
 			}
 		}else if(this->m_gameFrame.m_matchAwardType==match_award_train){// Match Train
 			// Record
@@ -1474,13 +1535,30 @@ void MainFrame::Start(wxCommandEvent& event) {
 				// Record
 				this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes++;
 
+				if(multipleWinAndDrawTrain==true){
+					this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainWinTimes++;
+				}
+
+				if(multipleNoWinButDrawTrain==true){
+					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainWinTimes++;
+				}
+
 				this->m_gameFrame.m_gameCredit.m_matchTrainWin = 0;
 
 			}else{
 				LOGD("Probability","Match Train Win (Draw in Multiple) = %d \n",this->m_gameFrame.m_gameCredit.m_matchTrainWin);
+				if(multipleWinAndDrawTrain==true){
+					this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainNoWinTimes++;
+				}
+
+				if(multipleNoWinButDrawTrain==true){
+					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainNoWinTimes++;
+				}
 			}
 
 			drawTrain = false;
+			multipleWinAndDrawTrain = false;
+			multipleNoWinButDrawTrain = false;
 		}
 
 		// Slot Win
@@ -1494,9 +1572,15 @@ void MainFrame::Start(wxCommandEvent& event) {
 		this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
 		this->m_gameFrame.m_gameRecord.m_slotAwardRec[this->m_gameFrame.m_slotAwardType]++;
 
+		if(this->m_gameFrame.m_matchAwardType==match_award_none){
+			if(this->m_gameFrame.m_slotAwardType != straight_award_none){
+				this->m_gameFrame.m_gameRecord.m_onlySlotAwardCnt++;
+			}
+		}
+
 		if (this->m_gameFrame.m_gameCredit.m_win > 0) {
-			this->m_gameFrame.m_gameCredit.m_credit +=
-					this->m_gameFrame.m_gameCredit.m_win;
+			this->m_gameFrame.m_gameCredit.m_credit += this->m_gameFrame.m_gameCredit.m_win;
+
 			if (this->m_gameFrame.m_gameCredit.m_credit
 					/ this->m_settingData.m_coinValue
 					> this->m_settingData.m_mainGameOverMaxWin) {
@@ -1504,9 +1588,11 @@ void MainFrame::Start(wxCommandEvent& event) {
 			}
 
 			// Record
-			this->m_gameFrame.m_gameRecord.m_totalMainWinScores +=
-					this->m_gameFrame.m_gameCredit.m_win;
+			this->m_gameFrame.m_gameRecord.m_totalMainWinScores += this->m_gameFrame.m_gameCredit.m_win;
 			this->m_gameFrame.m_gameRecord.m_totalMainWinTimes++;
+
+			LOGD("Logic","MainWinTimes++ : Win=%d,MatchAward=%d,SlotAward=%d \n",this->m_gameFrame.m_gameCredit.m_win,
+					this->m_gameFrame.m_matchAwardType,this->m_gameFrame.m_slotAwardType);
 
 			this->m_gameFrame.m_gameCredit.m_win = 0;
 		}
