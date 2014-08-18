@@ -52,6 +52,9 @@ typedef struct _GameRecord{
 	unsigned long m_multipleNoWinButDrawTrainWinTimes;/**< Match Multiple No Win But Draw Train Win Times */
 	unsigned long m_multipleNoWinButDrawTrainNoWinTimes;/**< Match Multiple No Win But Draw Train No Win Times */
 
+	unsigned long m_multipleNoWinButSlotWin;/**< Multiple No Win But Slot Win */
+	unsigned long m_trainNoWinButSlotWin;/**< Train No Win But Slot Win */
+
 	/**
 	 * @brief Clean All Member
 	 */
@@ -87,6 +90,8 @@ typedef struct _GameRecord{
 		m_multipleNoWinButDrawTrainTotalTimes=0;
 		m_multipleNoWinButDrawTrainWinTimes=0;
 		m_multipleNoWinButDrawTrainNoWinTimes=0;
+		m_multipleNoWinButSlotWin=0;
+		m_trainNoWinButSlotWin;
 	}
 
 	/**

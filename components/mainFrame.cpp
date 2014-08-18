@@ -1155,6 +1155,9 @@ void MainFrame::PrintAwardDetail() {
 	LOGI("Probability", "------------------------------\n");
 
 	LOGI("Probability", "Slot Award Only Count = %d \n",this->m_gameFrame.m_gameRecord.m_onlySlotAwardCnt);
+	LOGI("Probability","Multiple No Win But Slot Win Count = %d \n",this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin);
+	LOGI("Probability","Train No Win But Slot Win Count = %d \n",this->m_gameFrame.m_gameRecord.m_trainNoWinButSlotWin);
+
 	LOGI("Probability", "------------------------------\n");
 
 	LOGI("Probability", "----- Free Times Detail -----\n");
@@ -1175,9 +1178,12 @@ void MainFrame::PrintAwardDetail() {
 	}
 
 	LOGI("Probability", "----- Match Train Detail -----\n");
-	LOGI("Probability", "Total Match Train Play Times = %d(%d) \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes,
+	LOGI("Probability", "Total Match Train Play Times = %d(%d)(%d) \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainPlayTimes,
+			this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainTotalTimes,
 			this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainTotalTimes);
-	LOGI("Probability", "Total Match Train Win Times = %d(%d,%d) \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes,
+	LOGI("Probability", "Total Match Train Win Times = %d(%d,%d)(%d,%d) \n", this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes,
+			this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainWinTimes,
+			this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainNoWinTimes,
 			this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainWinTimes,
 			this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainNoWinTimes);
 	LOGI("Probability", "Total Match Train Play/Win Times %% = %4.2f %% \n", ((double)this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes/
@@ -1244,6 +1250,9 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 	store << "------------------------------" << endl;
 
 	store << "Slot Award Only Count = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_onlySlotAwardCnt << endl;
+	store << "Multiple No Win But Slot Win Count = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin << endl;
+	store << "Train No Win But Slot Win Count = " << (unsigned int)this->m_gameFrame.m_gameRecord.m_trainNoWinButSlotWin << endl;
+
 	store << "------------------------------" << endl;
 
 	store << "----- Free Times Detail -----" << endl;
@@ -1463,6 +1472,13 @@ void MainFrame::Start(wxCommandEvent& event) {
 				this->m_gameFrame.m_matchAwardType,
 				this->m_gameFrame.m_gameCredit.m_matchAwardBet);
 
+		// Slot Win
+		this->m_gameFrame.m_slotAwardType = GetSlotStraightAward(
+				&this->m_gameFrame);
+		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(
+				this->m_gameFrame.m_slotAwardType,
+				this->m_gameFrame.m_gameCredit.m_slotAwardBet);
+
 		// Special Match Item Win
 		if(this->m_gameFrame.m_matchAwardType==match_award_multiple){// Match Multiple
 			// Record
@@ -1493,6 +1509,10 @@ void MainFrame::Start(wxCommandEvent& event) {
 				if(drawTrain==true){
 					multipleNoWinButDrawTrain=true;
 					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainTotalTimes++;
+				}else{
+					if(this->m_gameFrame.m_slotAwardType != straight_award_none){
+						this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin++;
+					}
 				}
 			}
 		}else if(this->m_gameFrame.m_matchAwardType==match_award_train){// Match Train
@@ -1514,6 +1534,9 @@ void MainFrame::Start(wxCommandEvent& event) {
 
 			}else{
 				LOGD("Probability","Match Train Win = %d \n",this->m_gameFrame.m_gameCredit.m_matchTrainWin);
+				if(this->m_gameFrame.m_slotAwardType != straight_award_none){
+					this->m_gameFrame.m_gameRecord.m_trainNoWinButSlotWin++;
+				}
 			}
 		}
 
@@ -1554,19 +1577,17 @@ void MainFrame::Start(wxCommandEvent& event) {
 				if(multipleNoWinButDrawTrain==true){
 					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainNoWinTimes++;
 				}
+
+				// Because of this train draw in Multiple, so if no win m_multipleNoWinButSlotWin++
+				if(this->m_gameFrame.m_slotAwardType != straight_award_none){
+					this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin++;
+				}
 			}
 
 			drawTrain = false;
 			multipleWinAndDrawTrain = false;
 			multipleNoWinButDrawTrain = false;
 		}
-
-		// Slot Win
-		this->m_gameFrame.m_slotAwardType = GetSlotStraightAward(
-				&this->m_gameFrame);
-		this->m_gameFrame.m_gameCredit.m_win += GetSlotStraightWin(
-				this->m_gameFrame.m_slotAwardType,
-				this->m_gameFrame.m_gameCredit.m_slotAwardBet);
 
 		// Record
 		this->m_gameFrame.m_gameRecord.m_matchAwardRec[this->m_gameFrame.m_matchAwardType]++;
