@@ -1125,6 +1125,9 @@ void MainFrame::PrintAwardDetail() {
 			"Coin",   "Bar",      "Diamond",
 			"Crown",  "Multiple", "Train", };
 
+
+	LOGI("Probability","Validated Total Win Times = %d \n",this->ValidateTotalWin());
+
 	LOGI("Probability", "----- Match Award Detail -----\n");
 	for (unsigned int idx = 0; idx < NUM_MTACH_AWARDS; idx++) {
 		LOGI("Probability", "%s : %d \n", matchAwardStr[idx],
@@ -1217,6 +1220,10 @@ void MainFrame::PrintAwardDetail(wxTextOutputStream& store) {
 			"Cherry", "Apple",    "Orange",
 			"Coin",   "Bar",      "Diamond",
 			"Crown",  "Multiple", "Train", };
+
+
+	store << "Validated Total Win Times = " << this->ValidateTotalWin() << endl;
+	store << endl;
 
 	store << "----- Match Award Detail -----" << endl;
 	for (unsigned int idx = 0; idx < NUM_MTACH_AWARDS; idx++) {
@@ -1510,7 +1517,7 @@ void MainFrame::Start(wxCommandEvent& event) {
 					multipleNoWinButDrawTrain=true;
 					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainTotalTimes++;
 				}else{
-					if(this->m_gameFrame.m_slotAwardType != straight_award_none){
+					if(this->m_gameFrame.m_slotAwardType != straight_award_none && drawTrain==false){
 						this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin++;
 					}
 				}
@@ -1576,12 +1583,13 @@ void MainFrame::Start(wxCommandEvent& event) {
 
 				if(multipleNoWinButDrawTrain==true){
 					this->m_gameFrame.m_gameRecord.m_multipleNoWinButDrawTrainNoWinTimes++;
+
+					// Because of this train draw in Multiple, so if no win m_multipleNoWinButSlotWin++
+					if(this->m_gameFrame.m_slotAwardType != straight_award_none){
+						this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin++;
+					}
 				}
 
-				// Because of this train draw in Multiple, so if no win m_multipleNoWinButSlotWin++
-				if(this->m_gameFrame.m_slotAwardType != straight_award_none){
-					this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin++;
-				}
 			}
 
 			drawTrain = false;
@@ -2531,6 +2539,28 @@ void MainFrame::LoadFileContent(wxString filePath) {
 	}else{
 		LOGE("Parse Save File", "load_ok == false \n");
 	}
+
+}
+
+unsigned int MainFrame::ValidateTotalWin(void){
+	int TotalWinTimes=0;
+	int result=0;
+
+	// Total Match Award Count
+	for(unsigned int idx=0; idx<sizeof(this->m_gameFrame.m_gameRecord.m_matchAwardRec)/sizeof(this->m_gameFrame.m_gameRecord.m_matchAwardRec[0]);idx++){
+		TotalWinTimes += this->m_gameFrame.m_gameRecord.m_matchAwardRec[idx];
+	}
+
+	result = TotalWinTimes - (this->m_gameFrame.m_gameRecord.m_matchAwardRec[0]+this->m_gameFrame.m_gameRecord.m_matchAwardRec[8]+this->m_gameFrame.m_gameRecord.m_matchAwardRec[9]);
+
+	result += this->m_gameFrame.m_gameRecord.m_onlySlotAwardCnt;
+	result += this->m_gameFrame.m_gameRecord.m_totalMatchMultipleWinTimes;
+	result += this->m_gameFrame.m_gameRecord.m_totalMatchTrainWinTimes;
+	result -= this->m_gameFrame.m_gameRecord.m_multipleWinAndDrawTrainWinTimes;
+	result += this->m_gameFrame.m_gameRecord.m_multipleNoWinButSlotWin;
+	result += this->m_gameFrame.m_gameRecord.m_trainNoWinButSlotWin;
+
+	return result;
 
 }
 

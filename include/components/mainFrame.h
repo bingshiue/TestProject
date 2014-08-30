@@ -227,6 +227,10 @@ public:
 	 * @brief Load data from file.
 	 */
 	void LoadFileContent(wxString filePath);
+	/**
+	 * @brief Validate Total Win.
+	 */
+	unsigned int ValidateTotalWin(void);
 
 };
 
